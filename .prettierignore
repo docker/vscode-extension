@@ -1,0 +1,14 @@
+.yarn
+yarn.lock
+__check-ts__
+dist
+.vscode
+node_modules
+out
+bin
+.vscode-test/
+
+.github/workflows/build.yml
+
+
+*/coverage

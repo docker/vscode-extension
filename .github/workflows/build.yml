@@ -1,0 +1,114 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+    - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [linux, windows, darwin]
+        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            nodearch: x64
+          - arch: arm64
+            nodearch: arm64
+          - os: windows
+            nodeos: win32
+            ext: .exe
+          - os: darwin
+            nodeos: darwin
+            ext: ""
+          - os: linux
+            nodeos: linux
+            ext: ""
+
+    steps:
+      - name: actions/checkout@v4 (docker/vscode-extension)
+        uses: actions/checkout@v4
+        with:
+          path: vscode-extension
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+
+      - working-directory: vscode-extension
+        run: |
+          npm install
+
+      - name: Set variables
+        id: set-variables
+        working-directory: vscode-extension
+        run: |
+          VERSION=$(npm pkg get version | tr -d \")
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+
+          SHA=$(git rev-parse --short HEAD)
+          echo "SHA=$SHA" >> "$GITHUB_OUTPUT"
+
+      - name: actions/checkout@v4 (docker/docker-language-server)
+        uses: actions/checkout@v4
+        with:
+          repository: docker/docker-language-server
+          path: docker-language-server
+
+      - working-directory: docker-language-server
+        run: |
+          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} make build
+
+      - working-directory: vscode-extension
+        run: mkdir bin
+
+      - working-directory: docker-language-server
+        run: |
+          mv ./docker-language-server-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.ext }} ../vscode-extension/bin/
+
+      - name: Build the extension (refs/heads)
+        if: startsWith(github.ref, 'refs/heads')
+        env:
+          VERSION: ${{ steps.set-variables.outputs.VERSION }}
+          SHA: ${{ steps.set-variables.outputs.SHA }}
+        working-directory: vscode-extension
+        run: |
+          npm install -g @vscode/vsce
+          vsce package --target ${{ matrix.nodeos }}-${{ matrix.nodearch }} -o docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-$VERSION-$SHA.vsix
+
+      - name: Upload Artifact (refs/heads)
+        if: startsWith(github.ref, 'refs/heads')
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}-${{ steps.set-variables.outputs.SHA }}.vsix
+          path: vscode-extension/docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}-${{ steps.set-variables.outputs.SHA }}.vsix
+          if-no-files-found: error
+
+      - name: Build the extension (refs/tags/v)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          VERSION: ${{ steps.set-variables.outputs.VERSION }}
+        working-directory: vscode-extension
+        run: |
+          npm install -g @vscode/vsce
+          vsce package --target ${{ matrix.nodeos }}-${{ matrix.nodearch }} -o docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-$VERSION.vsix
+
+      - name: Upload Artifact (refs/heads)
+        uses: actions/upload-artifact@v4
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          name: docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}.vsix
+          path: vscode-extension/docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}.vsix
+          if-no-files-found: error
+
+      - uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8 https://github.com/softprops/action-gh-release/commit/c062e08bd532815e2082a85e87e3ef29c3e6d191
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: docker-vscode-extension/docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}.vsix

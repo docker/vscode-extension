@@ -1,0 +1,122 @@
+{
+  "name": "docker-vscode-extension",
+  "displayName": "Docker VS Code extension (experimental)",
+  "description": "",
+  "version": "0.0.20",
+  "icon": "resources/docker-logo-vertical-blue.png",
+  "license": "Apache-2.0",
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "publisher": "docker",
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/docker/vscode-extension"
+  },
+  "activationEvents": [
+    "onLanguage:dockerbake",
+    "onLanguage:dockercompose",
+    "onLanguage:dockerfile"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "title": "Build with Bake",
+        "command": "dockerLspClient.bake.build"
+      }
+    ],
+    "languages": [
+      {
+        "id": "dockerbake",
+        "filenames": [
+          "docker-bake.hcl",
+          "docker-bake.override.hcl"
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Docker",
+      "properties": {
+        "docker.extension.dockerEngineAvailabilityPrompt": {
+          "type": "boolean",
+          "description": "Whether the user should be prompted when a Docker Engine is not available.",
+          "default": true
+        },
+        "docker.extension.experimental.release.march2025": {
+          "scope": "application",
+          "type": "string",
+          "description": "Whether the March 2025 release's features should be explicitly enabled, disabled, or be dependent on the feature flag's value.",
+          "enum": [
+            "enabled",
+            "featureFlag",
+            "disabled"
+          ],
+          "default": "featureFlag"
+        },
+        "docker.lsp.telemetry": {
+          "type": "string",
+          "description": "Determines what telemetry will be collected by Docker. If vscode.env.isTelemetryEnabled returns false then telemetry collection will be disabled regardless of what has been set for this configuration value.",
+          "enum": [
+            "all",
+            "error",
+            "off"
+          ],
+          "default": "all"
+        },
+        "docker.lsp.debugServerPort": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Port (on localhost) of the running language server for debugging purposes",
+          "default": null,
+          "scope": "machine-overridable"
+        },
+        "docker.lsp.experimental.vulnerabilityScanning": {
+          "type": "boolean",
+          "description": "Image analysis in Dockerfiles (experimental)",
+          "default": true
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "make-vsix": "vsce package",
+    "prettier:check": "prettier --check --config .prettierrc.yml --ignore-path .prettierignore .",
+    "prettier:fix": "prettier --write --config .prettierrc.yml --ignore-path .prettierignore ."
+  },
+  "dependencies": {
+    "unleash-proxy-client": "3.7.3",
+    "vscode-languageclient": "9.0.1"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.8.8",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.11.0",
+    "@vscode/vsce": "^3.3.0",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.5.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4"
+  }
+}
