@@ -56,13 +56,13 @@ export function publishTelemetry(): void {
 
   const request = https.request(
     {
-      host: 'api-stage.docker.com',
+      host: 'api.docker.com',
       path: '/events/v1/track',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'User-Agent': 'docker-vscode-extension',
-        'x-api-key': 'ost0EM1x6x7Am5yiLY1vV7TZg38fyP9E6tXW010o',
+        'x-api-key': 'eIxc3dSmud2vuJRKiq9hJ6wORVWfoLxp1nqb4qXz',
       },
     },
     (response) => {
