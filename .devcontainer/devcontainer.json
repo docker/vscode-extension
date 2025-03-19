@@ -1,0 +1,27 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/vscode-extension,type=bind",
+  "workspaceFolder": "/workspaces/vscode-extension",
+  "postCreateCommand": "mkdir -p /workspaces/vscode-extension/bin && cp /bin/$(ls /bin/docker-language-server*) /workspaces/vscode-extension/bin && npm ci",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+        ],
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        }
+      },
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    }
+  }
+}
