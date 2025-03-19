@@ -11,17 +11,16 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "eslint.validate": [
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact"
-        ],
+        "eslint.validate": ["javascript", "typescript"],
         "editor.codeActionsOnSave": {
           "source.fixAll.eslint": "explicit"
         }
       },
-      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
     }
   }
 }
