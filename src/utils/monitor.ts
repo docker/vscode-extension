@@ -43,6 +43,10 @@ function checkDockerStatus(): Promise<DockerEngineStatus> {
     s.stderr.on('data', (chunk) => {
       output += String(chunk);
     });
+    s.on('error', () => {
+      // this happens if docker cannot be found on the PATH
+      return resolve(DockerEngineStatus.Unavailable);
+    });
     s.on('exit', (code) => {
       if (code === 0) {
         return resolve(DockerEngineStatus.Available);
