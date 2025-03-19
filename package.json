@@ -17,6 +17,9 @@
       "type": "git",
       "url": "https://github.com/docker/vscode-extension"
   },
+  "extensionDependencies": [
+    "ms-azuretools.vscode-docker"
+  ],
   "activationEvents": [
     "onLanguage:dockerbake",
     "onLanguage:dockercompose",
