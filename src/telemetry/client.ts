@@ -70,6 +70,6 @@ export function publishTelemetry(): void {
       response.on('end', () => {});
     },
   );
-  request.write(JSON.stringify({ Records: records }));
+  request.write(JSON.stringify({ records }));
   request.end();
 }
