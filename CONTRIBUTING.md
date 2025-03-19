@@ -1,20 +1,56 @@
-# Docker Extras for Visual Studio Code README
+# Contribute to the VS Code Extension Project
 
-Refer to our [VS Code Notion page](https://www.notion.so/dockerinc/VS-Code-fbc8ffddb0124975afe121762f8e9044) for details about this extension.
+## Sign your work
 
-![Docker extension overview](resources/readme/2024-11-20-scout-popup.gif)
+The sign-off is a simple line at the end of the explanation for the patch. Your
+signature certifies that you wrote the patch or otherwise have the right to pass
+it on as an open-source patch. The rules are pretty simple: if you can certify
+the below (from [developercertificate.org](http://developercertificate.org/)):
 
-## Running the Extension Extension
+```
+Developer Certificate of Origin
+Version 1.1
 
-### Requirements
+Copyright (C) 2004, 2006 The Linux Foundation and its contributors.
+1 Letterman Drive
+Suite D4700
+San Francisco, CA, 94129
 
-- a Docker Engine (or Docker Desktop) should be running
-- [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) Visual Studio Code extension (this is technically _not_ an explicit _hard_ requirement but we expect our users to have this installed so we want this installed to understand the user experience of having both installed)
-- [TypeScript + Webpack Problem Matchers](https://marketplace.visualstudio.com/items?itemName=amodio.tsl-problem-matcher) Visual Studio Code extension
+Everyone is permitted to copy and distribute verbatim copies of this
+license document, but changing it is not allowed.
 
-### Instructions
+Developer's Certificate of Origin 1.1
 
-1. Clone this repository.
-2. Run `npm install` to install the necessary dependencies.
-3. Launch the "Run Extension" task from within VS Code.
-4. If Docker is not running then the LSP `LanguageClient` will likely crash.
+By making a contribution to this project, I certify that:
+
+(a) The contribution was created in whole or in part by me and I
+    have the right to submit it under the open source license
+    indicated in the file; or
+
+(b) The contribution is based upon previous work that, to the best
+    of my knowledge, is covered under an appropriate open source
+    license and I have the right under that license to submit that
+    work with modifications, whether created in whole or in part
+    by me, under the same open source license (unless I am
+    permitted to submit under a different license), as indicated
+    in the file; or
+
+(c) The contribution was provided directly to me by some other
+    person who certified (a), (b) or (c) and I have not modified
+    it.
+
+(d) I understand and agree that this project and the contribution
+    are public and that a record of the contribution (including all
+    personal information I submit with it, including my sign-off) is
+    maintained indefinitely and may be redistributed consistent with
+    this project or the open source license(s) involved.
+```
+
+Then you just add a line to every git commit message:
+
+    Signed-off-by: Joe Smith <joe.smith@email.com>
+
+Use your real name (sorry, no pseudonyms or anonymous contributions.)
+
+If you set your `user.name` and `user.email` git configs, you can sign your
+commit automatically with `git commit -s`.
