@@ -163,6 +163,13 @@ function recordVersionTelemetry(featureFlag: string | undefined) {
   process.stdout.on('data', (data) => {
     versionString = String(data).trim();
   });
+  process.on('error', () => {
+    // this happens if docker cannot be found on the PATH
+    queueTelemetryEvent('client_heartbeat', false, {
+      docker_version: 'spawn docker -v failed',
+      feature_flag: featureFlag,
+    });
+  });
   process.on('exit', (code) => {
     if (code === 0) {
       queueTelemetryEvent('client_heartbeat', false, {
