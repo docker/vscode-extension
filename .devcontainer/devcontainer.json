@@ -5,9 +5,10 @@
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
+  "remoteUser": "root",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/vscode-extension,type=bind",
   "workspaceFolder": "/workspaces/vscode-extension",
-  "postCreateCommand": "mkdir -p /workspaces/vscode-extension/bin && cp /bin/$(ls /bin/docker-language-server*) /workspaces/vscode-extension/bin && npm ci",
+  "postCreateCommand": "mkdir -p /workspaces/vscode-extension/bin && cp $(ls /usr/local/bin/docker-language-server*) /workspaces/vscode-extension/bin && npm ci",
   "customizations": {
     "vscode": {
       "settings": {
