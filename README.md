@@ -2,9 +2,10 @@
 
 The **Docker VS Code Extension (experimental)** extension adds the following features to Visual Studio Code:
 
-- scan Dockerfiles for references to images with vulnerabilities
-- Dockerfile linting
-- support for Bake files written in HCL
+- [Dockerfile linting](https://docs.docker.com/reference/build-checks/)
+- support for [Bake](https://docs.docker.com/build/bake/) files
+- code outline overview for Compose files
+- scan Dockerfiles for references to images with vulnerabilities (experimental)
 
 ## Requirements
 
@@ -20,6 +21,30 @@ We only support the following operating systems and architectures at the moment.
 | macOS            | arm64        |
 | Linux            | amd64        |
 | Linux            | arm64        |
+
+## Features Overview
+
+### Editing Dockerfiles
+
+You can get linting checks from [BuildKit](https://github.com/moby/buildkit) and [BuildX](https://github.com/docker/buildx) when editing your Dockerfiles. Any references to images with with vulnerabilities will also be flagged (note that this is an experimental feature). The errors will be visible directly in your editor or you can look at them by opening up the Problems panel (<kbd>Ctrl+Shift+M</kbd> on Windows/Linux, <kbd>Shift+Command+M</kbd> on Mac).
+
+![Linting a Dockerfile for build warnings and the use of vulnerable images](resources/readme/dockerfile-problems.png)
+
+### Editing Bake Files
+
+You can get code completion when editing your `docker-bake.hcl` Bake file. You will also be able to hover over variables and navigate around the file by jumping to a variable's definition or jumping to the build stage within a Dockerfile
+
+![Linting a Dockerfile for build warnings and the use of vulnerable images](resources/readme/docker-bake-editing.png)
+
+The extension will provide inline suggestions to generate a Bake target to correspond to each build stage in your Dockerfile.
+
+![Linting a Dockerfile for build warnings and the use of vulnerable images](resources/readme/docker-bake-inline-completion.png)
+
+### Editing Compose Files
+
+You can view an outline of your Compose file which will make it easier to navigate around the file.
+
+![Linting a Dockerfile for build warnings and the use of vulnerable images](resources/readme/docker-compose-outline.png)
 
 ## Builds
 

@@ -43,6 +43,10 @@ function checkDockerStatus(): Promise<DockerEngineStatus> {
     s.stderr.on('data', (chunk) => {
       output += String(chunk);
     });
+    s.on('error', () => {
+      // this happens if docker cannot be found on the PATH
+      return resolve(DockerEngineStatus.Unavailable);
+    });
     s.on('exit', (code) => {
       if (code === 0) {
         return resolve(DockerEngineStatus.Available);
@@ -72,7 +76,12 @@ function getDockerDesktopPath(): string {
 
 async function isDockerDesktopInstalled(): Promise<boolean> {
   return new Promise<boolean>((resolve) => {
-    spawn('docker', ['desktop', 'version']).on('exit', (code) => {
+    const s = spawn('docker', ['desktop', 'version']);
+    s.on('error', () => {
+      // this happens if docker cannot be found on the PATH
+      resolve(false);
+    });
+    s.on('exit', (code) => {
       if (code === 0) {
         return resolve(true);
       }
