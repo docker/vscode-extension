@@ -47,13 +47,13 @@
       "properties": {
         "docker.extension.dockerEngineAvailabilityPrompt": {
           "type": "boolean",
-          "description": "Whether the user should be prompted when a Docker Engine is not available.",
+          "description": "Be notified when Docker Engine is not available.",
           "default": true
         },
         "docker.extension.experimental.release.march2025": {
           "scope": "application",
           "type": "string",
-          "description": "Whether the March 2025 release's features should be explicitly enabled, disabled, or be dependent on the feature flag's value.",
+          "description": "Enable feature manually. Enables the Docker VS Code extension regardless of the current rollout status.",
           "enum": [
             "enabled",
             "featureFlag",
@@ -63,7 +63,7 @@
         },
         "docker.lsp.telemetry": {
           "type": "string",
-          "description": "Determines what telemetry will be collected by Docker. If vscode.env.isTelemetryEnabled returns false then telemetry collection will be disabled regardless of what has been set for this configuration value.",
+          "description": "Determines what telemetry is collected by Docker. If vscode.env.isTelemetryEnabled is false, then telemetry collection is disabled regardless of what has been set for this configuration value.",
           "enum": [
             "all",
             "error",
@@ -76,13 +76,13 @@
             "number",
             "null"
           ],
-          "description": "Port (on localhost) of the running language server for debugging purposes",
+          "description": "Enter the port on localhost where the language server is running, used for debugging.",
           "default": null,
           "scope": "machine-overridable"
         },
         "docker.lsp.experimental.vulnerabilityScanning": {
           "type": "boolean",
-          "description": "Image analysis in Dockerfiles (experimental)",
+          "description": "Enable image analysis of Dockerfiles (Experimental)",
           "default": true
         }
       }
