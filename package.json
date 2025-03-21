@@ -2,7 +2,7 @@
   "name": "docker-vscode-extension",
   "displayName": "Docker VS Code extension (experimental)",
   "description": "",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "icon": "resources/docker-logo-vertical-blue.png",
   "license": "Apache-2.0",
   "engines": {
