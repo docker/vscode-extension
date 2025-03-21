@@ -73,7 +73,14 @@ export function activate(ctx: vscode.ExtensionContext) {
       clientKey: 'changeme',
       appName: 'vscode-extension',
     });
-    client.updateContext({ userId: vscode.env.machineId });
+    client.updateContext({
+      userId: vscode.env.machineId,
+      properties: {
+        vscodeExtensionVersion: extensionVersion,
+        operatingSystem:
+          process.platform === 'win32' ? 'windows' : process.platform,
+      },
+    });
     client.on('ready', () => {
       if (client.isEnabled('VSCodeReleaseMarch2025')) {
         activateExtension(ctx);
