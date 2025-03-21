@@ -111,4 +111,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: docker-vscode-extension/docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}.vsix
+          files: vscode-extension/docker-vscode-extension-${{ matrix.nodeos }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}.vsix
