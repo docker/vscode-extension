@@ -14,8 +14,8 @@
     "Linters"
   ],
   "repository": {
-      "type": "git",
-      "url": "https://github.com/docker/vscode-extension"
+    "type": "git",
+    "url": "https://github.com/docker/vscode-extension"
   },
   "extensionDependencies": [
     "ms-azuretools.vscode-docker"
