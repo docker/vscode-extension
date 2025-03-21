@@ -14,6 +14,8 @@ let unleashClient: any = null;
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 
+export let extensionVersion: string;
+
 const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
   ctx.subscriptions.push(
     vscode.commands.registerCommand(
@@ -50,6 +52,8 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
 };
 
 export function activate(ctx: vscode.ExtensionContext) {
+  extensionVersion = String(ctx.extension.packageJSON.version);
+
   const configValue = vscode.workspace
     .getConfiguration('docker.extension.experimental.release')
     .get<string>('march2025');
