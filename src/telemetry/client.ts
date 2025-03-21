@@ -1,6 +1,7 @@
 import https from 'https';
 import * as process from 'process';
 import * as vscode from 'vscode';
+import { extensionVersion } from '../extension';
 
 interface TelemetryRecord {
   event: string;
@@ -38,6 +39,7 @@ export function queueTelemetryEvent(
   properties.client_name = 'vscode';
   properties.machine_id = vscode.env.machineId;
   properties.client_session = vscode.env.sessionId;
+  properties.extension_version = extensionVersion;
 
   events.push({
     event,
