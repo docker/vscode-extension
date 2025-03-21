@@ -34,17 +34,17 @@ You can get linting checks from [BuildKit](https://github.com/moby/buildkit) and
 
 You can get code completion when editing your `docker-bake.hcl` Bake file. You will also be able to hover over variables and navigate around the file by jumping to a variable's definition or jumping to the build stage within a Dockerfile
 
-![Linting a Dockerfile for build warnings and the use of vulnerable images](resources/readme/docker-bake-editing.png)
+![Editing a Bake file with code completion and cross-file linking support](resources/readme/docker-bake-editing.png)
 
 The extension will provide inline suggestions to generate a Bake target to correspond to each build stage in your Dockerfile.
 
-![Linting a Dockerfile for build warnings and the use of vulnerable images](resources/readme/docker-bake-inline-completion.png)
+![Suggesting Bake targets based on the content of the local Dockerfile](resources/readme/docker-bake-inline-completion.png)
 
 ### Editing Compose Files
 
 You can view an outline of your Compose file which will make it easier to navigate around the file.
 
-![Linting a Dockerfile for build warnings and the use of vulnerable images](resources/readme/docker-compose-outline.png)
+![Outline of a Docker Compose file in the Outline panel and from the Command Palette](resources/readme/docker-compose-outline.png)
 
 ## Builds
 
