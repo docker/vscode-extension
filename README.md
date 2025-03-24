@@ -19,7 +19,7 @@ Docker currently supports the following operating systems and architectures:
 | ---------------- | ---------------- |
 | Windows          | `amd64`, `arm64` |
 | macOS            | `amd64`, `arm64` |
-| Linux            | `amd64`, `arm64` | 
+| Linux            | `amd64`, `arm64` |
 
 If you are on an unsupported system, let us know of your interest in this extension so we can prioritize the work accordingly.
 
@@ -27,9 +27,9 @@ If you are on an unsupported system, let us know of your interest in this extens
 
 ### Editing Dockerfiles
 
-You can get linting checks from [BuildKit](https://github.com/moby/buildkit) and [BuildX](https://github.com/docker/buildx) when editing your Dockerfiles. 
+You can get linting checks from [BuildKit](https://github.com/moby/buildkit) and [BuildX](https://github.com/docker/buildx) when editing your Dockerfiles.
 
-Any references to images with vulnerabilities are also flagged. Note: This is an experimental feature. 
+Any references to images with vulnerabilities are also flagged. Note: This is an experimental feature.
 
 Errors are visible directly in your editor or you can look at them by opening up the Problems panel (<kbd>Ctrl+Shift+M</kbd> on Windows/Linux, <kbd>Shift+Command+M</kbd> on Mac).
 
@@ -53,7 +53,7 @@ You can view an outline of your Compose file which makes it easier to navigate.
 
 ## Builds
 
-[GitHub Actions](https://github.com/docker/docker-vscode-extension/actions) builds six `.vsix` files - one for each platform combination(Windows, macOS, Linux x `amd64`/`arm64`). 
+[GitHub Actions](https://github.com/docker/docker-vscode-extension/actions) builds six `.vsix` files - one for each platform combination(Windows, macOS, Linux x `amd64`/`arm64`).
 
 Note: The language server binary from these builds are not signed and/or notarized. You may encounter issues when using `.vsix` files from this repository as your operating system may refuse to open an unsigned binary.
 
@@ -64,12 +64,12 @@ To debug the VS Code extension:
 1. Clone this repository.
 2. Open the folder in VS Code.
 3. Create a `bin` folder at the root.
-4. Download the [Docker Language Server binary](https://github.com/docker/docker-language-server) and place it in `bin/`  Alternatively, follow the instructions in that repository and build a binary yourself to place in the `bin` folder.
+4. Download the [Docker Language Server binary](https://github.com/docker/docker-language-server) and place it in `bin/` Alternatively, follow the instructions in that repository and build a binary yourself to place in the `bin` folder.
 
 ### Debugging both the extension and language server
 
 1. Clone the [docker/docker-language-server repository](https://github.com/docker/docker-language-server)
-2. Start the language server in debug mode with the `--address :49201` argument. 
+2. Start the language server in debug mode with the `--address :49201` argument.
 3. In VS Code, update the `docker.lsp.debugServerPort` setting to `49201`. This is the default port that is used for any launch configurations saved in Git.
 4. Launch the extension in debug mode. It will connect to the language server you started in debug mode instead of trying to execute a binary in `bin/`.
 
