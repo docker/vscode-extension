@@ -75,6 +75,4 @@ To debug the VS Code extension:
 
 ## Telemetry
 
-This extension collects telemetry. You can configue the telemetry you would like to send by changing the `docker.lsp.telemetry` setting. Note that if `vscode.env.isTelemetryEnabled` returns `false` then telemetry will not be sent regardless of the value of the `docker.lsp.telemetry` setting.
-
-Read our [privacy policy](https://www.docker.com/legal/docker-privacy-policy/) to learn more about how the information is collected and used.
+See [TELEMETRY.md](./TELEMETRY.md) for details about what kind of telemetry we collect and how to configure your telemetry settings.
