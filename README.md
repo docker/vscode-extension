@@ -6,8 +6,8 @@ The **Docker DX (Developer Experience)** Visual Studio Code extension enhances y
 
 > The Docker DX Visual Studio Code extension is in Beta. It is being gradually rolled out. If the extension's features are not visible, it's likely because the rollout hasn’t reached your profile yet.
 >
-> - To enable the extension's features manually, set `docker.extension.experimental.release.march2025` to `enabled`.
-> - To turn them off, set the same setting to `disabled`.
+> - To enable the extension's features manually, set `docker.extension.experimental.release.march2025` to `enabled` and restart VS Code.
+> - To turn them off, set the same setting to `disabled` and restart VS Code.
 >
 > Encountering a bug? [Let us know](https://github.com/docker/vscode-extension/issues) so we can take a look.
 
