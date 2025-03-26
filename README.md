@@ -2,6 +2,15 @@
 
 The **Docker DX (Beta)** Visual Studio Code extension enhances your Visual Studio Code experience with Docker-related development by adding rich editing features and vulnerability scanning.
 
+## Note ⚠️
+
+> The Docker DX Visual Studio Code extension is in Beta. It is gradually rolling out with Unleash. If the extension isn't working, it's likely because the rollout hasn’t reached your profile yet.
+>
+> - To enable the extension's features manually, set `docker.extension.experimental.release.march2025` to `enabled`.
+> - To turn them off, set the same setting to `disabled`.
+>
+> Encountering a bug? [Let us know](https://github.com/docker/vscode-extension/issues) so we can take a look.
+
 ## Key features
 
 - [Dockerfile linting](https://docs.docker.com/reference/build-checks/): Get build warnings and best-practice suggestions via BuildKit and BuildX.
