@@ -1,6 +1,6 @@
 # Telemetry
 
-This Visual Studio Code extension collects telemetry. We collect this telemetry so that we can improve the extension by understanding usage patterns and catching crashes and errors for diagnostic purposes.
+The Docker DX extension collects telemetry. We collect this telemetry so that we can improve the extension by understanding usage patterns and catching crashes and errors for diagnostic purposes.
 
 ## Configuring Telemetry Collection
 

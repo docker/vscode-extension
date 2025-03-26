@@ -1,6 +1,6 @@
-# Docker VS Code Extension (experimental)
+# Docker DX (Beta)
 
-The **Docker VS Code Extension** (experimental) enhances your Visual Studio Code experience with Docker-related development by adding rich editing features and vulnerability scanning.
+The **Docker DX (Beta)** Visual Studio Code extension enhances your Visual Studio Code experience with Docker-related development by adding rich editing features and vulnerability scanning.
 
 ## Key features
 

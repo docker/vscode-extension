@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to this Visual Studio Code extension will be documented in this file.
+All notable changes to the Docker DX extension will be documented in this file.
 
 ## [Unreleased]
 
