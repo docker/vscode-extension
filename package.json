@@ -1,6 +1,6 @@
 {
-  "name": "docker-vscode-extension",
-  "displayName": "Docker VS Code extension (experimental)",
+  "name": "docker",
+  "displayName": "Docker DX (Beta)",
   "description": "",
   "version": "0.1.0",
   "icon": "resources/docker-logo-vertical-blue.png",

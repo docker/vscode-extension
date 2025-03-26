@@ -1,4 +1,4 @@
-# Contribute to the VS Code Extension Project
+# Contribute to the Docker DX Visual Studio Code extension Project
 
 ## Sign your work
 

@@ -1,6 +1,6 @@
 # Security Policy
 
-The maintainers of this Visual Studio Code extension take security seriously.
+The maintainers of the Docker DX Visual Studio Code extension take security seriously.
 If you discover a security issue, please bring it to their attention right away!
 
 ## Reporting a Vulnerability
