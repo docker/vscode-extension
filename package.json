@@ -2,7 +2,7 @@
   "name": "docker",
   "displayName": "Docker DX",
   "description": "",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "icon": "resources/docker-logo-vertical-blue.png",
   "license": "Apache-2.0",
   "engines": {
