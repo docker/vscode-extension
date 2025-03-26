@@ -4,7 +4,7 @@ The **Docker DX (Beta)** Visual Studio Code extension enhances your Visual Studi
 
 ## Note ⚠️
 
-> The Docker DX Visual Studio Code extension is in Beta. It is gradually rolling out with Unleash. If the extension isn't working, it's likely because the rollout hasn’t reached your profile yet.
+> The Docker DX Visual Studio Code extension is in Beta. It is being gradually rolled out. If the extension's features are not visible, it's likely because the rollout hasn’t reached your profile yet.
 >
 > - To enable the extension's features manually, set `docker.extension.experimental.release.march2025` to `enabled`.
 > - To turn them off, set the same setting to `disabled`.
