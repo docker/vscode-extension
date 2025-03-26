@@ -62,7 +62,7 @@ You can view an outline of your Compose file which makes it easier to navigate.
 
 ## Builds
 
-[GitHub Actions](https://github.com/docker/docker-vscode-extension/actions) builds six `.vsix` files - one for each platform combination(Windows, macOS, Linux x `amd64`/`arm64`).
+[GitHub Actions](https://github.com/docker/vscode-extension/actions) builds six `.vsix` files - one for each platform combination(Windows, macOS, Linux x `amd64`/`arm64`).
 
 Note: The language server binary from these builds are not signed and/or notarized. You may encounter issues when using `.vsix` files from this repository as your operating system may refuse to open an unsigned binary.
 
