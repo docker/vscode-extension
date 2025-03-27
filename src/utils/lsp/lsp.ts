@@ -122,7 +122,7 @@ async function createNative(ctx: vscode.ExtensionContext): Promise<boolean> {
     revealOutputChannelOn: RevealOutputChannelOn.Never,
     markdown: {
       isTrusted: false,
-      supportHtml: false,
+      supportHtml: true,
     },
     middleware: {
       workspace: {
