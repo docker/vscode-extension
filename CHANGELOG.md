@@ -2,7 +2,7 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
-## Unreleased
+## [0.2.0] - 2025-03-28
 
 ### Added
 
@@ -18,7 +18,7 @@ All notable changes to the Docker DX extension will be documented in this file.
 - Running "Build with Bake" without a Bakefile yields an error ([#32](https://github.com/docker/vscode-extension/issues/32))
 - Has "tag recommendations available" but doesn't actually show what tags are recommended ([#34](https://github.com/docker/vscode-extension/issues/34))
 
-## 0.1.1 - 2025-03-26
+## [0.1.1] - 2025-03-26
 
 ### Changed
 
@@ -38,3 +38,6 @@ All notable changes to the Docker DX extension will be documented in this file.
   - inline suggestions
   - error reporting
 - Compose outline support
+
+[0.2.0]: https://github.com/docker/vscode-extension/compare/v0.1.1...v0.2.0
+[0.1.1]: https://github.com/docker/vscode-extension/compare/v0.1.0...v0.1.1
