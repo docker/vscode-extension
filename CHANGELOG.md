@@ -7,6 +7,7 @@ All notable changes to the Docker DX extension will be documented in this file.
 ### Added
 
 - Include the feature flag's value in the telemetry event ([#39](https://github.com/docker/vscode-extension/issues/39))
+- Contribute a context menu item to ms-azuretools.vscode-docker to scan an image with Docker Scout ([#38](https://github.com/docker/vscode-extension/issues/38))
 
 ### Changed
 
@@ -15,7 +16,6 @@ All notable changes to the Docker DX extension will be documented in this file.
 ### Fixed
 
 - Running "Build with Bake" without a Bakefile yields an error ([#32](https://github.com/docker/vscode-extension/issues/32))
-
 - Has "tag recommendations available" but doesn't actually show what tags are recommended ([#34](https://github.com/docker/vscode-extension/issues/34))
 
 ## 0.1.1 - 2025-03-26

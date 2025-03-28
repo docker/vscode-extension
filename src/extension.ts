@@ -13,38 +13,95 @@ const unleashLibrary = import('unleash-proxy-client');
 let unleashClient: any = null;
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
+export const ScoutImageScanCommandId = 'docker.scout.imageScan';
 
 export let extensionVersion: string;
 
-const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
-  ctx.subscriptions.push(
-    vscode.commands.registerCommand(
-      BakeBuildCommandId,
-      async (commandArgs: { [key: string]: string }) => {
-        const args = ['buildx', 'bake'];
+function registerCommands(ctx: vscode.ExtensionContext) {
+  registerCommand(ctx, BakeBuildCommandId, (commandArgs: any) => {
+    return new Promise((resolve) => {
+      const process = spawn('docker', ['buildx', 'bake', '--help']);
+      process.on('error', () => {
+        resolve(false);
+      });
+      process.on('exit', (code) => {
+        if (code === 0) {
+          const args = ['buildx', 'bake'];
 
-        if (commandArgs['call'] === 'print') {
-          args.push('--print');
-          args.push(commandArgs['target']);
+          if (commandArgs['call'] === 'print') {
+            args.push('--print');
+            args.push(commandArgs['target']);
+          } else {
+            args.push('--call');
+            args.push(commandArgs['call']);
+            args.push(commandArgs['target']);
+          }
+
+          const task = new vscode.Task(
+            { type: 'shell' },
+            vscode.TaskScope.Workspace,
+            'docker buildx bake',
+            'docker-vscode-extension',
+            new vscode.ShellExecution('docker', args, {
+              cwd: commandArgs['cwd'],
+            }),
+          );
+          vscode.tasks.executeTask(task);
+          resolve(true);
         } else {
-          args.push('--call');
-          args.push(commandArgs['call']);
-          args.push(commandArgs['target']);
+          resolve(false);
         }
+      });
+    });
+  });
 
-        const task = new vscode.Task(
-          { type: 'shell' },
-          vscode.TaskScope.Workspace,
-          'docker buildx bake',
-          'docker-vscode-extension',
-          new vscode.ShellExecution('docker', args, {
-            cwd: commandArgs['cwd'],
-          }),
-        );
-        await vscode.tasks.executeTask(task);
-      },
-    ),
+  registerCommand(ctx, ScoutImageScanCommandId, (args) => {
+    return new Promise((resolve) => {
+      const process = spawn('docker', ['scout']);
+      process.on('error', () => {
+        resolve(false);
+      });
+      process.on('exit', (code) => {
+        if (code === 0) {
+          const task = new vscode.Task(
+            { type: 'shell' },
+            vscode.TaskScope.Workspace,
+            'docker scout',
+            'docker scout',
+            new vscode.ShellExecution(
+              'docker',
+              ['scout', 'cves', args.fullTag],
+              {},
+            ),
+          );
+          vscode.tasks.executeTask(task);
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+  });
+}
+
+function registerCommand(
+  ctx: vscode.ExtensionContext,
+  id: string,
+  commandCallback: (...args: any[]) => Promise<boolean>,
+): void {
+  ctx.subscriptions.push(
+    vscode.commands.registerCommand(id, async (args) => {
+      const result = await commandCallback(args);
+      queueTelemetryEvent('client_user_action', false, {
+        action_id: id,
+        result,
+      });
+    }),
   );
+}
+
+const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
+  registerCommands(ctx);
 
   if (await activateDockerNativeLanguageClient(ctx)) {
     getNativeClient().start();
@@ -59,6 +116,35 @@ export function activate(ctx: vscode.ExtensionContext) {
     .get<string>('march2025');
   if (configValue === 'disabled') {
     recordVersionTelemetry(configValue, 'ignored');
+
+    // register the Scout command even if the extension is disabled as it will show up in the UI
+    registerCommand(ctx, ScoutImageScanCommandId, (args) => {
+      return new Promise((resolve) => {
+        const process = spawn('docker', ['scout']);
+        process.on('error', () => {
+          resolve(false);
+        });
+        process.on('exit', (code) => {
+          if (code === 0) {
+            const task = new vscode.Task(
+              { type: 'shell' },
+              vscode.TaskScope.Workspace,
+              'docker scout',
+              'docker scout',
+              new vscode.ShellExecution(
+                'docker',
+                ['scout', 'cves', args.fullTag],
+                {},
+              ),
+            );
+            vscode.tasks.executeTask(task);
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+      });
+    });
     return;
   }
 
