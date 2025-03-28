@@ -30,7 +30,8 @@
     "commands": [
       {
         "title": "Build with Bake",
-        "command": "dockerLspClient.bake.build"
+        "command": "dockerLspClient.bake.build",
+        "enablement": "never"
       },
       {
         "title": "Scan for CVEs with Docker Scout",
