@@ -30,8 +30,11 @@
     "commands": [
       {
         "title": "Build with Bake",
-        "command": "dockerLspClient.bake.build",
-        "enablement": "never"
+        "command": "dockerLspClient.bake.build"
+      },
+      {
+        "title": "Scan for CVEs with Docker Scout",
+        "command": "docker.scout.imageScan"
       }
     ],
     "languages": [
@@ -43,6 +46,15 @@
         ]
       }
     ],
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "docker.scout.imageScan",
+          "when": "view == dockerImages && viewItem == image",
+          "group": "images_group_dockerdx"
+        }
+      ]
+    },
     "configuration": {
       "title": "Docker",
       "properties": {
