@@ -57,12 +57,13 @@ export function activate(ctx: vscode.ExtensionContext) {
   const configValue = vscode.workspace
     .getConfiguration('docker.extension.experimental.release')
     .get<string>('march2025');
-  recordVersionTelemetry(configValue);
   if (configValue === 'disabled') {
+    recordVersionTelemetry(configValue, 'ignored');
     return;
   }
 
   if (configValue === 'enabled') {
+    recordVersionTelemetry(configValue, 'ignored');
     activateExtension(ctx);
     return;
   }
@@ -82,7 +83,9 @@ export function activate(ctx: vscode.ExtensionContext) {
       },
     });
     client.on('ready', () => {
-      if (client.isEnabled('VSCodeReleaseMarch2025')) {
+      const enabled = client.isEnabled('VSCodeReleaseMarch2025');
+      recordVersionTelemetry(configValue, enabled ? 'true' : 'false');
+      if (enabled) {
         activateExtension(ctx);
       }
     });
@@ -168,7 +171,10 @@ function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
   );
 }
 
-function recordVersionTelemetry(featureFlag: string | undefined) {
+function recordVersionTelemetry(
+  featureFlag: string | undefined,
+  featureFlagValue: 'true' | 'false' | 'ignored',
+) {
   let versionString: string | null = null;
   const process = spawn('docker', ['-v']);
   process.stdout.on('data', (data) => {
@@ -179,18 +185,22 @@ function recordVersionTelemetry(featureFlag: string | undefined) {
     queueTelemetryEvent('client_heartbeat', false, {
       docker_version: 'spawn docker -v failed',
       feature_flag: featureFlag,
+      feature_flag_value: featureFlagValue,
     });
+    publishTelemetry();
   });
   process.on('exit', (code) => {
     if (code === 0) {
       queueTelemetryEvent('client_heartbeat', false, {
         docker_version: String(versionString),
         feature_flag: featureFlag,
+        feature_flag_value: featureFlagValue,
       });
     } else {
       queueTelemetryEvent('client_heartbeat', false, {
         docker_version: String(code),
         feature_flag: featureFlag,
+        feature_flag_value: featureFlagValue,
       });
     }
     publishTelemetry();
