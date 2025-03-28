@@ -91,10 +91,6 @@ function registerCommand(
 ): void {
   ctx.subscriptions.push(
     vscode.commands.registerCommand(id, async (args) => {
-      if (args === undefined) {
-        return;
-      }
-
       const result = await commandCallback(args);
       queueTelemetryEvent('client_user_action', false, {
         action_id: id,

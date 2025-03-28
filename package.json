@@ -35,7 +35,8 @@
       },
       {
         "title": "Scan for CVEs with Docker Scout",
-        "command": "docker.scout.imageScan"
+        "command": "docker.scout.imageScan",
+        "enablement": "view == dockerImages && viewItem == image"
       }
     ],
     "languages": [
