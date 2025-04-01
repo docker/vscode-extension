@@ -16,6 +16,9 @@ export class DockerLanguageClient extends LanguageClient {
     super.fillInitializeParams(params);
     const dockerConfiguration = vscode.workspace.getConfiguration('docker.lsp');
     params.initializationOptions = {
+      dockerfileExperimental: {
+        removeOverlappingIssues: true,
+      },
       telemetry: getTelemetryValue(dockerConfiguration.get('telemetry')),
     };
     params.capabilities.experimental = {
