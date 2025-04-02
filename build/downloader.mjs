@@ -19,6 +19,7 @@ async function downloadFile(url, dest) {
     fs.writeFileSync(dest, buffer);
   } catch (error) {
     console.error(`Error downloading file: ${error.message}`);
+    process.exit(1);
   }
 }
 
