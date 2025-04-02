@@ -1,5 +1,4 @@
 name: Verify commit signatures
-
 on:
   pull_request:
     branches:

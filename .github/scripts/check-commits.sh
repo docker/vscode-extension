@@ -12,7 +12,7 @@ for sha in $commits; do
   message=$(git log -1 --pretty=format:%B "$sha")
 
   if echo "$message" | grep -Eq "$signoff_regex"; then
-    echo "✔ Signed-off-by line found."
+    echo "✔ 'Signed-off-by' message found."
     continue
   fi
 
@@ -22,7 +22,7 @@ for sha in $commits; do
     continue
   fi
 
-  echo "::error file=.git/COMMIT_EDITMSG::❌ Commit $sha is missing both a valid Signed-off-by line and a verified GPG signature."
+  echo "::error file=.git/COMMIT_EDITMSG::❌ Commit $sha is missing both a valid Signed-off-by message and a verified GPG signature."
   missing=$((missing + 1))
 done
 
