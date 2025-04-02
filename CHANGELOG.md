@@ -8,6 +8,10 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 - suppress duplicated errors that are reported by both the Dockerfile Language Server and the Docker Language Server ([#33](https://github.com/docker/vscode-extension/issues/33))
 
+### Fixed
+
+- always register the Scout command so that the gradual rollout will not prevent the command from working ([#44](https://github.com/docker/vscode-extension/issues/44))
+
 ## [0.2.0] - 2025-03-28
 
 ### Added
