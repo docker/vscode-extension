@@ -23,8 +23,6 @@ async function downloadFile(url, dest) {
 }
 
 async function run() {
-  const release = '0.7.1';
-
   const cwd = path.resolve(__dirname);
   const buildDir = path.basename(cwd);
   const repoDir = cwd.replace(buildDir, '');
@@ -40,7 +38,7 @@ async function run() {
   fs.mkdirSync(installPath);
 
   const hclSyntaxFile = `hcl.tmGrammar.json`;
-  const url = `https://github.com/hashicorp/syntax/releases/download/${release}/${hclSyntaxFile}`;
+  const url = `https://github.com/hashicorp/syntax/releases/download/0.7.1/${hclSyntaxFile}`;
   await downloadFile(url, path.join(installPath, hclSyntaxFile));
 }
 
