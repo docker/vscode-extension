@@ -51,6 +51,13 @@
         ]
       }
     ],
+    "grammars": [
+      {
+        "language": "dockerbake",
+        "scopeName": "source.hcl",
+        "path": "./syntaxes/hcl.tmGrammar.json"
+      }
+    ],
     "menus": {
       "view/item/context": [
         {
