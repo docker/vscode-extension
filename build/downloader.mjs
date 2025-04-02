@@ -38,7 +38,7 @@ async function run() {
   fs.mkdirSync(installPath);
 
   const hclSyntaxFile = `hcl.tmGrammar.json`;
-  const url = `https://github.com/hashicorp/syntax/releases/download/0.7.1/${hclSyntaxFile}`;
+  const url = `https://github.com/hashicorp/syntax/releases/download/v0.7.1/${hclSyntaxFile}`;
   await downloadFile(url, path.join(installPath, hclSyntaxFile));
 }
 
