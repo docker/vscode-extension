@@ -18,11 +18,11 @@ for sha in $commits; do
 
   is_verified=$(gh api repos/${GITHUB_REPOSITORY}/commits/$sha --jq '.commit.verification.verified')
   if [ "$is_verified" = "true" ]; then
-    echo "✔ Verified GPG signature found."
+    echo "✔ Verified signature found."
     continue
   fi
 
-  echo "::error file=.git/COMMIT_EDITMSG::❌ Commit $sha is missing both a valid Signed-off-by message and a verified GPG signature."
+  echo "::error file=.git/COMMIT_EDITMSG::❌ Commit $sha is missing either a valid Signed-off-by message or a verified (GPG, SSH, or S/MIME) signature."
   missing=$((missing + 1))
 done
 
