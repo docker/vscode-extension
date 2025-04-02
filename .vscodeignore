@@ -2,6 +2,7 @@
 .vscode/**
 .vscode-test/**
 node_modules/**
+build/**
 out/**
 resources/readme/**
 src/**

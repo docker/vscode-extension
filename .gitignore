@@ -3,4 +3,5 @@ dist
 node_modules
 bin
 .vscode-test/
+syntaxes/
 *.vsix
