@@ -8,11 +8,6 @@
   "engines": {
     "vscode": "^1.92.0"
   },
-  "syntax": {
-    "hcl": {
-      "version": "0.7.1"
-    }
-  },
   "publisher": "docker",
   "categories": [
     "Programming Languages",

@@ -11,16 +11,6 @@ async function fileFromUrl(url) {
   return Buffer.from(response.data, 'binary');
 }
 
-function getExtensionInfo() {
-  const cwd = path.resolve(__dirname);
-  const buildDir = path.basename(cwd);
-  const repoDir = cwd.replace(buildDir, '');
-  const pjson = JSON.parse(fs.readFileSync(path.join(repoDir, 'package.json')));
-  return {
-    syntaxVersion: pjson.syntax.hcl.version,
-  };
-}
-
 async function downloadFile(url, dest) {
   console.info(`Downloading ${url}...`);
   console.info(`Saving to ${dest}...`);
@@ -33,8 +23,7 @@ async function downloadFile(url, dest) {
 }
 
 async function run() {
-  const info = getExtensionInfo();
-  const release = `v${info.syntaxVersion}`;
+  const release = '0.7.1';
 
   const cwd = path.resolve(__dirname);
   const buildDir = path.basename(cwd);
