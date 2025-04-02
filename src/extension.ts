@@ -54,34 +54,6 @@ function registerCommands(ctx: vscode.ExtensionContext) {
       });
     });
   });
-
-  registerCommand(ctx, ScoutImageScanCommandId, (args) => {
-    return new Promise((resolve) => {
-      const process = spawn('docker', ['scout']);
-      process.on('error', () => {
-        resolve(false);
-      });
-      process.on('exit', (code) => {
-        if (code === 0) {
-          const task = new vscode.Task(
-            { type: 'shell' },
-            vscode.TaskScope.Workspace,
-            'docker scout',
-            'docker scout',
-            new vscode.ShellExecution(
-              'docker',
-              ['scout', 'cves', args.fullTag],
-              {},
-            ),
-          );
-          vscode.tasks.executeTask(task);
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
-    });
-  });
 }
 
 function registerCommand(
@@ -109,6 +81,35 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
 };
 
 export function activate(ctx: vscode.ExtensionContext) {
+  // always register the Scout command even so that it is always available regardless of the rollout stage
+  registerCommand(ctx, ScoutImageScanCommandId, (args) => {
+    return new Promise((resolve) => {
+      const process = spawn('docker', ['scout']);
+      process.on('error', () => {
+        resolve(false);
+      });
+      process.on('exit', (code) => {
+        if (code === 0) {
+          const task = new vscode.Task(
+            { type: 'shell' },
+            vscode.TaskScope.Workspace,
+            'docker scout',
+            'docker scout',
+            new vscode.ShellExecution(
+              'docker',
+              ['scout', 'cves', args.fullTag],
+              {},
+            ),
+          );
+          vscode.tasks.executeTask(task);
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+  });
+
   extensionVersion = String(ctx.extension.packageJSON.version);
 
   const configValue = vscode.workspace
@@ -116,35 +117,6 @@ export function activate(ctx: vscode.ExtensionContext) {
     .get<string>('march2025');
   if (configValue === 'disabled') {
     recordVersionTelemetry(configValue, 'ignored');
-
-    // register the Scout command even if the extension is disabled as it will show up in the UI
-    registerCommand(ctx, ScoutImageScanCommandId, (args) => {
-      return new Promise((resolve) => {
-        const process = spawn('docker', ['scout']);
-        process.on('error', () => {
-          resolve(false);
-        });
-        process.on('exit', (code) => {
-          if (code === 0) {
-            const task = new vscode.Task(
-              { type: 'shell' },
-              vscode.TaskScope.Workspace,
-              'docker scout',
-              'docker scout',
-              new vscode.ShellExecution(
-                'docker',
-                ['scout', 'cves', args.fullTag],
-                {},
-              ),
-            );
-            vscode.tasks.executeTask(task);
-            resolve(true);
-          } else {
-            resolve(false);
-          }
-        });
-      });
-    });
     return;
   }
 
