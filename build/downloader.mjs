@@ -18,7 +18,7 @@ function getExtensionInfo() {
     const repoDir = cwd.replace(buildDir, '');
     const pjson = JSON.parse(fs.readFileSync(path.join(repoDir, 'package.json')));
     return {
-        syntaxVersion: pjson.syntax.version,
+        syntaxVersion: pjson.syntax.hcl.version,
     };
 }
 

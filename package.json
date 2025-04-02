@@ -9,7 +9,9 @@
     "vscode": "^1.92.0"
   },
   "syntax": {
-    "version": "0.7.1"
+    "hcl": {
+      "version": "0.7.1"
+    }
   },
   "publisher": "docker",
   "categories": [
