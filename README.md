@@ -82,6 +82,10 @@ To debug the VS Code extension:
 3. In VS Code, update the `docker.lsp.debugServerPort` setting to `49201`. This is the default port that is used for any launch configurations saved in Git.
 4. Launch the extension in debug mode. It will connect to the language server you started in debug mode instead of trying to execute a binary in `bin/`.
 
+### Testing
+
+Run `npm test` to launch the UI tests.
+
 ## Telemetry
 
 See [TELEMETRY.md](./TELEMETRY.md) for details about what kind of telemetry we collect and how to configure your telemetry settings.
