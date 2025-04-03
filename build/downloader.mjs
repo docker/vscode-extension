@@ -23,24 +23,48 @@ async function downloadFile(url, dest) {
   }
 }
 
-async function run() {
+async function run(directory, url, file) {
   const cwd = path.resolve(__dirname);
   const buildDir = path.basename(cwd);
   const repoDir = cwd.replace(buildDir, '');
-  const installPath = path.join(repoDir, 'syntaxes');
+  const installPath = path.join(repoDir, directory);
 
   if (fs.existsSync(installPath)) {
     if (process.env.downloader_log === 'true') {
-      console.info(`Syntax path exists at ${installPath}. Removing`);
+      console.info(`Target folder path exists at ${installPath}. Removing`);
     }
     fs.rmSync(installPath, { recursive: true });
   }
 
   fs.mkdirSync(installPath);
 
-  const hclSyntaxFile = `hcl.tmGrammar.json`;
-  const url = `https://github.com/hashicorp/syntax/releases/download/v0.7.1/${hclSyntaxFile}`;
-  await downloadFile(url, path.join(installPath, hclSyntaxFile));
+  await downloadFile(url, path.join(installPath, file));
 }
 
-run();
+async function downloadSyntaxesFile() {
+  const hclSyntaxFile = `hcl.tmGrammar.json`;
+  const url = `https://github.com/hashicorp/syntax/releases/download/v0.7.1/${hclSyntaxFile}`;
+  run('syntaxes', url, hclSyntaxFile);
+}
+
+async function downloadLanguageServerBinary() {
+  if (process.arch !== 'x64' && process.arch !== 'arm64') {
+    console.error(
+      `No language server binary can be found for the ${process.arch} architecture.`,
+    );
+    process.exit(1);
+  }
+
+  const platform = process.platform;
+  const arch = process.arch === 'x64' ? 'amd64' : 'arm64';
+  const suffix = platform === 'win32' ? '.exe' : '';
+  const version = '0.2.0';
+  const binaryFile = `docker-language-server-${platform}-${arch}-v${version}${suffix}`;
+  const targetFile = `docker-language-server-${platform}-${arch}${suffix}`;
+  const url = `https://github.com/docker/docker-language-server/releases/download/v${version}/${binaryFile}${suffix}`;
+  await run('bin', url, targetFile);
+  fs.chmodSync(`bin/${targetFile}`, 0o755);
+}
+
+downloadSyntaxesFile();
+downloadLanguageServerBinary();
