@@ -49,7 +49,9 @@ async function downloadSyntaxesFile() {
 
 async function downloadLanguageServerBinary() {
   if (process.arch !== 'x64' && process.arch !== 'arm64') {
-    console.error(`No language server binary can be found for the ${process.arch} architecture.`);
+    console.error(
+      `No language server binary can be found for the ${process.arch} architecture.`,
+    );
     process.exit(1);
   }
 
