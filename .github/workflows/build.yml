@@ -54,23 +54,6 @@ jobs:
           SHA=$(git rev-parse --short HEAD)
           echo "SHA=$SHA" >> "$GITHUB_OUTPUT"
 
-      - name: actions/checkout@v4 (docker/docker-language-server)
-        uses: actions/checkout@v4
-        with:
-          repository: docker/docker-language-server
-          path: docker-language-server
-
-      - working-directory: docker-language-server
-        run: |
-          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} make build
-
-      - working-directory: vscode-extension
-        run: mkdir bin
-
-      - working-directory: docker-language-server
-        run: |
-          mv ./docker-language-server-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.ext }} ../vscode-extension/bin/
-
       - name: Build the extension (refs/heads)
         if: startsWith(github.ref, 'refs/heads')
         env:

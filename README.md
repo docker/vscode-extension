@@ -68,12 +68,7 @@ Note: The language server binary from these builds are not signed and/or notariz
 
 ## Development
 
-To debug the VS Code extension:
-
-1. Clone this repository.
-2. Open the folder in VS Code.
-3. Create a `bin` folder at the root.
-4. Download the [Docker Language Server binary](https://github.com/docker/docker-language-server) and place it in `bin/` Alternatively, follow the instructions in that repository and build a binary yourself to place in the `bin` folder.
+To debug the VS Code extension, clone this repository and then run `npm install`. This will download a binary of the [Docker Language Server](https://github.com/docker/docker-language-server/releases) to the `bin` folder. If you would like to test your own custom build of the language server, simply replace the file in the `bin` folder with your own binary.
 
 ### Debugging both the extension and language server
 
