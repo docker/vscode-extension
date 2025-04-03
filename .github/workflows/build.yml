@@ -12,50 +12,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: actions/checkout@v4 (docker/vscode-extension)
-        uses: actions/checkout@v4
-        with:
-          path: vscode-extension
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: "22.x"
 
-      - uses: actions/setup-go@v5
-        with:
-          go-version: "1.23.7"
-
       - run: npm install
-        working-directory: vscode-extension
-
-      - name: Set variables
-        id: set-variables
-        working-directory: vscode-extension
-        run: |
-          GOARCH=$(node --eval "console.log(process.arch === 'x64' ? 'amd64' : 'arm64')")
-          echo "GOARCH=$GOARCH" >> "$GITHUB_OUTPUT"
-
-      - name: actions/checkout@v4 (docker/docker-language-server)
-        uses: actions/checkout@v4
-        with:
-          repository: docker/docker-language-server
-          path: docker-language-server
-
-      - working-directory: docker-language-server
-        run: |
-          GOOS=linux GOARCH=${{ steps.set-variables.outputs.GOARCH }} make build
-
-      - run: mkdir bin
-        working-directory: vscode-extension
-
-      - working-directory: docker-language-server
-        run: |
-          mv ./docker-language-server-linux-${{ steps.set-variables.outputs.GOARCH }} ../vscode-extension/bin/
 
       - run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
       - run: xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' npm test
-        working-directory: vscode-extension
 
   build:
     runs-on: ubuntu-latest
