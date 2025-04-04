@@ -5,10 +5,13 @@
     "lib": ["ES2022"],
     "sourceMap": true,
     "rootDir": "src",
+    "skipLibCheck": true,
     "strict": true /* enable all strict type-checking options */
     /* Additional Checks */
     // "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
     // "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
     // "noUnusedParameters": true,  /* Report errors on unused parameters. */
-  }
+  },
+  "exclude": ["node_modules", "src/ui-test/resources/**", ".test-extensions"],
+  "include": ["src"]
 }

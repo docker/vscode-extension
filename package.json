@@ -121,7 +121,7 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test",
+    "test": "extest setup-and-run './out/ui-test/*.test.js' --code_version max --code_settings test/settings.json --extensions_dir .test-extensions",
     "make-vsix": "vsce package",
     "prettier:check": "prettier --check --config .prettierrc.yml --ignore-path .prettierignore .",
     "prettier:fix": "prettier --write --config .prettierrc.yml --ignore-path .prettierignore ."
@@ -131,7 +131,7 @@
     "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
-    "axios": "^1.8.4",
+    "@types/chai": "^4.3.16",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
     "@types/vscode": "^1.8.8",
@@ -140,10 +140,13 @@
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.0",
     "@vscode/vsce": "^3.3.0",
+    "axios": "^1.8.4",
+    "chai": "^4.5.0",
     "eslint": "^8.57.0",
     "prettier": "^3.5.3",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
+    "vscode-extension-tester": "^8.13.0",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
   }

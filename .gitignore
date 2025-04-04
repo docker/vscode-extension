@@ -5,3 +5,4 @@ bin
 .vscode-test/
 syntaxes/
 *.vsix
+.test-extensions
