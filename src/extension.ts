@@ -236,7 +236,10 @@ function recordVersionTelemetry(
   let versionString: string | null = null;
   const process = spawn('docker', ['-v']);
   process.stdout.on('data', (data) => {
-    versionString = String(data).trim();
+    if (versionString === null) {
+      versionString = '';
+    }
+    versionString += String(data).trim();
   });
   process.on('error', () => {
     // this happens if docker cannot be found on the PATH
