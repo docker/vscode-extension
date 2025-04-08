@@ -8,10 +8,6 @@ import { DidChangeConfigurationNotification } from 'vscode-languageclient/node';
 import { publishTelemetry, queueTelemetryEvent } from './telemetry/client';
 import { checkForDockerEngine } from './utils/monitor';
 
-const unleashLibrary = import('unleash-proxy-client');
-
-let unleashClient: any = null;
-
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
 
@@ -235,10 +231,6 @@ function recordVersionTelemetry(
 }
 
 export async function deactivate() {
-  if (unleashClient !== null) {
-    unleashClient.stop();
-    unleashClient = null;
-  }
   const client = getNativeClient();
   if (client !== undefined) {
     client.stop();

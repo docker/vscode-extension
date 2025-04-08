@@ -2,7 +2,7 @@
   "name": "docker",
   "displayName": "Docker DX",
   "description": "Edit smarter, ship faster with an enhanced Docker-development experience",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "icon": "resources/docker-logo-vertical-blue.png",
   "license": "Apache-2.0",
   "engines": {
@@ -116,7 +116,6 @@
     "prettier:fix": "prettier --write --config .prettierrc.yml --ignore-path .prettierignore ."
   },
   "dependencies": {
-    "unleash-proxy-client": "3.7.3",
     "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
