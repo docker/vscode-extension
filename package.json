@@ -72,17 +72,6 @@
           "description": "Be notified when Docker Engine is not available.",
           "default": true
         },
-        "docker.extension.experimental.release.march2025": {
-          "scope": "application",
-          "type": "string",
-          "description": "Enable feature manually. Enables the Docker VS Code extension regardless of the current rollout status.",
-          "enum": [
-            "enabled",
-            "featureFlag",
-            "disabled"
-          ],
-          "default": "featureFlag"
-        },
         "docker.lsp.telemetry": {
           "type": "string",
           "description": "Determines what telemetry is collected by Docker. If vscode.env.isTelemetryEnabled is false, then telemetry collection is disabled regardless of what has been set for this configuration value.",
