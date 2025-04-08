@@ -54,34 +54,7 @@ function registerCommands(ctx: vscode.ExtensionContext) {
       });
     });
   });
-}
 
-function registerCommand(
-  ctx: vscode.ExtensionContext,
-  id: string,
-  commandCallback: (...args: any[]) => Promise<boolean>,
-): void {
-  ctx.subscriptions.push(
-    vscode.commands.registerCommand(id, async (args) => {
-      const result = await commandCallback(args);
-      queueTelemetryEvent('client_user_action', false, {
-        action_id: id,
-        result,
-      });
-    }),
-  );
-}
-
-const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
-  registerCommands(ctx);
-
-  if (await activateDockerNativeLanguageClient(ctx)) {
-    getNativeClient().start();
-  }
-};
-
-export function activate(ctx: vscode.ExtensionContext) {
-  // always register the Scout command even so that it is always available regardless of the rollout stage
   registerCommand(ctx, ScoutImageScanCommandId, (args) => {
     return new Promise((resolve) => {
       const process = spawn('docker', ['scout']);
@@ -109,47 +82,40 @@ export function activate(ctx: vscode.ExtensionContext) {
       });
     });
   });
+}
 
+function registerCommand(
+  ctx: vscode.ExtensionContext,
+  id: string,
+  commandCallback: (...args: any[]) => Promise<boolean>,
+): void {
+  ctx.subscriptions.push(
+    vscode.commands.registerCommand(id, async (args) => {
+      const result = await commandCallback(args);
+      queueTelemetryEvent('client_user_action', false, {
+        action_id: id,
+        result,
+      });
+    }),
+  );
+}
+
+const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
+  registerCommands(ctx);
+
+  if (await activateDockerNativeLanguageClient(ctx)) {
+    getNativeClient().start();
+  }
+};
+
+export function activate(ctx: vscode.ExtensionContext) {
   extensionVersion = String(ctx.extension.packageJSON.version);
 
   const configValue = vscode.workspace
     .getConfiguration('docker.extension.experimental.release')
     .get<string>('march2025');
-  if (configValue === 'disabled') {
-    recordVersionTelemetry(configValue, 'ignored');
-    return;
-  }
-
-  if (configValue === 'enabled') {
-    recordVersionTelemetry(configValue, 'ignored');
-    activateExtension(ctx);
-    return;
-  }
-
-  unleashLibrary.then((library) => {
-    const client = new library.UnleashClient({
-      url: 'https://hub.docker.com/v2/feature-flags/proxy/',
-      clientKey: 'changeme',
-      appName: 'vscode-extension',
-    });
-    client.updateContext({
-      userId: vscode.env.machineId,
-      properties: {
-        vscodeExtensionVersion: extensionVersion,
-        operatingSystem:
-          process.platform === 'win32' ? 'windows' : process.platform,
-      },
-    });
-    client.on('ready', () => {
-      const enabled = client.isEnabled('VSCodeReleaseMarch2025');
-      recordVersionTelemetry(configValue, enabled ? 'true' : 'false');
-      if (enabled) {
-        activateExtension(ctx);
-      }
-    });
-    client.start();
-    unleashClient = client;
-  });
+  recordVersionTelemetry(configValue, 'force');
+  activateExtension(ctx);
 }
 
 async function activateExtension(ctx: vscode.ExtensionContext) {
@@ -231,7 +197,7 @@ function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
 
 function recordVersionTelemetry(
   featureFlag: string | undefined,
-  featureFlagValue: 'true' | 'false' | 'ignored',
+  featureFlagValue: string,
 ) {
   let versionString: string | null = null;
   const process = spawn('docker', ['-v']);
