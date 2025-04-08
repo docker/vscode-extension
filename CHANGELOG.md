@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- include recognizable error messages in the telemetry data
+
 ## [0.4.1] - 2025-04-08
 
 ### Removed

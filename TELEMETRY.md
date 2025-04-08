@@ -22,6 +22,7 @@ If you have already opted out of sending telemetry in Visual Studio Code then no
 - version of the installed extension
 - Docker version
 - function names and parameters for diagnosing errors and crashes
+- error messages when the language server is unable to start or is crashing
 
 The list above does _not_ include any telemetry collected by the [Docker Language Server](https://github.com/docker/docker-language-server). For telemetry collected by the Docker Language Server, please refer to the telemetry documentation of that project.
 
