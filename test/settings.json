@@ -1,5 +1,4 @@
 {
-  "docker.extension.experimental.release.march2025": "enabled",
   "extensions.ignoreRecommendations": true,
   "git.autoRepositoryDetection": false,
   "telemetry.telemetryLevel": "off",
