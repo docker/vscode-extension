@@ -116,7 +116,6 @@
     "prettier:fix": "prettier --write --config .prettierrc.yml --ignore-path .prettierignore ."
   },
   "dependencies": {
-    "unleash-proxy-client": "3.7.3",
     "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
