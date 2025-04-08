@@ -38,6 +38,7 @@ export class DockerLanguageClient extends LanguageClient {
     showNotification?: boolean | 'force',
   ): void {
     queueTelemetryEvent('client_heartbeat', true, {
+      message: filterMessage(message),
       error_function: 'DockerLanguageClient.error',
       show_notification: showNotification,
     });
@@ -67,6 +68,7 @@ export class DockerLanguageClient extends LanguageClient {
         const result: any = handler.closed();
         if (result.action !== undefined) {
           queueTelemetryEvent('client_heartbeat', true, {
+            message: filterMessage(result.message),
             error_function: 'ErrorHandler.closed',
             action: result.action,
           });
@@ -75,4 +77,16 @@ export class DockerLanguageClient extends LanguageClient {
       },
     };
   }
+}
+
+function filterMessage(message: string): string {
+  if (
+    message ===
+      'The Docker Language Server server crashed 5 times in the last 3 minutes. The server will not be restarted. See the output for more information.' ||
+    message ===
+      "Docker Language Server client: couldn't create connection to server."
+  ) {
+    return message;
+  }
+  return 'unrecognized';
 }
