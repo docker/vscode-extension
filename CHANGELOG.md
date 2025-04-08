@@ -2,11 +2,20 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [0.4.1] - 2025-04-08
+
+### Removed
+
+- removed references to the feature flag in public-facing documentation
+
 ## [0.4.0] - 2025-04-08
 
 ### Changed
 
 - automatically download a binary of the language server when `npm install` is run to make development a little easier
+
+### Removed
+
 - removed the feature flag so that the extension is live for everyone
 
 ## [0.3.0]
@@ -56,7 +65,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.0...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.1...main
+[0.4.1]: https://github.com/docker/vscode-extension/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/docker/vscode-extension/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/docker/vscode-extension/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/docker/vscode-extension/compare/v0.1.1...v0.2.0
