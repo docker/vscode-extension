@@ -8,7 +8,49 @@ on:
     - v*
 
 jobs:
-  test:
+
+  test-latest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: actions/checkout@v4 (docker/docker-language-server)
+        uses: actions/checkout@v4
+        with:
+          repository: docker/docker-language-server
+          path: docker-language-server
+
+      - name: actions/checkout@v4 (docker/vscode-extension)
+        uses: actions/checkout@v4
+        with:
+          repository: docker/vscode-extension
+          path: vscode-extension
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.8"
+
+      - run: npm install
+        working-directory: vscode-extension
+
+      - run: rm -rf vscode-extension/bin
+
+      - run: mkdir vscode-extension/bin
+
+      - run: make build
+        working-directory: docker-language-server
+
+      - run: mv docker-language-server/docker-language-server-linux-amd64 vscode-extension/bin
+
+      - run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - run: xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' npm test
+        working-directory: vscode-extension
+
+  test-release:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +69,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs:
-      - test
+      - test-latest
+      - test-release
 
     strategy:
       matrix:
