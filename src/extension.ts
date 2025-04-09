@@ -14,69 +14,59 @@ export const ScoutImageScanCommandId = 'docker.scout.imageScan';
 export let extensionVersion: string;
 
 function registerCommands(ctx: vscode.ExtensionContext) {
-  registerCommand(ctx, BakeBuildCommandId, (commandArgs: any) => {
-    return new Promise((resolve) => {
+  registerCommand(ctx, BakeBuildCommandId, async (commandArgs: any) => {
+    const result = await new Promise<boolean>((resolve) => {
       const process = spawn('docker', ['buildx', 'bake', '--help']);
       process.on('error', () => {
         resolve(false);
       });
       process.on('exit', (code) => {
-        if (code === 0) {
-          const args = ['buildx', 'bake'];
-
-          if (commandArgs['call'] === 'print') {
-            args.push('--print');
-            args.push(commandArgs['target']);
-          } else {
-            args.push('--call');
-            args.push(commandArgs['call']);
-            args.push(commandArgs['target']);
-          }
-
-          const task = new vscode.Task(
-            { type: 'shell' },
-            vscode.TaskScope.Workspace,
-            'docker buildx bake',
-            'docker-vscode-extension',
-            new vscode.ShellExecution('docker', args, {
-              cwd: commandArgs['cwd'],
-            }),
-          );
-          vscode.tasks.executeTask(task);
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+        resolve(code === 0);
       });
     });
+    const args = ['buildx', 'bake'];
+
+    if (commandArgs['call'] === 'print') {
+      args.push('--print');
+      args.push(commandArgs['target']);
+    } else {
+      args.push('--call');
+      args.push(commandArgs['call']);
+      args.push(commandArgs['target']);
+    }
+
+    const task = new vscode.Task(
+      { type: 'shell' },
+      vscode.TaskScope.Workspace,
+      'docker buildx bake',
+      'docker-vscode-extension',
+      new vscode.ShellExecution('docker', args, {
+        cwd: commandArgs['cwd'],
+      }),
+    );
+    vscode.tasks.executeTask(task);
+    return result;
   });
 
-  registerCommand(ctx, ScoutImageScanCommandId, (args) => {
-    return new Promise((resolve) => {
+  registerCommand(ctx, ScoutImageScanCommandId, async (args) => {
+    const result = await new Promise<boolean>((resolve) => {
       const process = spawn('docker', ['scout']);
       process.on('error', () => {
         resolve(false);
       });
       process.on('exit', (code) => {
-        if (code === 0) {
-          const task = new vscode.Task(
-            { type: 'shell' },
-            vscode.TaskScope.Workspace,
-            'docker scout',
-            'docker scout',
-            new vscode.ShellExecution(
-              'docker',
-              ['scout', 'cves', args.fullTag],
-              {},
-            ),
-          );
-          vscode.tasks.executeTask(task);
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+        resolve(code === 0);
       });
     });
+    const task = new vscode.Task(
+      { type: 'shell' },
+      vscode.TaskScope.Workspace,
+      'docker scout',
+      'docker scout',
+      new vscode.ShellExecution('docker', ['scout', 'cves', args.fullTag], {}),
+    );
+    vscode.tasks.executeTask(task);
+    return result;
   });
 }
 
