@@ -84,7 +84,13 @@ function filterMessage(message: string): string {
     message ===
       'The Docker Language Server server crashed 5 times in the last 3 minutes. The server will not be restarted. See the output for more information.' ||
     message ===
-      "Docker Language Server client: couldn't create connection to server."
+      "Docker Language Server client: couldn't create connection to server." ||
+    message ===
+      'Connection to server got closed. Server will not be restarted.' ||
+    message === 'Server initialization failed.' ||
+    message === 'Connection to server got closed. Server will restart.' ||
+    message === 'Restarting server failed' ||
+    message === 'Stopping server failed'
   ) {
     return message;
   }
