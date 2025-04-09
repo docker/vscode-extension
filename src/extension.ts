@@ -96,11 +96,7 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
 
 export function activate(ctx: vscode.ExtensionContext) {
   extensionVersion = String(ctx.extension.packageJSON.version);
-
-  const configValue = vscode.workspace
-    .getConfiguration('docker.extension.experimental.release')
-    .get<string>('march2025');
-  recordVersionTelemetry(configValue, 'force');
+  recordVersionTelemetry();
   activateExtension(ctx);
 }
 
@@ -181,10 +177,7 @@ function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
   );
 }
 
-function recordVersionTelemetry(
-  featureFlag: string | undefined,
-  featureFlagValue: string,
-) {
+function recordVersionTelemetry() {
   let versionString: string | null = null;
   const process = spawn('docker', ['-v']);
   process.stdout.on('data', (data) => {
@@ -197,8 +190,6 @@ function recordVersionTelemetry(
     // this happens if docker cannot be found on the PATH
     queueTelemetryEvent('client_heartbeat', false, {
       docker_version: 'spawn docker -v failed',
-      feature_flag: featureFlag,
-      feature_flag_value: featureFlagValue,
     });
     publishTelemetry();
   });
@@ -206,14 +197,10 @@ function recordVersionTelemetry(
     if (code === 0) {
       queueTelemetryEvent('client_heartbeat', false, {
         docker_version: String(versionString),
-        feature_flag: featureFlag,
-        feature_flag_value: featureFlagValue,
       });
     } else {
       queueTelemetryEvent('client_heartbeat', false, {
         docker_version: String(code),
-        feature_flag: featureFlag,
-        feature_flag_value: featureFlagValue,
       });
     }
     publishTelemetry();
