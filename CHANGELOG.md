@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [0.4.4] - 2025-04-09
+
+### Fixed
+
+- include a language server fix to prevent it from crashing when opening Bake files with comments placed at the end of a line
+
 ## [0.4.3] - 2025-04-09
 
 ### Fixed
