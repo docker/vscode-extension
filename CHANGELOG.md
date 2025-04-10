@@ -2,6 +2,13 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [0.4.6] - 2025-04-09
+
+### Added
+
+- capture some more error messages to better understand why the language server is crashing on some systems
+- updated the readme so it calls out how this extension is getting installed
+
 ## [0.4.5] - 2025-04-09
 
 ### Fixed
@@ -89,7 +96,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.5...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.6...main
+[0.4.6]: https://github.com/docker/vscode-extension/compare/v0.4.5...v0.4.6
 [0.4.5]: https://github.com/docker/vscode-extension/compare/v0.4.4...v0.4.5
 [0.4.4]: https://github.com/docker/vscode-extension/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/docker/vscode-extension/compare/v0.4.2...v0.4.3
