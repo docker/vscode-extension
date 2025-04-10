@@ -13,7 +13,7 @@ The **Docker DX (Developer Experience)** Visual Studio Code extension enhances y
 
 The extension requires Docker Engine to be running. [Install Docker Desktop](https://www.docker.com/get-started/) on your machine and make sure the `docker` CLI is available in your system `PATH`.
 
-Docker currently supports the following operating systems and architectures:
+This extension currently supports the following operating systems and architectures:
 
 | Operating system | Architectures    |
 | ---------------- | ---------------- |
