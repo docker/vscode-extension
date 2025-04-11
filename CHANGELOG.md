@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- pick the user's home folder when scanning for CVEs with Scout if no workspace folder has been opened ([#76](https://github.com/docker/vscode-extension/issues/76))
+
 ## [0.4.5] - 2025-04-09
 
 ### Fixed

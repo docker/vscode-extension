@@ -1,4 +1,5 @@
 import { spawn } from 'child_process';
+import { homedir } from 'os';
 import * as vscode from 'vscode';
 import {
   activateDockerNativeLanguageClient,
@@ -58,12 +59,23 @@ function registerCommands(ctx: vscode.ExtensionContext) {
         resolve(code === 0);
       });
     });
+    const options: vscode.ShellExecutionOptions = {};
+    if (
+      vscode.workspace.workspaceFolders === undefined ||
+      vscode.workspace.workspaceFolders.length === 0
+    ) {
+      options.cwd = homedir();
+    }
     const task = new vscode.Task(
       { type: 'shell' },
       vscode.TaskScope.Workspace,
       'docker scout',
       'docker scout',
-      new vscode.ShellExecution('docker', ['scout', 'cves', args.fullTag], {}),
+      new vscode.ShellExecution(
+        'docker',
+        ['scout', 'cves', args.fullTag],
+        options,
+      ),
     );
     vscode.tasks.executeTask(task);
     return result;
