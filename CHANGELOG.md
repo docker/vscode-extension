@@ -2,11 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
-## [Unreleased]
+## [0.4.7] - 2025-04-11
 
 ### Fixed
 
 - pick the user's home folder when scanning for CVEs with Scout if no workspace folder has been opened ([#76](https://github.com/docker/vscode-extension/issues/76))
+- ignore incorrect scalar values in Compose files so that they stop getting incorrectly rendered in the outline ([docker/docker-language-server#50](https://github.com/docker/docker-language-server/pull/50))
 
 ## [0.4.6] - 2025-04-09
 
@@ -102,7 +103,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.6...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.7...main
+[0.4.7]: https://github.com/docker/vscode-extension/compare/v0.4.6...v0.4.7
 [0.4.6]: https://github.com/docker/vscode-extension/compare/v0.4.5...v0.4.6
 [0.4.5]: https://github.com/docker/vscode-extension/compare/v0.4.4...v0.4.5
 [0.4.4]: https://github.com/docker/vscode-extension/compare/v0.4.3...v0.4.4
