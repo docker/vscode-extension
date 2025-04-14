@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- capture errors from the language server not being able to start
+
 ## [0.4.7] - 2025-04-11
 
 ### Fixed

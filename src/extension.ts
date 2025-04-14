@@ -14,6 +14,8 @@ export const ScoutImageScanCommandId = 'docker.scout.imageScan';
 
 export let extensionVersion: string;
 
+const errorRegExp = new RegExp('(E[A-Z]+)');
+
 function registerCommands(ctx: vscode.ExtensionContext) {
   registerCommand(ctx, BakeBuildCommandId, async (commandArgs: any) => {
     const result = await new Promise<boolean>((resolve) => {
@@ -102,7 +104,27 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
   registerCommands(ctx);
 
   if (await activateDockerNativeLanguageClient(ctx)) {
-    getNativeClient().start();
+    getNativeClient()
+      .start()
+      .then(
+        () => {},
+        (reject) => {
+          if (typeof reject === 'string') {
+            const matches = reject.match(errorRegExp);
+            if (matches !== null && matches.length > 0) {
+              queueTelemetryEvent('client_heartbeat', true, {
+                error_function: 'DockerLanguageClient.start',
+                message: matches[0],
+              });
+            }
+          } else if (reject.code !== undefined) {
+            queueTelemetryEvent('client_heartbeat', true, {
+              error_function: 'DockerLanguageClient.start',
+              message: String(reject.code),
+            });
+          }
+        },
+      );
   }
 };
 
