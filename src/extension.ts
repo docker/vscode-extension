@@ -116,13 +116,19 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
                 error_function: 'DockerLanguageClient.start',
                 message: matches[0],
               });
+              return;
             }
           } else if (reject.code !== undefined) {
             queueTelemetryEvent('client_heartbeat', true, {
               error_function: 'DockerLanguageClient.start',
               message: String(reject.code),
             });
+            return;
           }
+          queueTelemetryEvent('client_heartbeat', true, {
+            error_function: 'DockerLanguageClient.start',
+            message: 'unrecognized',
+          });
         },
       );
   }
