@@ -2,6 +2,14 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [0.4.9] - 2025-04-15
+
+### Fixed
+
+- apply the Scout vulnerability setting correctly if multiple files are opened ([#82](https://github.com/docker/vscode-extension/pull/82))
+- capture more error telemetry to try to understand the last few crashes ([#83](https://github.com/docker/vscode-extension/pull/83))
+- make the language server binary executable before trying to start it ([#84](https://github.com/docker/vscode-extension/pull/84))
+
 ## [0.4.8] - 2025-04-14
 
 ### Added
@@ -109,7 +117,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.8...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.9...main
+[0.4.9]: https://github.com/docker/vscode-extension/compare/v0.4.8...v0.4.9
 [0.4.8]: https://github.com/docker/vscode-extension/compare/v0.4.7...v0.4.8
 [0.4.7]: https://github.com/docker/vscode-extension/compare/v0.4.6...v0.4.7
 [0.4.6]: https://github.com/docker/vscode-extension/compare/v0.4.5...v0.4.6
