@@ -3,6 +3,8 @@ import * as process from 'process';
 import * as vscode from 'vscode';
 import { extensionVersion } from '../extension';
 
+export const EVENT_CLIENT_HEARTBEAT = 'client_heartbeat';
+
 interface TelemetryRecord {
   event: string;
   source: string;

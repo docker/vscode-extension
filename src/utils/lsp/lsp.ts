@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as net from 'net';
 import * as path from 'path';
 import * as process from 'process';
@@ -12,6 +13,10 @@ import {
 } from 'vscode-languageclient/node';
 import { DockerLanguageClient } from './languageClient';
 import { InlineCompletionItemFeature } from 'vscode-languageclient/lib/common/inlineCompletion';
+import {
+  EVENT_CLIENT_HEARTBEAT,
+  queueTelemetryEvent,
+} from '../../telemetry/client';
 
 let nativeClient: LanguageClient;
 
@@ -86,6 +91,7 @@ async function getServerOptions(
 
   const binaryPath = getBinaryPath(ctx);
   if (binaryPath !== null) {
+    await chmod(binaryPath);
     return {
       command: binaryPath,
       transport: TransportKind.stdio,
@@ -93,6 +99,27 @@ async function getServerOptions(
     };
   }
   return null;
+}
+
+async function chmod(binaryPath: string): Promise<void> {
+  return new Promise<void>((resolve) => {
+    fs.access(binaryPath, fs.constants.X_OK, (accessErr) => {
+      if (accessErr !== null) {
+        fs.chmod(binaryPath, 0o755, (chmodErr) => {
+          if (chmodErr !== null) {
+            queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, true, {
+              error_function: 'chmod',
+              code: chmodErr.code,
+              errno: chmodErr.errno,
+            });
+          }
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
+  });
 }
 
 /**

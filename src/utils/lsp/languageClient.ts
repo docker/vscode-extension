@@ -9,7 +9,10 @@ import {
 } from 'vscode-languageclient/node';
 import { BakeBuildCommandId } from '../../extension';
 import { getTelemetryValue } from './lsp';
-import { queueTelemetryEvent } from '../../telemetry/client';
+import {
+  EVENT_CLIENT_HEARTBEAT,
+  queueTelemetryEvent,
+} from '../../telemetry/client';
 
 export class DockerLanguageClient extends LanguageClient {
   protected fillInitializeParams(params: InitializeParams): void {
@@ -37,7 +40,7 @@ export class DockerLanguageClient extends LanguageClient {
     data?: any,
     showNotification?: boolean | 'force',
   ): void {
-    queueTelemetryEvent('client_heartbeat', true, {
+    queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, true, {
       message: filterMessage(message),
       error_function: 'DockerLanguageClient.error',
       show_notification: showNotification,
@@ -55,7 +58,7 @@ export class DockerLanguageClient extends LanguageClient {
       ): ErrorHandlerResult | Promise<ErrorHandlerResult> {
         const result: any = handler.error(error, message, count);
         if (result.action !== undefined) {
-          queueTelemetryEvent('client_heartbeat', true, {
+          queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, true, {
             error_function: 'ErrorHandler.error',
             count: count,
             action: result.action,
@@ -67,7 +70,7 @@ export class DockerLanguageClient extends LanguageClient {
       closed(): CloseHandlerResult | Promise<CloseHandlerResult> {
         const result: any = handler.closed();
         if (result.action !== undefined) {
-          queueTelemetryEvent('client_heartbeat', true, {
+          queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, true, {
             message: filterMessage(result.message),
             error_function: 'ErrorHandler.closed',
             action: result.action,
