@@ -6,7 +6,11 @@ import {
   getNativeClient,
 } from './utils/lsp/lsp';
 import { DidChangeConfigurationNotification } from 'vscode-languageclient/node';
-import { publishTelemetry, queueTelemetryEvent } from './telemetry/client';
+import {
+  EVENT_CLIENT_HEARTBEAT,
+  publishTelemetry,
+  queueTelemetryEvent,
+} from './telemetry/client';
 import { checkForDockerEngine } from './utils/monitor';
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
@@ -112,13 +116,13 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
           if (typeof reject === 'string') {
             const matches = reject.match(errorRegExp);
             if (matches !== null && matches.length > 0) {
-              queueTelemetryEvent('client_heartbeat', true, {
+              queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, true, {
                 error_function: 'DockerLanguageClient.start',
                 message: matches[0],
               });
             }
           } else if (reject.code !== undefined) {
-            queueTelemetryEvent('client_heartbeat', true, {
+            queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, true, {
               error_function: 'DockerLanguageClient.start',
               message: String(reject.code),
             });
@@ -222,18 +226,18 @@ function recordVersionTelemetry() {
   });
   process.on('error', () => {
     // this happens if docker cannot be found on the PATH
-    queueTelemetryEvent('client_heartbeat', false, {
+    queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
       docker_version: 'spawn docker -v failed',
     });
     publishTelemetry();
   });
   process.on('exit', (code) => {
     if (code === 0) {
-      queueTelemetryEvent('client_heartbeat', false, {
+      queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
         docker_version: String(versionString),
       });
     } else {
-      queueTelemetryEvent('client_heartbeat', false, {
+      queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
         docker_version: String(code),
       });
     }
