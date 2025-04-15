@@ -127,16 +127,15 @@ async function createNative(ctx: vscode.ExtensionContext): Promise<boolean> {
     middleware: {
       workspace: {
         configuration: (params, token, next) => {
-          const result = next(params, token) as any;
-          return [
-            {
+          const result = next(params, token) as any[];
+          return result.map((value) => {
+            return {
               experimental: {
-                vulnerabilityScanning:
-                  result[0].experimental.vulnerabilityScanning,
+                vulnerabilityScanning: value.experimental.vulnerabilityScanning,
               },
-              telemetry: getTelemetryValue(result[0].telemetry),
-            },
-          ];
+              telemetry: getTelemetryValue(value.telemetry),
+            };
+          });
         },
       },
     },
