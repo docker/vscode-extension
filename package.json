@@ -80,7 +80,7 @@
             "error",
             "off"
           ],
-          "default": "all"
+          "default": "off"
         },
         "docker.lsp.debugServerPort": {
           "type": [
