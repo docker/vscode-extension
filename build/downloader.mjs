@@ -55,13 +55,13 @@ async function downloadLanguageServerBinary() {
     process.exit(1);
   }
 
-  const platform = process.platform;
+  const platform = process.platform === 'win32' ? 'windows' : process.platform;
   const arch = process.arch === 'x64' ? 'amd64' : 'arm64';
-  const suffix = platform === 'win32' ? '.exe' : '';
+  const suffix = platform === 'windows' ? '.exe' : '';
   const version = '0.3.5';
   const binaryFile = `docker-language-server-${platform}-${arch}-v${version}${suffix}`;
   const targetFile = `docker-language-server-${platform}-${arch}${suffix}`;
-  const url = `https://github.com/docker/docker-language-server/releases/download/v${version}/${binaryFile}${suffix}`;
+  const url = `https://github.com/docker/docker-language-server/releases/download/v${version}/${binaryFile}`;
   await run('bin', url, targetFile);
   fs.chmodSync(`bin/${targetFile}`, 0o755);
 }
