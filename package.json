@@ -17,9 +17,6 @@
     "type": "git",
     "url": "https://github.com/docker/vscode-extension"
   },
-  "extensionDependencies": [
-    "ms-azuretools.vscode-docker"
-  ],
   "activationEvents": [
     "onLanguage:dockerbake",
     "onLanguage:dockercompose",
@@ -36,7 +33,7 @@
       {
         "title": "Scan for CVEs with Docker Scout",
         "command": "docker.scout.imageScan",
-        "enablement": "view == dockerImages && viewItem == image"
+        "enablement": "(view == dockerImages || view == vscode-containers.views.images) && viewItem == image"
       }
     ],
     "languages": [
@@ -59,7 +56,7 @@
       "view/item/context": [
         {
           "command": "docker.scout.imageScan",
-          "when": "view == dockerImages && viewItem == image",
+          "when": "(view == dockerImages || view == vscode-containers.views.images) && viewItem == image",
           "group": "images_group_dockerdx"
         }
       ]
