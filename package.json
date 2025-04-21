@@ -67,7 +67,8 @@
         "docker.extension.dockerEngineAvailabilityPrompt": {
           "type": "boolean",
           "description": "Be notified when Docker Engine is not available.",
-          "default": true
+          "default": true,
+          "scope": "application"
         },
         "docker.lsp.telemetry": {
           "type": "string",

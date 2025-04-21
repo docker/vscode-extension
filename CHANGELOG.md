@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- set the Docker Desktop prompt setting correctly ([#90](https://github.com/docker/vscode-extension/issues/90))
+
 ## [0.4.9] - 2025-04-15
 
 ### Fixed
