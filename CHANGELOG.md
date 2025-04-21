@@ -2,7 +2,21 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
-## [Unreleased]
+## [0.4.10] - 2025-04-21
+
+### Changed
+
+- updated the included Docker Language Server from 0.3.5 to 0.3.7
+  - Bake
+    - textDocument/publishDiagnostics
+      - consider the context attribute when determining which Dockerfile the Bake target is for ([docker/docker-language-server#57](https://github.com/docker/docker-language-server/issues/57))
+    - textDocument/inlayHints
+      - consider the context attribute when determining which Dockerfile to use for inlaying default values of `ARG` variables ([docker/docker-language-server#60](https://github.com/docker/docker-language-server/pull/60))
+    - textDocument/completion
+      - consider the context attribute when determining which Dockerfile to use for looking up build stages ([docker/docker-language-server#61](https://github.com/docker/docker-language-server/pull/61))
+    - textDocument/definition
+      - consider the context attribute when trying to resolve the Dockerfile to use for `ARG` variable definitions ([docker/docker-language-server#62](https://github.com/docker/docker-language-server/pull/62))
+      - fix a panic that may occur if a for loop did not have a conditional expression ([docker/docker-language-server#65](https://github.com/docker/docker-language-server/pull/65))
 
 ### Fixed
 
@@ -123,7 +137,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.9...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.10...main
+[0.4.10]: https://github.com/docker/vscode-extension/compare/v0.4.9...v0.4.10
 [0.4.9]: https://github.com/docker/vscode-extension/compare/v0.4.8...v0.4.9
 [0.4.8]: https://github.com/docker/vscode-extension/compare/v0.4.7...v0.4.8
 [0.4.7]: https://github.com/docker/vscode-extension/compare/v0.4.6...v0.4.7
