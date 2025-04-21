@@ -96,7 +96,11 @@ async function isDockerDesktopInstalled(): Promise<boolean> {
 function disableDockerEngineAvailabilityPrompt(): void {
   vscode.workspace
     .getConfiguration('docker.extension')
-    .set('dockerEngineAvailabilityPrompt', false);
+    .update(
+      'dockerEngineAvailabilityPrompt',
+      false,
+      vscode.ConfigurationTarget.Global,
+    );
 }
 
 /**
