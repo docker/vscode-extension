@@ -90,8 +90,8 @@ jobs:
           - os: linux
             nodeos: linux
             ext: ""
-          - os: linux
-            nodeos: alpine
+          - os: alpine
+            nodeos: linux
             ext: ""
 
     steps:
