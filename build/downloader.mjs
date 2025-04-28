@@ -48,7 +48,10 @@ async function downloadSyntaxesFile() {
 }
 
 function getPlatform() {
-  const platform = process.env["NODE_OS"] === undefined ? process.platform : process.env["NODE_OS"];
+  const platform =
+    process.env['NODE_OS'] === undefined
+      ? process.platform
+      : process.env['NODE_OS'];
   if (platform === 'win32') {
     return 'windows';
   }
@@ -56,7 +59,10 @@ function getPlatform() {
 }
 
 function getArch() {
-  const arch = process.env["NODE_ARCH"] === undefined ? process.arch : process.env["NODE_ARCH"];
+  const arch =
+    process.env['NODE_ARCH'] === undefined
+      ? process.arch
+      : process.env['NODE_ARCH'];
   return arch === 'x64' ? 'amd64' : 'arm64';
 }
 
