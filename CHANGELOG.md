@@ -2,11 +2,24 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
-## [Unreleased]
+## [0.5.0] - 2025-04-28
 
 ### Added
 
-- add support for the `alpine-x64` and `alpine-arm64` targets
+- add support for the `alpine-x64` and `alpine-arm64` targets ([#93](https://github.com/docker/vscode-extension/issues/93))
+
+### Fixed
+
+- Bake
+  - textDocument/definition
+    - allow jumping to a target block when referencing its attribute ([docker/docker-language-server#78](https://github.com/docker/docker-language-server/issues/78))
+  - textDocument/semanticTokens/full
+    - ensure semantic tokens are only calculated for Bake files ([docker/docker-language-server#85](https://github.com/docker/docker-language-server/pull/85))
+
+- Compose
+  - textDocument/definition
+    - allow looking up referenced services when using the short form syntax for `depends_on` ([docker/docker-language-server#67](https://github.com/docker/docker-language-server/issues/67))
+    - allow looking up referenced services when using the long form syntax for `depends_on` ([docker/docker-language-server#68](https://github.com/docker/docker-language-server/issues/68))
 
 ## [0.4.10] - 2025-04-21
 
@@ -143,7 +156,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.4.10...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.5.0...main
+[0.5.0]: https://github.com/docker/vscode-extension/compare/v0.4.10...v0.5.0
 [0.4.10]: https://github.com/docker/vscode-extension/compare/v0.4.9...v0.4.10
 [0.4.9]: https://github.com/docker/vscode-extension/compare/v0.4.8...v0.4.9
 [0.4.8]: https://github.com/docker/vscode-extension/compare/v0.4.7...v0.4.8
