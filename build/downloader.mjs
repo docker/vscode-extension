@@ -47,6 +47,25 @@ async function downloadSyntaxesFile() {
   run('syntaxes', url, hclSyntaxFile);
 }
 
+function getPlatform() {
+  const platform =
+    process.env['NODE_OS'] === undefined
+      ? process.platform
+      : process.env['NODE_OS'];
+  if (platform === 'win32') {
+    return 'windows';
+  }
+  return platform === 'alpine' ? 'linux' : platform;
+}
+
+function getArch() {
+  const arch =
+    process.env['NODE_ARCH'] === undefined
+      ? process.arch
+      : process.env['NODE_ARCH'];
+  return arch === 'x64' ? 'amd64' : 'arm64';
+}
+
 async function downloadLanguageServerBinary() {
   if (process.arch !== 'x64' && process.arch !== 'arm64') {
     console.error(
@@ -55,8 +74,10 @@ async function downloadLanguageServerBinary() {
     process.exit(1);
   }
 
-  const platform = process.platform === 'win32' ? 'windows' : process.platform;
-  const arch = process.arch === 'x64' ? 'amd64' : 'arm64';
+  const platform = getPlatform();
+  const arch = getArch();
+  console.log(platform);
+  console.log(arch);
   const suffix = platform === 'windows' ? '.exe' : '';
   const version = '0.3.7';
   const binaryFile = `docker-language-server-${platform}-${arch}-v${version}${suffix}`;
