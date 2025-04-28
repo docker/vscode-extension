@@ -22,6 +22,7 @@ This extension currently supports the following operating systems and architectu
 | Windows          | `amd64`, `arm64` |
 | macOS            | `amd64`, `arm64` |
 | Linux            | `amd64`, `arm64` |
+| Alpine           | `amd64`, `arm64` |
 
 If you are on an unsupported system, let us know of your interest in this extension so we can prioritize the work accordingly.
 

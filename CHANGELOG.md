@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- add support for the `alpine-x64` and `alpine-arm64` targets
+
 ## [0.4.10] - 2025-04-21
 
 ### Changed
