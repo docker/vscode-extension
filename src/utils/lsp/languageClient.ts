@@ -18,9 +18,13 @@ export class DockerLanguageClient extends LanguageClient {
   protected fillInitializeParams(params: InitializeParams): void {
     super.fillInitializeParams(params);
     const dockerConfiguration = vscode.workspace.getConfiguration('docker.lsp');
+    const extensionConfiguration = vscode.workspace.getConfiguration(
+      'docker.extension.experimental',
+    );
     params.initializationOptions = {
       dockercomposeExperimental: {
-        composeCompletion: false,
+        composeCompletion:
+          extensionConfiguration.get<boolean>('composeCompletions'),
       },
       dockerfileExperimental: {
         removeOverlappingIssues: true,

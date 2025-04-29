@@ -64,6 +64,12 @@
     "configuration": {
       "title": "Docker",
       "properties": {
+        "docker.extension.experimental.composeCompletions": {
+          "type": "boolean",
+          "description": "Enable Intellisense for Compose files. You must restart Visual Studio Code after changing this value.",
+          "default": false,
+          "scope": "application"
+        },
         "docker.extension.dockerEngineAvailabilityPrompt": {
           "type": "boolean",
           "description": "Be notified when Docker Engine is not available.",
