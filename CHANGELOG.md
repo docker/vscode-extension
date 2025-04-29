@@ -2,6 +2,18 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- Compose
+  - textDocument/definition
+    - support lookup of `configs`, `networks`, and `secrets` referenced inside `services` object ([#91](https://github.com/docker/docker-language-server/issues/91))
+  - textDocument/documentLink
+    - support opening a referenced image's page as a link ([#91](https://github.com/docker/docker-language-server/issues/91))
+  - textDocument/hover
+    - extract descriptions and enum values from the Compose specification and display them as hovers ([#101](https://github.com/docker/docker-language-server/issues/101))
+
 ## [0.5.0] - 2025-04-28
 
 ### Added
