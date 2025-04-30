@@ -68,7 +68,10 @@
           "type": "boolean",
           "description": "Enable Intellisense for Compose files. You must restart Visual Studio Code after changing this value.",
           "default": false,
-          "scope": "application"
+          "scope": "application",
+          "tags": [
+            "experimental"
+          ]
         },
         "docker.extension.dockerEngineAvailabilityPrompt": {
           "type": "boolean",
@@ -84,7 +87,11 @@
             "error",
             "off"
           ],
-          "default": "all"
+          "default": "all",
+          "tags": [
+            "telemetry",
+            "usesOnlineServices"
+          ]
         },
         "docker.lsp.debugServerPort": {
           "type": [
@@ -98,7 +105,10 @@
         "docker.lsp.experimental.vulnerabilityScanning": {
           "type": "boolean",
           "description": "Enable image analysis of Dockerfiles (Experimental)",
-          "default": true
+          "default": true,
+          "tags": [
+            "experimental"
+          ]
         }
       }
     }
