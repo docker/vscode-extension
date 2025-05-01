@@ -2,8 +2,6 @@
 
 The **Docker DX (Developer Experience)** Visual Studio Code extension enhances your Visual Studio Code experience with Docker-related development by adding rich editing features and vulnerability scanning.
 
-The Docker DX extension is shipped as part of [Microsoft's Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) as an optional dependency.
-
 ## Key features
 
 - [Dockerfile linting](https://docs.docker.com/reference/build-checks/): Get build warnings and best-practice suggestions via BuildKit and BuildX.
@@ -76,5 +74,7 @@ To debug the VS Code extension, clone this repository and then run `npm install`
 Run `npm test` to launch the UI tests.
 
 ## Telemetry
+
+The Docker DX extension collects telemetry. We collect this telemetry so that we can improve the extension by understanding usage patterns and catching crashes and errors for diagnostic purposes. Note that if you have already opted out of sending telemetry in Visual Studio Code then no telemetry will be sent.
 
 See [TELEMETRY.md](./TELEMETRY.md) for details about what kind of telemetry we collect and how to configure your telemetry settings.
