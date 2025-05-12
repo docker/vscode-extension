@@ -2,6 +2,12 @@ import { access } from 'fs';
 import { spawn } from 'child_process';
 import * as vscode from 'vscode';
 import { spawnDockerCommand } from './spawnDockerCommand';
+import {
+  promptOpenDockerDesktop,
+  promptInstallDesktop,
+  promptUnauthenticatedDesktop,
+} from './prompt';
+import { getDockerDesktopPath } from './os';
 
 enum DockerEngineStatus {
   Unavailable,
@@ -65,16 +71,6 @@ function checkDockerStatus(): Promise<DockerEngineStatus> {
   });
 }
 
-function getDockerDesktopPath(): string {
-  switch (process.platform) {
-    case 'win32':
-      return 'C:\\Program Files\\Docker\\Docker\\Docker Desktop.exe';
-    case 'darwin':
-      return '/Applications/Docker.app';
-  }
-  return '/opt/docker-desktop/bin/com.docker.backend';
-}
-
 async function isDockerDesktopInstalled(): Promise<boolean> {
   return new Promise<boolean>((resolve) => {
     spawnDockerCommand('docker', ['desktop', 'version'], () => {
@@ -83,81 +79,4 @@ async function isDockerDesktopInstalled(): Promise<boolean> {
       });
     });
   });
-}
-
-function disableDockerEngineAvailabilityPrompt(): void {
-  vscode.workspace
-    .getConfiguration('docker.extension')
-    .update(
-      'dockerEngineAvailabilityPrompt',
-      false,
-      vscode.ConfigurationTarget.Global,
-    );
-}
-
-/**
- * Prompts the user to login to Docker Desktop.
- */
-async function promptUnauthenticatedDesktop(): Promise<void> {
-  const response = await vscode.window.showInformationMessage(
-    'Docker is not running. To get help with your Dockerfile, sign in to Docker Desktop.',
-    "Don't show again",
-  );
-  if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
-  }
-}
-
-/**
- * Prompts the user to open Docker Desktop.
- */
-async function promptOpenDockerDesktop(): Promise<void> {
-  const response = await vscode.window.showInformationMessage(
-    'Docker is not running. To get help with your Dockerfile, start Docker.',
-    "Don't show again",
-    'Open Docker Desktop',
-  );
-  if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
-  } else if (response === 'Open Docker Desktop') {
-    const dockerDesktopPath = getDockerDesktopPath();
-    if (process.platform === 'darwin') {
-      spawn('open', [dockerDesktopPath]).on('exit', (code) => {
-        if (code !== 0) {
-          vscode.window.showErrorMessage(
-            `Failed to open Docker Desktop: open ${dockerDesktopPath}`,
-            { modal: true },
-          );
-        }
-      });
-    } else {
-      spawn(dockerDesktopPath).on('exit', (code) => {
-        if (code !== 0) {
-          vscode.window.showErrorMessage(
-            `Failed to open Docker Desktop: ${dockerDesktopPath}`,
-            { modal: true },
-          );
-        }
-      });
-    }
-  }
-}
-
-/**
- * Prompts the user to install Docker Desktop by navigating to the
- * website.
- */
-async function promptInstallDesktop(): Promise<void> {
-  const response = await vscode.window.showInformationMessage(
-    'Docker is not running. To get help with your Dockerfile, install Docker.',
-    "Don't show again",
-    'Install Docker Desktop',
-  );
-  if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
-  } else if (response === 'Install Docker Desktop') {
-    vscode.env.openExternal(
-      vscode.Uri.parse('https://docs.docker.com/install/'),
-    );
-  }
 }
