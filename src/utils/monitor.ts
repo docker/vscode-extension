@@ -1,4 +1,3 @@
-import { spawn } from 'child_process';
 import {
   promptOpenDockerDesktop,
   promptInstallDesktop,
@@ -6,6 +5,7 @@ import {
 } from './prompt';
 import { isDockerDesktopInstalled } from './os';
 import { getExtensionSetting } from './settings';
+import { spawnDockerCommand } from './spawnDockerCommand';
 
 enum DockerEngineStatus {
   Unavailable,
@@ -39,28 +39,26 @@ export async function checkForDockerEngine(): Promise<void> {
  */
 function checkDockerStatus(): Promise<DockerEngineStatus> {
   return new Promise<DockerEngineStatus>((resolve) => {
-    const s = spawn('docker', ['ps']);
     let output = '';
-    s.stderr.on('data', (chunk) => {
-      output += String(chunk);
-    });
-    s.on('error', () => {
-      // this happens if docker cannot be found on the PATH
-      return resolve(DockerEngineStatus.Unavailable);
-    });
-    s.on('exit', (code) => {
-      if (code === 0) {
-        return resolve(DockerEngineStatus.Available);
-      }
-      if (
-        output.includes('Sign-in enforcement is enabled') ||
-        output.includes(
-          'request returned Internal Server Error for API route and version',
-        )
-      ) {
-        return resolve(DockerEngineStatus.Unauthenticated);
-      }
-      return resolve(DockerEngineStatus.Unavailable);
+    spawnDockerCommand('ps', [], {
+      onError: () => resolve(DockerEngineStatus.Unavailable),
+      onStderr: (chunk) => {
+        output += String(chunk);
+      },
+      onExit: (code) => {
+        if (code === 0) {
+          return resolve(DockerEngineStatus.Available);
+        }
+        if (
+          output.includes('Sign-in enforcement is enabled') ||
+          output.includes(
+            'request returned Internal Server Error for API route and version',
+          )
+        ) {
+          return resolve(DockerEngineStatus.Unauthenticated);
+        }
+        return resolve(DockerEngineStatus.Unavailable);
+      },
     });
   });
 }
