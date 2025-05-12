@@ -12,6 +12,7 @@ import {
   queueTelemetryEvent,
 } from './telemetry/client';
 import { checkForDockerEngine } from './utils/monitor';
+import { spawnDockerCommand } from './utils/spawnDockerCommand';
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
@@ -22,15 +23,7 @@ const errorRegExp = new RegExp('(E[A-Z]+)');
 
 function registerCommands(ctx: vscode.ExtensionContext) {
   registerCommand(ctx, BakeBuildCommandId, async (commandArgs: any) => {
-    const result = await new Promise<boolean>((resolve) => {
-      const process = spawn('docker', ['buildx', 'bake', '--help']);
-      process.on('error', () => {
-        resolve(false);
-      });
-      process.on('exit', (code) => {
-        resolve(code === 0);
-      });
-    });
+    const result = await spawnDockerCommand('buildx', ['bake', '--help']);
     const args = ['buildx', 'bake'];
 
     if (commandArgs['call'] === 'print') {
@@ -56,15 +49,7 @@ function registerCommands(ctx: vscode.ExtensionContext) {
   });
 
   registerCommand(ctx, ScoutImageScanCommandId, async (args) => {
-    const result = await new Promise<boolean>((resolve) => {
-      const process = spawn('docker', ['scout']);
-      process.on('error', () => {
-        resolve(false);
-      });
-      process.on('exit', (code) => {
-        resolve(code === 0);
-      });
-    });
+    const result = spawnDockerCommand('scout');
     const options: vscode.ShellExecutionOptions = {};
     if (
       vscode.workspace.workspaceFolders === undefined ||
