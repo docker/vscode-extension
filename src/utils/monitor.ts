@@ -1,12 +1,10 @@
-import { access } from 'fs';
 import { spawn } from 'child_process';
-import { spawnDockerCommand } from './spawnDockerCommand';
 import {
   promptOpenDockerDesktop,
   promptInstallDesktop,
   promptUnauthenticatedDesktop,
 } from './prompt';
-import { getDockerDesktopPath } from './os';
+import { isDockerDesktopInstalled } from './os';
 import { getExtensionSetting } from './settings';
 
 enum DockerEngineStatus {
@@ -63,16 +61,6 @@ function checkDockerStatus(): Promise<DockerEngineStatus> {
         return resolve(DockerEngineStatus.Unauthenticated);
       }
       return resolve(DockerEngineStatus.Unavailable);
-    });
-  });
-}
-
-async function isDockerDesktopInstalled(): Promise<boolean> {
-  return new Promise<boolean>((resolve) => {
-    spawnDockerCommand('docker', ['desktop', 'version'], () => {
-      access(getDockerDesktopPath(), (err) => {
-        resolve(err === null);
-      });
     });
   });
 }
