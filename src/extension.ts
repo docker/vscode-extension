@@ -90,8 +90,6 @@ function registerCommand(
 }
 
 const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
-  registerCommands(ctx);
-
   if (await activateDockerNativeLanguageClient(ctx)) {
     getNativeClient()
       .start()
@@ -126,6 +124,7 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
 export function activate(ctx: vscode.ExtensionContext) {
   extensionVersion = String(ctx.extension.packageJSON.version);
   recordVersionTelemetry();
+  registerCommands(ctx);
   activateExtension(ctx);
 }
 
