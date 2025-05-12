@@ -1,6 +1,5 @@
 import { access } from 'fs';
 import { spawn } from 'child_process';
-import * as vscode from 'vscode';
 import { spawnDockerCommand } from './spawnDockerCommand';
 import {
   promptOpenDockerDesktop,
@@ -8,6 +7,7 @@ import {
   promptUnauthenticatedDesktop,
 } from './prompt';
 import { getDockerDesktopPath } from './os';
+import { getExtensionSetting } from './settings';
 
 enum DockerEngineStatus {
   Unavailable,
@@ -20,11 +20,7 @@ enum DockerEngineStatus {
  * either install or open Docker Desktop.
  */
 export async function checkForDockerEngine(): Promise<void> {
-  if (
-    !vscode.workspace
-      .getConfiguration('docker.extension')
-      .get('dockerEngineAvailabilityPrompt')
-  ) {
+  if (!getExtensionSetting('dockerEngineAvailabilityPrompt')) {
     return;
   }
 

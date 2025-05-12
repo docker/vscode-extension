@@ -13,6 +13,7 @@ import {
 } from './telemetry/client';
 import { checkForDockerEngine } from './utils/monitor';
 import { spawnDockerCommand } from './utils/spawnDockerCommand';
+import { getExtensionSetting } from './utils/settings';
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
@@ -129,11 +130,7 @@ export function activate(ctx: vscode.ExtensionContext) {
 }
 
 async function activateExtension(ctx: vscode.ExtensionContext) {
-  if (
-    vscode.workspace
-      .getConfiguration('docker.extension')
-      .get('dockerEngineAvailabilityPrompt')
-  ) {
+  if (getExtensionSetting('dockerEngineAvailabilityPrompt')) {
     let notified = false;
     for (const document of vscode.workspace.textDocuments) {
       if (
