@@ -149,7 +149,7 @@ async function promptOpenDockerDesktop(): Promise<void> {
  */
 async function promptInstallDesktop(): Promise<void> {
   const response = await vscode.window.showInformationMessage(
-    'Docker is not running. To get help with your Dockerfile, start Docker.',
+    'Docker is not running. To get help with your Dockerfile, install Docker.',
     "Don't show again",
     'Install Docker Desktop',
   );
