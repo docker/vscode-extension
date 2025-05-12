@@ -1,6 +1,7 @@
 import { access } from 'fs';
 import { spawn } from 'child_process';
 import * as vscode from 'vscode';
+import { spawnDockerCommand } from './spawnDockerCommand';
 
 enum DockerEngineStatus {
   Unavailable,
@@ -76,16 +77,7 @@ function getDockerDesktopPath(): string {
 
 async function isDockerDesktopInstalled(): Promise<boolean> {
   return new Promise<boolean>((resolve) => {
-    const s = spawn('docker', ['desktop', 'version']);
-    s.on('error', () => {
-      // this happens if docker cannot be found on the PATH
-      resolve(false);
-    });
-    s.on('exit', (code) => {
-      if (code === 0) {
-        return resolve(true);
-      }
-
+    spawnDockerCommand('docker', ['desktop', 'version'], () => {
       access(getDockerDesktopPath(), (err) => {
         resolve(err === null);
       });
