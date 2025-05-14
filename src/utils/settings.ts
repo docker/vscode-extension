@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+type DockerExtensionSettings = 'dockerEngineAvailabilityPrompt';
+
 /**
  * Retrieves the value of a specified setting from the Docker extension's configuration.
  *
@@ -7,7 +9,7 @@ import * as vscode from 'vscode';
  * @returns The value of the specified setting, or `undefined` if the setting is not found.
  */
 
-export function getExtensionSetting(setting: string) {
+export function getExtensionSetting(setting: DockerExtensionSettings) {
   return vscode.workspace.getConfiguration('docker.extension').get(setting);
 }
 

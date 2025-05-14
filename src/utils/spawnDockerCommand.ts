@@ -12,6 +12,7 @@
  */
 import { spawn } from 'child_process';
 import { showUnknownCommandMessage } from './prompt';
+import { getExtensionSetting } from './settings';
 
 export async function spawnDockerCommand(
   command: string,
@@ -40,7 +41,10 @@ export async function spawnDockerCommand(
     });
 
     process.stderr.on('data', (chunk: string) => {
-      if (chunk.includes('docker: unknown command')) {
+      if (
+        chunk.includes('docker: unknown command') &&
+        getExtensionSetting('dockerEngineAvailabilityPrompt')
+      ) {
         showUnknownCommandMessage(command);
       }
       if (onStderr) {
