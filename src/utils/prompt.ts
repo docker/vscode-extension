@@ -69,3 +69,15 @@ export async function promptInstallDesktop(): Promise<void> {
     );
   }
 }
+
+/**
+ * Shows a message to the user indicating that Docker Desktop does not know the command
+ */
+export async function showUnknownCommandMessage(
+  command: string,
+): Promise<void> {
+  // TODO: Get a proper error message from Allie
+  await vscode.window.showErrorMessage(
+    `Docker Desktop does not know the command "${command}".`,
+  );
+}

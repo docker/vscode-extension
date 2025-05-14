@@ -11,6 +11,7 @@
  * @returns A promise that resolves to `true` if the command exits with a code of 0, or `false` otherwise.
  */
 import { spawn } from 'child_process';
+import { showUnknownCommandMessage } from './prompt';
 
 export async function spawnDockerCommand(
   command: string,
@@ -38,11 +39,14 @@ export async function spawnDockerCommand(
       resolve(code === 0);
     });
 
-    if (onStderr) {
-      process.stderr.on('data', (chunk) => {
+    process.stderr.on('data', (chunk: string) => {
+      if (chunk.includes('docker: unknown command')) {
+        showUnknownCommandMessage(command);
+      }
+      if (onStderr) {
         onStderr(chunk);
-      });
-    }
+      }
+    });
 
     if (onStdout) {
       process.stdout.on('data', (chunk) => {
