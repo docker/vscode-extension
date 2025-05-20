@@ -55,9 +55,11 @@ export async function promptOpenDockerDesktop(): Promise<void> {
  * Prompts the user to install Docker Desktop by navigating to the
  * website.
  */
-export async function promptInstallDesktop(): Promise<void> {
+export async function promptInstallDesktop(
+  message: string = 'Docker is not running. To get help with your Dockerfile, install Docker.',
+): Promise<void> {
   const response = await vscode.window.showInformationMessage(
-    'Docker is not running. To get help with your Dockerfile, install Docker.',
+    message,
     "Don't show again",
     'Install Docker Desktop',
   );
@@ -68,16 +70,4 @@ export async function promptInstallDesktop(): Promise<void> {
       vscode.Uri.parse('https://docs.docker.com/install/'),
     );
   }
-}
-
-/**
- * Shows a message to the user indicating that Docker Desktop does not know the command
- */
-export async function showUnknownCommandMessage(
-  command: string,
-): Promise<void> {
-  // TODO: Get a proper error message from Allie
-  await vscode.window.showErrorMessage(
-    `Docker Desktop does not know the command "${command}".`,
-  );
 }

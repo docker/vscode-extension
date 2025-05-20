@@ -24,7 +24,11 @@ const errorRegExp = new RegExp('(E[A-Z]+)');
 
 function registerCommands(ctx: vscode.ExtensionContext) {
   registerCommand(ctx, BakeBuildCommandId, async (commandArgs: any) => {
-    const result = await spawnDockerCommand('buildx', ['bake', '--help']);
+    const result = await spawnDockerCommand(
+      'buildx',
+      ['bake', '--help'],
+      "Bake is not available. To access Docker Bake's features, install Docker Desktop.",
+    );
     const args = ['buildx', 'bake'];
 
     if (commandArgs['call'] === 'print') {
@@ -50,7 +54,11 @@ function registerCommands(ctx: vscode.ExtensionContext) {
   });
 
   registerCommand(ctx, ScoutImageScanCommandId, async (args) => {
-    const result = spawnDockerCommand('scout');
+    const result = spawnDockerCommand(
+      'scout',
+      [],
+      "Docker Scout is not available. To access Docker Scout's features, install Docker Desktop.",
+    );
     const options: vscode.ShellExecutionOptions = {};
     if (
       vscode.workspace.workspaceFolders === undefined ||

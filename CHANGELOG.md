@@ -2,6 +2,13 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- tagged appropriate settings to make them easier to search for
+- suggest the user install Docker Desktop if Scout cannot be found
+
 ## [0.6.0] - 2025-04-29
 
 ### Added
