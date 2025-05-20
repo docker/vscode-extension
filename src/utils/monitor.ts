@@ -40,7 +40,7 @@ export async function checkForDockerEngine(): Promise<void> {
 function checkDockerStatus(): Promise<DockerEngineStatus> {
   return new Promise<DockerEngineStatus>((resolve) => {
     let output = '';
-    spawnDockerCommand('ps', [], {
+    spawnDockerCommand('ps', [], undefined, {
       onError: () => resolve(DockerEngineStatus.Unavailable),
       onStderr: (chunk) => {
         output += String(chunk);

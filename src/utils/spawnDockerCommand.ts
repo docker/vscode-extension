@@ -11,12 +11,13 @@
  * @returns A promise that resolves to `true` if the command exits with a code of 0, or `false` otherwise.
  */
 import { spawn } from 'child_process';
-import { showUnknownCommandMessage } from './prompt';
+import { promptInstallDesktop } from './prompt';
 import { getExtensionSetting } from './settings';
 
 export async function spawnDockerCommand(
   command: string,
   args: string[] = [],
+  message?: string,
   processEvents: {
     onExit?: (code: number | null) => void;
     onError?: (error: Error) => void;
@@ -45,7 +46,7 @@ export async function spawnDockerCommand(
         chunk.includes('docker: unknown command') &&
         getExtensionSetting('dockerEngineAvailabilityPrompt')
       ) {
-        showUnknownCommandMessage(command);
+        promptInstallDesktop(message);
       }
       if (onStderr) {
         onStderr(chunk);
