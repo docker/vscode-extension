@@ -13,7 +13,9 @@ export function getDockerDesktopPath(): string {
 
 export async function isDockerDesktopInstalled(): Promise<boolean> {
   return new Promise<boolean>((resolve) => {
-    spawnDockerCommand('docker', ['desktop', 'version'], {
+    spawnDockerCommand('desktop', ['version'], {
+      onError: () => resolve(false),
+
       onExit: (code) => {
         if (code === 0) {
           return resolve(true);
