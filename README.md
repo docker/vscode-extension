@@ -78,3 +78,32 @@ Run `npm test` to launch the UI tests.
 The Docker DX extension collects telemetry. We collect this telemetry so that we can improve the extension by understanding usage patterns and catching crashes and errors for diagnostic purposes. Note that if you have already opted out of sending telemetry in Visual Studio Code then no telemetry will be sent.
 
 See [TELEMETRY.md](./TELEMETRY.md) for details about what kind of telemetry we collect and how to configure your telemetry settings.
+
+## FAQ
+
+> **I can see duplicated code completion suggestions and/or hover tooltips in Compose files.**
+
+Do you have any of the following extensions installed?
+
+- [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) (powered by [redhat-developer/yaml-language-server](https://github.com/redhat-developer/yaml-language-server))
+  1. To disable duplicates from this extension, create a JSON file with `{}` as its content and save it somewhere. Let's say it is at `/home/user/empty.json`.
+  2. Open the [Command Palette](https://code.visualstudio.com/api/ux-guidelines/command-palette) in Visual Studio Code and open "Preferences: Open User Settings (JSON)".
+  3. Create an object attribute for `yaml.schemas` if it does not already exist.
+  4. Inside the `yaml.schemas` object, map your empty JSON file to Compose YAML files.
+
+```JSONC
+{
+  "yaml.schemas": {
+    // this tells Red Hat's YAML extension to consider Compose YAML
+    // files as not having a schema so it will stop suggesting code
+    // completion items, hover tooltips, and so on
+    "/home/user/empty.json": ["compose*y*ml*", "docker-compose*y*ml*"]
+  }
+}
+```
+
+- [Microsoft's Container Tools extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-containers) (powered by [microsoft/compose-language-service](https://github.com/microsoft/compose-language-service))
+  - If [microsoft/vscode-containers#75](https://github.com/microsoft/vscode-containers/pull/75) is merged and you are on a release with this change, then the duplicates should already be taken of.
+  - To disable duplicates from this extension, you can set the `containers.enableComposeLanguageService` settingto `false` and restart Visual Studio Code.
+- [Microsoft's Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (powered by [microsoft/compose-language-service](https://github.com/microsoft/compose-language-service))
+  - To disable duplicates from this extension, you can set the `docker.enableDockerComposeLanguageService` settingto `false` and restart Visual Studio Code.
