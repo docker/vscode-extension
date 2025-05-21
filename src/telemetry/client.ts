@@ -9,7 +9,7 @@ interface TelemetryRecord {
   event: string;
   source: string;
   event_timestamp: number;
-  properties: { [key: string]: boolean | number | string | undefined };
+  properties: { [key: string]: boolean | number | string | object | undefined };
 }
 
 const events: TelemetryRecord[] = [];
@@ -17,7 +17,7 @@ const events: TelemetryRecord[] = [];
 export function queueTelemetryEvent(
   event: string,
   error: boolean,
-  properties: { [key: string]: boolean | number | string | undefined },
+  properties: { [key: string]: boolean | number | string | object | undefined },
 ) {
   if (!vscode.env.isTelemetryEnabled) {
     return;
