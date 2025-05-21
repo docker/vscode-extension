@@ -2,7 +2,7 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
-## [Unreleased]
+## [0.7.0] - 2025-05-21
 
 ### Added
 
