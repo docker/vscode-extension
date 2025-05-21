@@ -211,6 +211,15 @@ function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
 }
 
 function recordVersionTelemetry() {
+  const installedExtensions = vscode.extensions.all
+    .filter((extension) => {
+      return (
+        extension.id === 'ms-azuretools.vscode-docker' ||
+        extension.id === 'ms-azuretools.vscode-containers' ||
+        extension.id === 'redhat.vscode-yaml'
+      );
+    })
+    .map((extension) => extension.id);
   let versionString: string | null = null;
   const process = spawn('docker', ['-v']);
   process.stdout.on('data', (data) => {
@@ -223,6 +232,7 @@ function recordVersionTelemetry() {
     // this happens if docker cannot be found on the PATH
     queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
       docker_version: 'spawn docker -v failed',
+      installedExtensions,
     });
     publishTelemetry();
   });
@@ -230,10 +240,12 @@ function recordVersionTelemetry() {
     if (code === 0) {
       queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
         docker_version: String(versionString),
+        installedExtensions,
       });
     } else {
       queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
         docker_version: String(code),
+        installedExtensions,
       });
     }
     publishTelemetry();

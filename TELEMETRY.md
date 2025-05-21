@@ -23,6 +23,10 @@ If you have already opted out of sending telemetry in Visual Studio Code then no
 - Docker version
 - function names and parameters for diagnosing errors and crashes
 - error messages when the language server is unable to start or is crashing
+- if certain extensions are also installed
+    - [Microsoft's Container Tools extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-containers)
+    - [Microsoft's Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+    - [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
 
 The list above does _not_ include any telemetry collected by the [Docker Language Server](https://github.com/docker/docker-language-server). For telemetry collected by the Docker Language Server, please refer to the telemetry documentation of that project.
 
