@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 
-type DockerExtensionSettings = 'dockerEngineAvailabilityPrompt';
+type DockerExtensionSettings =
+  | 'dockerEngineAvailabilityPrompt'
+  | 'yamlDuplicationPrompt';
 
 /**
  * Retrieves the value of a specified setting from the Docker extension's configuration.
@@ -28,6 +30,10 @@ function setExtensionSetting(
   vscode.workspace
     .getConfiguration('docker.extension')
     .update(setting, value, configurationTarget);
+}
+
+export function disableYamlDuplicationPrompt(): void {
+  setExtensionSetting('yamlDuplicationPrompt', false);
 }
 
 export function disableDockerEngineAvailabilityPrompt(): void {

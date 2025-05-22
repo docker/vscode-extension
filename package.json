@@ -79,6 +79,12 @@
           "default": true,
           "scope": "application"
         },
+        "docker.extension.yamlDuplicationPrompt": {
+          "type": "boolean",
+          "description": "Determines if the user should be prompted about duplicated Compose support due to having Red Hat's YAML extension installed.",
+          "default": true,
+          "scope": "application"
+        },
         "docker.lsp.telemetry": {
           "type": "string",
           "description": "Determines what telemetry is collected by Docker. If vscode.env.isTelemetryEnabled is false, then telemetry collection is disabled regardless of what has been set for this configuration value.",

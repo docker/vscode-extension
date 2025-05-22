@@ -11,7 +11,10 @@ import {
   publishTelemetry,
   queueTelemetryEvent,
 } from './telemetry/client';
-import { checkForDockerEngine } from './utils/monitor';
+import {
+  checkForDockerEngine,
+  promptComposeDuplications,
+} from './utils/monitor';
 import { spawnDockerCommand } from './utils/spawnDockerCommand';
 import { getExtensionSetting } from './utils/settings';
 
@@ -19,6 +22,8 @@ export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
 
 export let extensionVersion: string;
+
+export let globalStorageUri: vscode.Uri;
 
 const errorRegExp = new RegExp('(E[A-Z]+)');
 
@@ -131,44 +136,77 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
 };
 
 export function activate(ctx: vscode.ExtensionContext) {
+  globalStorageUri = ctx.globalStorageUri;
   extensionVersion = String(ctx.extension.packageJSON.version);
   recordVersionTelemetry();
   registerCommands(ctx);
-  activateExtension(ctx);
+  listenForOpenedDocuments();
+  activateDockerLSP(ctx);
+  listenForConfigurationChanges(ctx);
 }
 
-async function activateExtension(ctx: vscode.ExtensionContext) {
-  if (getExtensionSetting('dockerEngineAvailabilityPrompt')) {
-    let notified = false;
-    for (const document of vscode.workspace.textDocuments) {
-      if (
-        document.languageId === 'dockerfile' &&
-        document.uri.scheme === 'file'
-      ) {
-        // if a Dockerfile is open, check if a Docker engine is available
-        await checkForDockerEngine();
-        notified = true;
-        break;
+async function listenForOpenedDocument(
+  languageId: string,
+  shouldReact: () => boolean,
+  fileOpened: () => Promise<void>,
+) {
+  let reacted = false;
+  for (const document of vscode.workspace.textDocuments) {
+    if (document.languageId === languageId && document.uri.scheme === 'file') {
+      // if the expected file type is currently opened, react if necessary
+      if (shouldReact()) {
+        await fileOpened();
       }
-    }
-
-    if (!notified) {
-      // no Dockerfiles have been opened yet,
-      // listen for one being opened and check if a Docker Engine is available
-      const disposable = vscode.workspace.onDidOpenTextDocument((document) => {
-        if (
-          document.languageId === 'dockerfile' &&
-          document.uri.scheme === 'file'
-        ) {
-          checkForDockerEngine();
-          disposable.dispose();
-        }
-      });
+      reacted = true;
+      break;
     }
   }
 
-  activateDockerLSP(ctx);
-  listenForConfigurationChanges(ctx);
+  if (!reacted) {
+    // no documents for the expected file type is currently opened,
+    // listen for one being opened and react if necessary
+    const disposable = vscode.workspace.onDidOpenTextDocument((document) => {
+      if (
+        document.languageId === languageId &&
+        document.uri.scheme === 'file'
+      ) {
+        if (shouldReact()) {
+          fileOpened();
+        }
+        disposable.dispose();
+      }
+    });
+  }
+}
+
+/**
+ * Listen for Dockerfiles or Compose files being opened.
+ *
+ * If a Dockerfile is opened, we want to check to see if a Docker Engine
+ * is available. If not, we will prompt the user to install Docker
+ * Desktop or open Docker Desktop.
+ *
+ * If a Compose file is opened, we want to check if Red Hat's YAML
+ * extension is installed. If yes, we will prompt the user to offer them
+ * to modify their settings.json file to remove the duplicated features
+ * that will be provided from Red Hat's YAML extension.
+ */
+function listenForOpenedDocuments(): void {
+  listenForOpenedDocument(
+    'dockerfile',
+    () => getExtensionSetting('dockerEngineAvailabilityPrompt') === true,
+    checkForDockerEngine,
+  );
+  listenForOpenedDocument(
+    'dockercompose',
+    () => {
+      return (
+        vscode.extensions.getExtension('redhat.vscode-yaml') !== undefined &&
+        getExtensionSetting('yamlDuplicationPrompt') === true
+      );
+    },
+    promptComposeDuplications,
+  );
 }
 
 function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
