@@ -1,5 +1,7 @@
+import * as vscode from 'vscode';
 import { access } from 'fs';
 import { spawnDockerCommand } from './spawnDockerCommand';
+import { globalStorageUri } from '../extension';
 
 export function getDockerDesktopPath(): string {
   switch (process.platform) {
@@ -27,4 +29,23 @@ export async function isDockerDesktopInstalled(): Promise<boolean> {
       },
     });
   });
+}
+
+/**
+ * Creates an empty JSON schema file (with the content "{}", an empty
+ * dictionary) in the global storage location of the Docker DX
+ * extension. The file will be named empty.json.
+ */
+export async function createEmptyComposeSchemaFile(): Promise<vscode.Uri> {
+  await vscode.workspace.fs.createDirectory(globalStorageUri);
+  const emptyComposeSchemaFile = vscode.Uri.joinPath(
+    globalStorageUri,
+    'compose',
+    'empty.json',
+  );
+  await vscode.workspace.fs.writeFile(
+    emptyComposeSchemaFile,
+    Buffer.from('{}'),
+  );
+  return emptyComposeSchemaFile;
 }
