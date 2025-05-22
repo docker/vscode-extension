@@ -91,6 +91,7 @@ Do you have any of the following extensions installed?
   3. Create an object attribute for `yaml.schemas` if it does not already exist.
   4. Inside the `yaml.schemas` object, map your empty JSON file to Compose YAML files by following the snippet below.
   5. YAML files named `compose*y*ml` or `docker-compose*y*ml` will now no longer have the Compose schema associated with them in Red Hat's extension so Red Hat's extension will stop providing YAML features for Compose files. This admittedly is a strange way to disable YAML features for a given file but it is the only known workaround for resolving this until [redhat-developer/vscode-yaml#1088](https://github.com/redhat-developer/vscode-yaml/issues/1088) is implemented.
+
 ```JSONC
 {
   "yaml.schemas": {
