@@ -2,6 +2,74 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- Compose
+  - updated Compose schema to the latest version ([docker/docker-language-server#117](https://github.com/docker/docker-language-server/issues/117))
+  - textDocument/completion
+    - add support for attribute name and value completion
+    - suggest dependent service names for the `depends_on` attribute ([docker/docker-language-server#131](https://github.com/docker/docker-language-server/issues/131))
+    - suggest dependent network names for the `networks` attribute ([docker/docker-language-server#132](https://github.com/docker/docker-language-server/issues/132))
+    - suggest dependent volume names for the `volumes` attribute ([docker/docker-language-server#133](https://github.com/docker/docker-language-server/issues/133))
+    - suggest dependent config names for the `configs` attribute ([docker/docker-language-server#134](https://github.com/docker/docker-language-server/issues/134))
+    - suggest dependent secret names for the `secrets` attribute ([docker/docker-language-server#135](https://github.com/docker/docker-language-server/issues/135))
+    - improve code completion by automatically including required attributes in completion items ([docker/docker-language-server#155](https://github.com/docker/docker-language-server/issues/155))
+    - support build stage names for the `target` attribute ([docker/docker-language-server#173](https://github.com/docker/docker-language-server/issues/173))
+    - suggest service names for a service's `extends` or `extends.service` attribute ([docker/docker-language-server#184](https://github.com/docker/docker-language-server/issues/184))
+  - textDocument/definition
+    - support looking up volume references ([docker/docker-language-server#147](https://github.com/docker/docker-language-server/issues/147))
+    - support navigating to a dependency that is defined in another file ([docker/docker-language-server#190](https://github.com/docker/docker-language-server/issues/190))
+  - textDocument/documentHighlight
+    - support highlighting the short form `depends_on` syntax for services ([docker/docker-language-server#70](https://github.com/docker/docker-language-server/issues/70))
+    - support highlighting the long form `depends_on` syntax for services ([docker/docker-language-server#71](https://github.com/docker/docker-language-server/issues/71))
+    - support highlighting referenced networks, volumes, configs, and secrets ([docker/docker-language-server#145](https://github.com/docker/docker-language-server/issues/145))
+  - textDocument/formatting
+    - add support to format YAML files that do not have clear syntactical errors ([docker/docker-language-server#165](https://github.com/docker/docker-language-server/issues/165))
+  - textDocument/hover
+    - add support for hovering over attribute keys and showing the descriptions in the schema with links to the schema and the online documentation
+    - render a referenced service's YAML content as a hover
+  - textDocument/inlayHint
+    - show the parent service's value if it is being overridden and they are not object attributes ([docker/docker-language-server#156](https://github.com/docker/docker-language-server/issues/156))
+  - textDocument/publishDiagnostics
+    - report YAML syntax errors ([docker/docker-language-server#167](https://github.com/docker/docker-language-server/issues/167))
+  - textDocument/prepareRename
+    - support rename preparation requests ([docker/docker-language-server#150](https://github.com/docker/docker-language-server/issues/150))
+  - textDocument/rename
+    - support renaming named references of services, networks, volumes, configs, and secrets ([docker/docker-language-server#149](https://github.com/docker/docker-language-server/issues/149))
+
+### Changed
+
+- Dockerfile
+  - textDocument/publishDiagnostics
+    - hide `not_pinned_digest` diagnostics from Scout by default ([docker/docker-language-server#216](https://github.com/docker/docker-language-server/issues/216))
+
+### Fixed
+
+- Dockerfile
+  - textDocument/codeAction
+    - preserve instruction flags when fixing a `not_pinned_digest` diagnostic ([docker/docker-language-server#123](https://github.com/docker/docker-language-server/issues/123))
+  - textDocument/publishDiagnostics
+    - ignore the diagnostic's URL and do not set it if it is evaluated to be the empty string ([docker/docker-language-server#219](https://github.com/docker/docker-language-server/issues/219))
+- Compose
+  - textDocument/completion
+    - resolved a spacing offset issue with object or array completions ([docker/docker-language-server#115](https://github.com/docker/docker-language-server/issues/115))
+    - suggest completion items for array items that use an object schema directly ([docker/docker-language-server#161](https://github.com/docker/docker-language-server/issues/161))
+  - textDocument/definition
+    - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
+  - textDocument/documentHighlight
+    - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
+  - textDocument/prepareRename
+    - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
+  - textDocument/rename
+    - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
+- Bake
+  - textDocument/publishDiagnostics
+    - stop flagging `BUILDKIT_SYNTAX` as an unrecognized `ARG` ([docker/docker-language-server#187](https://github.com/docker/docker-language-server/issues/187))
+    - use inheritance to determine if an `ARG` is truly unused ([docker/docker-language-server#198](https://github.com/docker/docker-language-server/issues/198))
+    - correct range calculations for malformed variable interpolation errors ([docker/docker-language-server#203](https://github.com/docker/docker-language-server/issues/203))
+
 ## [0.7.0] - 2025-05-21
 
 ### Added
@@ -176,7 +244,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.6.0...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.7.0...main
+[0.7.0]: https://github.com/docker/vscode-extension/compare/v0.5.0...v0.7.0
 [0.6.0]: https://github.com/docker/vscode-extension/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/docker/vscode-extension/compare/v0.4.10...v0.5.0
 [0.4.10]: https://github.com/docker/vscode-extension/compare/v0.4.9...v0.4.10
