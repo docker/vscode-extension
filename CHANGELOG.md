@@ -2,6 +2,14 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [0.7.0] - 2025-05-21
+
+### Added
+
+- tagged appropriate settings to make them easier to search for
+- suggest the user install Docker Desktop if Scout cannot be found
+- prompt the user about duplicated Compose features if Red Hat's YAML extension is also installed
+
 ## [0.6.0] - 2025-04-29
 
 ### Added

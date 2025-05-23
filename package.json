@@ -2,7 +2,7 @@
   "name": "docker",
   "displayName": "Docker DX",
   "description": "Edit smarter, ship faster with an enhanced Docker-development experience",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "icon": "resources/docker-logo-vertical-blue.png",
   "license": "Apache-2.0",
   "engines": {
@@ -76,6 +76,12 @@
         "docker.extension.dockerEngineAvailabilityPrompt": {
           "type": "boolean",
           "description": "Be notified when Docker Engine is not available.",
+          "default": true,
+          "scope": "application"
+        },
+        "docker.extension.yamlDuplicationPrompt": {
+          "type": "boolean",
+          "description": "Determines if the user should be prompted about duplicated Compose support due to having Red Hat's YAML extension installed.",
           "default": true,
           "scope": "application"
         },

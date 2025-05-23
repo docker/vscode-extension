@@ -1,6 +1,12 @@
-import { access } from 'fs';
-import { spawn } from 'child_process';
 import * as vscode from 'vscode';
+import {
+  promptOpenDockerDesktop,
+  promptInstallDesktop,
+  promptUnauthenticatedDesktop,
+} from './prompt';
+import { createEmptyComposeSchemaFile, isDockerDesktopInstalled } from './os';
+import { disableYamlDuplicationPrompt, getExtensionSetting } from './settings';
+import { spawnDockerCommand } from './spawnDockerCommand';
 
 enum DockerEngineStatus {
   Unavailable,
@@ -9,15 +15,58 @@ enum DockerEngineStatus {
 }
 
 /**
+ * Prompt the user about duplicated YAML editing features caused by
+ * having both the Docker DX extension and Red Hat's YAML extension
+ * installed.
+ */
+export async function promptComposeDuplications(): Promise<void> {
+  const emptyComposeSchemaFile = await createEmptyComposeSchemaFile();
+  const config = vscode.workspace.getConfiguration('yaml');
+  const schemas = config.get<object>('schemas');
+  if (schemas !== undefined) {
+    for (const schema of Object.keys(schemas)) {
+      if (schema === emptyComposeSchemaFile.path) {
+        // the empty file is already being used by yaml.schemas, do not need to prompt
+        return;
+      }
+    }
+  }
+
+  const response = await vscode.window.showWarningMessage(
+    'Both the Docker DX and Red Hat YAML extensions are providing editor features for your Compose files which may result in duplicate hovers and code completion suggestions. ' +
+      'Would you like to globally disable Compose support in the Red Hat YAML extension?',
+    'Disable',
+    'Details',
+    "Don't show me again",
+  );
+  if (response === 'Disable') {
+    config.update(
+      'schemas',
+      {
+        [emptyComposeSchemaFile.path]: ['compose*y*ml', 'docker-compose*y*ml'],
+      },
+      vscode.ConfigurationTarget.Global,
+    );
+    vscode.window.showInformationMessage(
+      'The global yaml.schemas setting has been updated.',
+    );
+  } else if (response === 'Details') {
+    vscode.env.openExternal(
+      vscode.Uri.parse(
+        'https://github.com/docker/vscode-extension/blob/main/README.md#faq',
+      ),
+    );
+  } else if (response === "Don't show me again") {
+    disableYamlDuplicationPrompt();
+  }
+}
+
+/**
  * Checks if a Docker Engine is available. If not, prompts the user to
  * either install or open Docker Desktop.
  */
 export async function checkForDockerEngine(): Promise<void> {
-  if (
-    !vscode.workspace
-      .getConfiguration('docker.extension')
-      .get('dockerEngineAvailabilityPrompt')
-  ) {
+  if (!getExtensionSetting('dockerEngineAvailabilityPrompt')) {
     return;
   }
 
@@ -38,134 +87,26 @@ export async function checkForDockerEngine(): Promise<void> {
  */
 function checkDockerStatus(): Promise<DockerEngineStatus> {
   return new Promise<DockerEngineStatus>((resolve) => {
-    const s = spawn('docker', ['ps']);
     let output = '';
-    s.stderr.on('data', (chunk) => {
-      output += String(chunk);
-    });
-    s.on('error', () => {
-      // this happens if docker cannot be found on the PATH
-      return resolve(DockerEngineStatus.Unavailable);
-    });
-    s.on('exit', (code) => {
-      if (code === 0) {
-        return resolve(DockerEngineStatus.Available);
-      }
-      if (
-        output.includes('Sign-in enforcement is enabled') ||
-        output.includes(
-          'request returned Internal Server Error for API route and version',
-        )
-      ) {
-        return resolve(DockerEngineStatus.Unauthenticated);
-      }
-      return resolve(DockerEngineStatus.Unavailable);
+    spawnDockerCommand('ps', [], undefined, {
+      onError: () => resolve(DockerEngineStatus.Unavailable),
+      onStderr: (chunk) => {
+        output += String(chunk);
+      },
+      onExit: (code) => {
+        if (code === 0) {
+          return resolve(DockerEngineStatus.Available);
+        }
+        if (
+          output.includes('Sign-in enforcement is enabled') ||
+          output.includes(
+            'request returned Internal Server Error for API route and version',
+          )
+        ) {
+          return resolve(DockerEngineStatus.Unauthenticated);
+        }
+        return resolve(DockerEngineStatus.Unavailable);
+      },
     });
   });
-}
-
-function getDockerDesktopPath(): string {
-  switch (process.platform) {
-    case 'win32':
-      return 'C:\\Program Files\\Docker\\Docker\\Docker Desktop.exe';
-    case 'darwin':
-      return '/Applications/Docker.app';
-  }
-  return '/opt/docker-desktop/bin/com.docker.backend';
-}
-
-async function isDockerDesktopInstalled(): Promise<boolean> {
-  return new Promise<boolean>((resolve) => {
-    const s = spawn('docker', ['desktop', 'version']);
-    s.on('error', () => {
-      // this happens if docker cannot be found on the PATH
-      resolve(false);
-    });
-    s.on('exit', (code) => {
-      if (code === 0) {
-        return resolve(true);
-      }
-
-      access(getDockerDesktopPath(), (err) => {
-        resolve(err === null);
-      });
-    });
-  });
-}
-
-function disableDockerEngineAvailabilityPrompt(): void {
-  vscode.workspace
-    .getConfiguration('docker.extension')
-    .update(
-      'dockerEngineAvailabilityPrompt',
-      false,
-      vscode.ConfigurationTarget.Global,
-    );
-}
-
-/**
- * Prompts the user to login to Docker Desktop.
- */
-async function promptUnauthenticatedDesktop(): Promise<void> {
-  const response = await vscode.window.showInformationMessage(
-    'Docker is not running. To get help with your Dockerfile, sign in to Docker Desktop.',
-    "Don't show again",
-  );
-  if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
-  }
-}
-
-/**
- * Prompts the user to open Docker Desktop.
- */
-async function promptOpenDockerDesktop(): Promise<void> {
-  const response = await vscode.window.showInformationMessage(
-    'Docker is not running. To get help with your Dockerfile, start Docker.',
-    "Don't show again",
-    'Open Docker Desktop',
-  );
-  if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
-  } else if (response === 'Open Docker Desktop') {
-    const dockerDesktopPath = getDockerDesktopPath();
-    if (process.platform === 'darwin') {
-      spawn('open', [dockerDesktopPath]).on('exit', (code) => {
-        if (code !== 0) {
-          vscode.window.showErrorMessage(
-            `Failed to open Docker Desktop: open ${dockerDesktopPath}`,
-            { modal: true },
-          );
-        }
-      });
-    } else {
-      spawn(dockerDesktopPath).on('exit', (code) => {
-        if (code !== 0) {
-          vscode.window.showErrorMessage(
-            `Failed to open Docker Desktop: ${dockerDesktopPath}`,
-            { modal: true },
-          );
-        }
-      });
-    }
-  }
-}
-
-/**
- * Prompts the user to install Docker Desktop by navigating to the
- * website.
- */
-async function promptInstallDesktop(): Promise<void> {
-  const response = await vscode.window.showInformationMessage(
-    'Docker is not running. To get help with your Dockerfile, start Docker.',
-    "Don't show again",
-    'Install Docker Desktop',
-  );
-  if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
-  } else if (response === 'Install Docker Desktop') {
-    vscode.env.openExternal(
-      vscode.Uri.parse('https://docs.docker.com/install/'),
-    );
-  }
 }

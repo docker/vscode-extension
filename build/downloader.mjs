@@ -76,8 +76,6 @@ async function downloadLanguageServerBinary() {
 
   const platform = getPlatform();
   const arch = getArch();
-  console.log(platform);
-  console.log(arch);
   const suffix = platform === 'windows' ? '.exe' : '';
   const version = '0.7.0';
   const binaryFile = `docker-language-server-${platform}-${arch}-v${version}${suffix}`;

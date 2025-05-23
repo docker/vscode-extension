@@ -11,26 +11,29 @@ import {
   publishTelemetry,
   queueTelemetryEvent,
 } from './telemetry/client';
-import { checkForDockerEngine } from './utils/monitor';
+import {
+  checkForDockerEngine,
+  promptComposeDuplications,
+} from './utils/monitor';
+import { spawnDockerCommand } from './utils/spawnDockerCommand';
+import { getExtensionSetting } from './utils/settings';
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
 
 export let extensionVersion: string;
 
+export let globalStorageUri: vscode.Uri;
+
 const errorRegExp = new RegExp('(E[A-Z]+)');
 
 function registerCommands(ctx: vscode.ExtensionContext) {
   registerCommand(ctx, BakeBuildCommandId, async (commandArgs: any) => {
-    const result = await new Promise<boolean>((resolve) => {
-      const process = spawn('docker', ['buildx', 'bake', '--help']);
-      process.on('error', () => {
-        resolve(false);
-      });
-      process.on('exit', (code) => {
-        resolve(code === 0);
-      });
-    });
+    const result = await spawnDockerCommand(
+      'buildx',
+      ['bake', '--help'],
+      "Bake is not available. To access Docker Bake's features, install Docker Desktop.",
+    );
     const args = ['buildx', 'bake'];
 
     if (commandArgs['call'] === 'print') {
@@ -56,15 +59,11 @@ function registerCommands(ctx: vscode.ExtensionContext) {
   });
 
   registerCommand(ctx, ScoutImageScanCommandId, async (args) => {
-    const result = await new Promise<boolean>((resolve) => {
-      const process = spawn('docker', ['scout']);
-      process.on('error', () => {
-        resolve(false);
-      });
-      process.on('exit', (code) => {
-        resolve(code === 0);
-      });
-    });
+    const result = spawnDockerCommand(
+      'scout',
+      [],
+      "Docker Scout is not available. To access Docker Scout's features, install Docker Desktop.",
+    );
     const options: vscode.ShellExecutionOptions = {};
     if (
       vscode.workspace.workspaceFolders === undefined ||
@@ -105,8 +104,6 @@ function registerCommand(
 }
 
 const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
-  registerCommands(ctx);
-
   if (await activateDockerNativeLanguageClient(ctx)) {
     getNativeClient()
       .start()
@@ -139,47 +136,77 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
 };
 
 export function activate(ctx: vscode.ExtensionContext) {
+  globalStorageUri = ctx.globalStorageUri;
   extensionVersion = String(ctx.extension.packageJSON.version);
   recordVersionTelemetry();
-  activateExtension(ctx);
+  registerCommands(ctx);
+  listenForOpenedDocuments();
+  activateDockerLSP(ctx);
+  listenForConfigurationChanges(ctx);
 }
 
-async function activateExtension(ctx: vscode.ExtensionContext) {
-  if (
-    vscode.workspace
-      .getConfiguration('docker.extension')
-      .get('dockerEngineAvailabilityPrompt')
-  ) {
-    let notified = false;
-    for (const document of vscode.workspace.textDocuments) {
-      if (
-        document.languageId === 'dockerfile' &&
-        document.uri.scheme === 'file'
-      ) {
-        // if a Dockerfile is open, check if a Docker engine is available
-        await checkForDockerEngine();
-        notified = true;
-        break;
+async function listenForOpenedDocument(
+  languageId: string,
+  shouldReact: () => boolean,
+  fileOpened: () => Promise<void>,
+) {
+  let reacted = false;
+  for (const document of vscode.workspace.textDocuments) {
+    if (document.languageId === languageId && document.uri.scheme === 'file') {
+      // if the expected file type is currently opened, react if necessary
+      if (shouldReact()) {
+        await fileOpened();
       }
-    }
-
-    if (!notified) {
-      // no Dockerfiles have been opened yet,
-      // listen for one being opened and check if a Docker Engine is available
-      const disposable = vscode.workspace.onDidOpenTextDocument((document) => {
-        if (
-          document.languageId === 'dockerfile' &&
-          document.uri.scheme === 'file'
-        ) {
-          checkForDockerEngine();
-          disposable.dispose();
-        }
-      });
+      reacted = true;
+      break;
     }
   }
 
-  activateDockerLSP(ctx);
-  listenForConfigurationChanges(ctx);
+  if (!reacted) {
+    // no documents for the expected file type is currently opened,
+    // listen for one being opened and react if necessary
+    const disposable = vscode.workspace.onDidOpenTextDocument((document) => {
+      if (
+        document.languageId === languageId &&
+        document.uri.scheme === 'file'
+      ) {
+        if (shouldReact()) {
+          fileOpened();
+        }
+        disposable.dispose();
+      }
+    });
+  }
+}
+
+/**
+ * Listen for Dockerfiles or Compose files being opened.
+ *
+ * If a Dockerfile is opened, we want to check to see if a Docker Engine
+ * is available. If not, we will prompt the user to install Docker
+ * Desktop or open Docker Desktop.
+ *
+ * If a Compose file is opened, we want to check if Red Hat's YAML
+ * extension is installed. If yes, we will prompt the user to offer them
+ * to modify their settings.json file to remove the duplicated features
+ * that will be provided from Red Hat's YAML extension.
+ */
+function listenForOpenedDocuments(): void {
+  listenForOpenedDocument(
+    'dockerfile',
+    () => getExtensionSetting('dockerEngineAvailabilityPrompt') === true,
+    checkForDockerEngine,
+  );
+  listenForOpenedDocument(
+    'dockercompose',
+    () => {
+      return (
+        vscode.extensions.getExtension('redhat.vscode-yaml') !== undefined &&
+        getExtensionSetting('yamlDuplicationPrompt') === true
+      );
+    },
+    promptComposeDuplications,
+  );
 }
 
 function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
@@ -222,6 +249,15 @@ function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
 }
 
 function recordVersionTelemetry() {
+  const installedExtensions = vscode.extensions.all
+    .filter((extension) => {
+      return (
+        extension.id === 'ms-azuretools.vscode-docker' ||
+        extension.id === 'ms-azuretools.vscode-containers' ||
+        extension.id === 'redhat.vscode-yaml'
+      );
+    })
+    .map((extension) => extension.id);
   let versionString: string | null = null;
   const process = spawn('docker', ['-v']);
   process.stdout.on('data', (data) => {
@@ -234,6 +270,7 @@ function recordVersionTelemetry() {
     // this happens if docker cannot be found on the PATH
     queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
       docker_version: 'spawn docker -v failed',
+      installedExtensions,
     });
     publishTelemetry();
   });
@@ -241,10 +278,12 @@ function recordVersionTelemetry() {
     if (code === 0) {
       queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
         docker_version: String(versionString),
+        installedExtensions,
       });
     } else {
       queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
         docker_version: String(code),
+        installedExtensions,
       });
     }
     publishTelemetry();
