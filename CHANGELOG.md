@@ -42,16 +42,22 @@ All notable changes to the Docker DX extension will be documented in this file.
 ### Changed
 
 - Dockerfile
+  - textDocument/hover
+    - `recommended_tag` diagnostics are now hidden by default ([docker/docker-language-server#223](https://github.com/docker/docker-language-server/issues/223))
   - textDocument/publishDiagnostics
     - hide `not_pinned_digest` diagnostics from Scout by default ([docker/docker-language-server#216](https://github.com/docker/docker-language-server/issues/216))
+    - recommended tag hovers are now hidden by default ([docker/docker-language-server#223](https://github.com/docker/docker-language-server/issues/223))
 
 ### Fixed
 
 - Dockerfile
   - textDocument/codeAction
     - preserve instruction flags when fixing a `not_pinned_digest` diagnostic ([docker/docker-language-server#123](https://github.com/docker/docker-language-server/issues/123))
+  - textDocument/hover
+    - hide vulnerability hovers if the top level setting is disabled ([docker/docker-language-server#226](https://github.com/docker/docker-language-server/issues/226))
   - textDocument/publishDiagnostics
     - ignore the diagnostic's URL and do not set it if it is evaluated to be the empty string ([docker/docker-language-server#219](https://github.com/docker/docker-language-server/issues/219))
+    - consider flag changes when determining whether to scan a file again or not ([docker/docker-language-server#224](https://github.com/docker/docker-language-server/issues/224))
 - Compose
   - textDocument/completion
     - resolved a spacing offset issue with object or array completions ([docker/docker-language-server#115](https://github.com/docker/docker-language-server/issues/115))
@@ -60,6 +66,8 @@ All notable changes to the Docker DX extension will be documented in this file.
     - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
   - textDocument/documentHighlight
     - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
+  - textDocument/hover
+    - fixed a case where an object reference's description would not be returned in a hover result ([docker/docker-language-server#233](https://github.com/docker/docker-language-server/issues/233))
   - textDocument/prepareRename
     - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
   - textDocument/rename
