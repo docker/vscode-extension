@@ -6,6 +6,7 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 ### Added
 
+- created `docker.extension.experimental.composeSupport` for globally toggling Compose editor features
 - Compose
   - updated Compose schema to the latest version ([docker/docker-language-server#117](https://github.com/docker/docker-language-server/issues/117))
   - textDocument/completion
@@ -77,6 +78,10 @@ All notable changes to the Docker DX extension will be documented in this file.
     - stop flagging `BUILDKIT_SYNTAX` as an unrecognized `ARG` ([docker/docker-language-server#187](https://github.com/docker/docker-language-server/issues/187))
     - use inheritance to determine if an `ARG` is truly unused ([docker/docker-language-server#198](https://github.com/docker/docker-language-server/issues/198))
     - correct range calculations for malformed variable interpolation errors ([docker/docker-language-server#203](https://github.com/docker/docker-language-server/issues/203))
+
+### Removed
+
+- removed the `docker.extension.experimental.composeCompletions` setting in favour for the new `docker.extension.experimental.composeSupport` setting
 
 ## [0.7.0] - 2025-05-21
 
