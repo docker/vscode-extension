@@ -136,6 +136,7 @@
     "prettier:fix": "prettier --write --config .prettierrc.yml --ignore-path .prettierignore ."
   },
   "dependencies": {
+    "@bugsnag/js": "~8.2.0",
     "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {

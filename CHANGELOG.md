@@ -7,6 +7,7 @@ All notable changes to the Docker DX extension will be documented in this file.
 ### Added
 
 - created `docker.extension.experimental.composeSupport` for globally toggling Compose editor features
+- send errors to BugSnag if error telemetry is configured to be allowed and sent
 - Compose
   - updated Compose schema to the latest version ([docker/docker-language-server#117](https://github.com/docker/docker-language-server/issues/117))
   - textDocument/completion

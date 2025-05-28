@@ -11,6 +11,7 @@ import { BakeBuildCommandId } from '../../extension';
 import { getTelemetryValue } from './lsp';
 import {
   EVENT_CLIENT_HEARTBEAT,
+  notifyBugsnag,
   queueTelemetryEvent,
 } from '../../telemetry/client';
 
@@ -70,6 +71,7 @@ export class DockerLanguageClient extends LanguageClient {
             action: result.action,
           });
         }
+        notifyBugsnag(error);
         return result;
       },
 
