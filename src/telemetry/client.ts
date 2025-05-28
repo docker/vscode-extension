@@ -2,6 +2,7 @@ import https from 'https';
 import * as process from 'process';
 import * as vscode from 'vscode';
 import { extensionVersion } from '../extension';
+import Bugsnag from '@bugsnag/js';
 
 export const EVENT_CLIENT_HEARTBEAT = 'client_heartbeat';
 
@@ -13,6 +14,23 @@ interface TelemetryRecord {
 }
 
 const events: TelemetryRecord[] = [];
+
+function shouldReportToBugsnag(): boolean {
+  if (!vscode.env.isTelemetryEnabled) {
+    return false;
+  }
+
+  const config = vscode.workspace
+    .getConfiguration('docker.lsp')
+    .get('telemetry');
+  return config === 'error' || config === 'all';
+}
+
+export function notifyBugsnag(err: any): void {
+  if (shouldReportToBugsnag()) {
+    Bugsnag.notify(err);
+  }
+}
 
 export function queueTelemetryEvent(
   event: string,

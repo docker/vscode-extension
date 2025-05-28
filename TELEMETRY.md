@@ -30,6 +30,10 @@ If you have already opted out of sending telemetry in Visual Studio Code then no
 
 The list above does _not_ include any telemetry collected by the [Docker Language Server](https://github.com/docker/docker-language-server). For telemetry collected by the Docker Language Server, please refer to the telemetry documentation of that project.
 
+## BugSnag
+
+This extension integrates with BugSnag and sends errors and stack traces to BugSnag if telemetry is configured.
+
 ## Privacy Policy
 
 Read our [privacy policy](https://www.docker.com/legal/docker-privacy-policy/) to learn more about how the information is collected and used.

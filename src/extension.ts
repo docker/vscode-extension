@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import { homedir } from 'os';
 import * as vscode from 'vscode';
+import Bugsnag, { Event, Session } from '@bugsnag/js';
 import {
   activateDockerNativeLanguageClient,
   getNativeClient,
@@ -8,6 +9,7 @@ import {
 import { DidChangeConfigurationNotification } from 'vscode-languageclient/node';
 import {
   EVENT_CLIENT_HEARTBEAT,
+  notifyBugsnag,
   publishTelemetry,
   queueTelemetryEvent,
 } from './telemetry/client';
@@ -17,6 +19,7 @@ import {
 } from './utils/monitor';
 import { spawnDockerCommand } from './utils/spawnDockerCommand';
 import { getExtensionSetting } from './utils/settings';
+import { redact } from './telemetry/filter';
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
@@ -110,6 +113,7 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
       .then(
         () => {},
         (reject) => {
+          notifyBugsnag(reject);
           if (typeof reject === 'string') {
             const matches = reject.match(errorRegExp);
             if (matches !== null && matches.length > 0) {
@@ -138,6 +142,39 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
 export function activate(ctx: vscode.ExtensionContext) {
   globalStorageUri = ctx.globalStorageUri;
   extensionVersion = String(ctx.extension.packageJSON.version);
+  Bugsnag.start({
+    apiKey: 'c5b75b41a335069129747c7196ec207a',
+    appType: 'vscode',
+    appVersion: extensionVersion,
+    autoDetectErrors: false,
+    hostname: vscode.env.machineId,
+    metadata: {
+      system: {
+        os: process.platform === 'win32' ? 'windows' : process.platform,
+        arch: process.arch === 'x64' ? 'amd64' : process.arch,
+        app_host: vscode.env.appHost,
+        app_name: vscode.env.appName,
+        machine_id: vscode.env.machineId,
+        client_session: vscode.env.sessionId,
+      },
+    },
+    onError: (event: Event): void => {
+      for (let i = 0; i < event.errors.length; i++) {
+        event.errors[i].errorMessage = redact(event.errors[i].errorMessage);
+        for (let j = 0; j < event.errors[i].stacktrace.length; j++) {
+          event.errors[i].stacktrace[j].file = redact(
+            event.errors[i].stacktrace[j].file,
+          );
+        }
+      }
+      event.device.hostname = vscode.env.machineId;
+    },
+    onSession: (session: Session): void | boolean => {
+      session.id = vscode.env.sessionId;
+    },
+    sendCode: false,
+  });
+
   recordVersionTelemetry();
   registerCommands(ctx);
   listenForOpenedDocuments();
