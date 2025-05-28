@@ -64,10 +64,10 @@
     "configuration": {
       "title": "Docker",
       "properties": {
-        "docker.extension.experimental.composeCompletions": {
+        "docker.extension.experimental.composeSupport": {
           "type": "boolean",
-          "description": "Enable Intellisense for Compose files. You must restart Visual Studio Code after changing this value.",
-          "default": false,
+          "description": "Enable Compose editing features from the Docker DX extension. Note that changing this value requires a restart of Visual Studio Code to take effect.",
+          "default": true,
           "scope": "application",
           "tags": [
             "experimental"

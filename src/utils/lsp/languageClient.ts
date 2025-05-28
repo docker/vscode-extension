@@ -23,8 +23,7 @@ export class DockerLanguageClient extends LanguageClient {
     );
     params.initializationOptions = {
       dockercomposeExperimental: {
-        composeCompletion:
-          extensionConfiguration.get<boolean>('composeCompletions'),
+        composeSupport: extensionConfiguration.get<boolean>('composeSupport'),
       },
       dockerfileExperimental: {
         removeOverlappingIssues: true,
