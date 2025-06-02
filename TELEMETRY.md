@@ -27,6 +27,8 @@ If you have already opted out of sending telemetry in Visual Studio Code then no
   - [Microsoft's Container Tools extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-containers)
   - [Microsoft's Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
   - [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
+- values of certain settings from this extension
+  - `docker.extension.enableComposeLanguageServer`
 
 The list above does _not_ include any telemetry collected by the [Docker Language Server](https://github.com/docker/docker-language-server). For telemetry collected by the Docker Language Server, please refer to the telemetry documentation of that project.
 

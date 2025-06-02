@@ -13,20 +13,19 @@ import {
   publishTelemetry,
   queueTelemetryEvent,
 } from './telemetry/client';
-import {
-  checkForDockerEngine,
-  promptComposeDuplications,
-} from './utils/monitor';
+import { checkForDockerEngine } from './utils/monitor';
 import { spawnDockerCommand } from './utils/spawnDockerCommand';
-import { getExtensionSetting } from './utils/settings';
+import {
+  disableEnableComposeLanguageServer,
+  getExtensionSetting,
+  inspectExtensionSetting,
+} from './utils/settings';
 import { redact } from './telemetry/filter';
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
 
 export let extensionVersion: string;
-
-export let globalStorageUri: vscode.Uri;
 
 const errorRegExp = new RegExp('(E[A-Z]+)');
 
@@ -139,8 +138,21 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
   }
 };
 
-export function activate(ctx: vscode.ExtensionContext) {
-  globalStorageUri = ctx.globalStorageUri;
+async function toggleComposeLanguageServerSetting(): Promise<string> {
+  const setting = inspectExtensionSetting('enableComposeLanguageServer');
+  if (vscode.extensions.getExtension('redhat.vscode-yaml') !== undefined) {
+    // if Red Hat's YAML extension is installed, we will auto-disable
+    // the Compose language server features to prevent duplicates
+    if (setting !== undefined && setting.globalValue === undefined) {
+      await disableEnableComposeLanguageServer();
+      return 'false';
+    }
+  }
+  return setting === undefined ? 'undefined' : String(setting.globalValue);
+}
+
+export async function activate(ctx: vscode.ExtensionContext) {
+  const composeSetting = await toggleComposeLanguageServerSetting();
   extensionVersion = String(ctx.extension.packageJSON.version);
   Bugsnag.start({
     apiKey: 'c5b75b41a335069129747c7196ec207a',
@@ -175,7 +187,7 @@ export function activate(ctx: vscode.ExtensionContext) {
     sendCode: false,
   });
 
-  recordVersionTelemetry();
+  recordVersionTelemetry(composeSetting);
   registerCommands(ctx);
   listenForOpenedDocuments();
   activateDockerLSP(ctx);
@@ -217,32 +229,17 @@ async function listenForOpenedDocument(
 }
 
 /**
- * Listen for Dockerfiles or Compose files being opened.
+ * Listen for Dockerfiles files being opened.
  *
  * If a Dockerfile is opened, we want to check to see if a Docker Engine
  * is available. If not, we will prompt the user to install Docker
  * Desktop or open Docker Desktop.
- *
- * If a Compose file is opened, we want to check if Red Hat's YAML
- * extension is installed. If yes, we will prompt the user to offer them
- * to modify their settings.json file to remove the duplicated features
- * that will be provided from Red Hat's YAML extension.
  */
 function listenForOpenedDocuments(): void {
   listenForOpenedDocument(
     'dockerfile',
     () => getExtensionSetting('dockerEngineAvailabilityPrompt') === true,
     checkForDockerEngine,
-  );
-  listenForOpenedDocument(
-    'dockercompose',
-    () => {
-      return (
-        vscode.extensions.getExtension('redhat.vscode-yaml') !== undefined &&
-        getExtensionSetting('yamlDuplicationPrompt') === true
-      );
-    },
-    promptComposeDuplications,
   );
 }
 
@@ -285,7 +282,7 @@ function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
   );
 }
 
-function recordVersionTelemetry() {
+function recordVersionTelemetry(composeSetting: string) {
   const installedExtensions = vscode.extensions.all
     .filter((extension) => {
       return (
@@ -308,6 +305,9 @@ function recordVersionTelemetry() {
     queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
       docker_version: 'spawn docker -v failed',
       installedExtensions,
+      settings: {
+        'docker.extension.enableComposeLanguageServer': composeSetting,
+      },
     });
     publishTelemetry();
   });
@@ -316,11 +316,17 @@ function recordVersionTelemetry() {
       queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
         docker_version: String(versionString),
         installedExtensions,
+        settings: {
+          'docker.extension.enableComposeLanguageServer': composeSetting,
+        },
       });
     } else {
       queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
         docker_version: String(code),
         installedExtensions,
+        settings: {
+          'docker.extension.enableComposeLanguageServer': composeSetting,
+        },
       });
     }
     publishTelemetry();

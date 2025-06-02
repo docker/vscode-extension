@@ -1,64 +1,16 @@
-import * as vscode from 'vscode';
 import {
   promptOpenDockerDesktop,
   promptInstallDesktop,
   promptUnauthenticatedDesktop,
 } from './prompt';
-import { createEmptyComposeSchemaFile, isDockerDesktopInstalled } from './os';
-import { disableYamlDuplicationPrompt, getExtensionSetting } from './settings';
+import { isDockerDesktopInstalled } from './os';
+import { getExtensionSetting } from './settings';
 import { spawnDockerCommand } from './spawnDockerCommand';
 
 enum DockerEngineStatus {
   Unavailable,
   Unauthenticated,
   Available,
-}
-
-/**
- * Prompt the user about duplicated YAML editing features caused by
- * having both the Docker DX extension and Red Hat's YAML extension
- * installed.
- */
-export async function promptComposeDuplications(): Promise<void> {
-  const emptyComposeSchemaFile = await createEmptyComposeSchemaFile();
-  const config = vscode.workspace.getConfiguration('yaml');
-  const schemas = config.get<object>('schemas');
-  if (schemas !== undefined) {
-    for (const schema of Object.keys(schemas)) {
-      if (schema === emptyComposeSchemaFile.path) {
-        // the empty file is already being used by yaml.schemas, do not need to prompt
-        return;
-      }
-    }
-  }
-
-  const response = await vscode.window.showWarningMessage(
-    'Both the Docker DX and Red Hat YAML extensions are providing editor features for your Compose files which may result in duplicate hovers and code completion suggestions. ' +
-      'Would you like to globally disable Compose support in the Red Hat YAML extension?',
-    'Disable',
-    'Details',
-    "Don't show me again",
-  );
-  if (response === 'Disable') {
-    config.update(
-      'schemas',
-      {
-        [emptyComposeSchemaFile.path]: ['compose*y*ml', 'docker-compose*y*ml'],
-      },
-      vscode.ConfigurationTarget.Global,
-    );
-    vscode.window.showInformationMessage(
-      'The global yaml.schemas setting has been updated.',
-    );
-  } else if (response === 'Details') {
-    vscode.env.openExternal(
-      vscode.Uri.parse(
-        'https://github.com/docker/vscode-extension/blob/main/README.md#faq',
-      ),
-    );
-  } else if (response === "Don't show me again") {
-    disableYamlDuplicationPrompt();
-  }
 }
 
 /**
