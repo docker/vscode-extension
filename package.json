@@ -107,6 +107,38 @@
           "tags": [
             "experimental"
           ]
+        },
+        "docker.lsp.experimental.scout.criticalHighVulnerabilities": {
+          "markdownDescription": "Determines if `critical_high_vulnerabilities` diagnostics should be shown. If `docker.lsp.experimental.vulnerabilityScanning` is false then this setting will be ignored.",
+          "default": true,
+          "type": "boolean",
+          "tags": [
+            "experimental"
+          ]
+        },
+        "docker.lsp.experimental.scout.notPinnedDigest": {
+          "markdownDescription": "Determines if `not_pinned_digest` diagnostics should be shown. If `docker.lsp.experimental.vulnerabilityScanning` is false then this setting will be ignored.",
+          "default": false,
+          "type": "boolean",
+          "tags": [
+            "experimental"
+          ]
+        },
+        "docker.lsp.experimental.scout.recommendedTag": {
+          "markdownDescription": "Determines if `recommended_tag` diagnostics should be shown. If `docker.lsp.experimental.vulnerabilityScanning` is false then this setting will be ignored.",
+          "default": false,
+          "type": "boolean",
+          "tags": [
+            "experimental"
+          ]
+        },
+        "docker.lsp.experimental.scout.vulnerabilities": {
+          "markdownDescription": "Determines if `vulnerabilities` diagnostics should be shown. If `docker.lsp.experimental.vulnerabilityScanning` is false then this setting will be ignored.",
+          "default": true,
+          "type": "boolean",
+          "tags": [
+            "experimental"
+          ]
         }
       }
     }

@@ -156,12 +156,8 @@ async function createNative(ctx: vscode.ExtensionContext): Promise<boolean> {
         configuration: (params, token, next) => {
           const result = next(params, token) as any[];
           return result.map((value) => {
-            return {
-              experimental: {
-                vulnerabilityScanning: value.experimental.vulnerabilityScanning,
-              },
-              telemetry: getTelemetryValue(value.telemetry),
-            };
+            value.telemetry = getTelemetryValue(value.telemetry);
+            return value;
           });
         },
       },

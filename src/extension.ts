@@ -268,6 +268,10 @@ function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
         const configurations = [
           'docker.lsp.telemetry',
           'docker.lsp.experimental.vulnerabilityScanning',
+          'docker.lsp.experimental.scout.criticalHighVulnerabilities',
+          'docker.lsp.experimental.scout.notPinnedDigest',
+          'docker.lsp.experimental.scout.recommendedTag',
+          'docker.lsp.experimental.scout.vulnerabilities',
         ];
         const filtered = configurations.filter((config) =>
           e.affectsConfiguration(config),
