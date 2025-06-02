@@ -152,6 +152,13 @@ async function createNative(ctx: vscode.ExtensionContext): Promise<boolean> {
       supportHtml: true,
     },
     middleware: {
+      handleDiagnostics(uri, diagnostics, next) {
+        diagnostics.map((diagnostic) => {
+          diagnostic.source = `Docker DX (${diagnostic.source})`;
+        });
+        next(uri, diagnostics);
+      },
+
       workspace: {
         configuration: (params, token, next) => {
           const result = next(params, token) as any[];
