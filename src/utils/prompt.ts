@@ -12,7 +12,7 @@ export async function promptUnauthenticatedDesktop(): Promise<void> {
     "Don't show again",
   );
   if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
+    await disableDockerEngineAvailabilityPrompt();
   }
 }
 
@@ -26,7 +26,7 @@ export async function promptOpenDockerDesktop(): Promise<void> {
     'Open Docker Desktop',
   );
   if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
+    await disableDockerEngineAvailabilityPrompt();
   } else if (response === 'Open Docker Desktop') {
     const dockerDesktopPath = getDockerDesktopPath();
     if (process.platform === 'darwin') {
@@ -64,7 +64,7 @@ export async function promptInstallDesktop(
     'Install Docker Desktop',
   );
   if (response === "Don't show again") {
-    disableDockerEngineAvailabilityPrompt();
+    await disableDockerEngineAvailabilityPrompt();
   } else if (response === 'Install Docker Desktop') {
     vscode.env.openExternal(
       vscode.Uri.parse('https://docs.docker.com/install/'),

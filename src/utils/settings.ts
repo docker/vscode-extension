@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 
 type DockerExtensionSettings =
   | 'dockerEngineAvailabilityPrompt'
-  | 'yamlDuplicationPrompt';
+  | 'enableComposeLanguageServer';
 
 /**
  * Retrieves the value of a specified setting from the Docker extension's configuration.
@@ -15,27 +15,31 @@ export function getExtensionSetting(setting: DockerExtensionSettings) {
   return vscode.workspace.getConfiguration('docker.extension').get(setting);
 }
 
+export function inspectExtensionSetting(setting: DockerExtensionSettings) {
+  return vscode.workspace.getConfiguration('docker.extension').inspect(setting);
+}
+
 /**
  * Updates the value of a specified setting in the Docker extension's configuration.
  *
  * @param setting - The name of the setting to update.
  * @param value - The new value to set for the specified setting.
  */
-function setExtensionSetting(
+async function setExtensionSetting(
   setting: string,
   value: string | boolean,
   configurationTarget: vscode.ConfigurationTarget = vscode.ConfigurationTarget
     .Global,
-): void {
-  vscode.workspace
+): Promise<void> {
+  return vscode.workspace
     .getConfiguration('docker.extension')
     .update(setting, value, configurationTarget);
 }
 
-export function disableYamlDuplicationPrompt(): void {
-  setExtensionSetting('yamlDuplicationPrompt', false);
+export async function disableDockerEngineAvailabilityPrompt(): Promise<void> {
+  return setExtensionSetting('dockerEngineAvailabilityPrompt', false);
 }
 
-export function disableDockerEngineAvailabilityPrompt(): void {
-  setExtensionSetting('dockerEngineAvailabilityPrompt', false);
+export async function disableEnableComposeLanguageServer(): Promise<void> {
+  return setExtensionSetting('enableComposeLanguageServer', false);
 }
