@@ -8,6 +8,11 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 - created `docker.extension.experimental.composeSupport` for globally toggling Compose editor features
 - send errors to BugSnag if error telemetry is configured to be allowed and sent
+- Dockerfile
+  - textDocument/hover
+    - support configuring specific vulnerability hovers with an experimental setting ([#101](https://github.com/docker/vscode-extension/issues/101))
+  - textDocument/publishDiagnostics
+    - support filtering specific vulnerability diagnostics with an experimental setting ([#101](https://github.com/docker/vscode-extension/issues/101))
 - Compose
   - updated Compose schema to the latest version ([docker/docker-language-server#117](https://github.com/docker/docker-language-server/issues/117))
   - textDocument/completion
@@ -40,6 +45,9 @@ All notable changes to the Docker DX extension will be documented in this file.
     - support rename preparation requests ([docker/docker-language-server#150](https://github.com/docker/docker-language-server/issues/150))
   - textDocument/rename
     - support renaming named references of services, networks, volumes, configs, and secrets ([docker/docker-language-server#149](https://github.com/docker/docker-language-server/issues/149))
+- Bake
+  - textDocument/publishDiagnostics
+    - support filtering specific vulnerability diagnostics with an experimental setting ([#101](https://github.com/docker/vscode-extension/issues/101))
 
 ### Changed
 
