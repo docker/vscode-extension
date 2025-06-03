@@ -7,13 +7,14 @@ All notable changes to the Docker DX extension will be documented in this file.
 ### Added
 
 - send errors to BugSnag if error telemetry is configured to be allowed and sent
-- created `docker.extension.enableComposeLanguageServer` for globally toggling Compose editor features
 - Dockerfile
+  - provide code actions for Scout vulnerabilities that will open the settings page so that users can opt-out of them easily ([#130](https://github.com/docker/vscode-extension/issues/130))
   - textDocument/hover
     - support configuring specific vulnerability hovers with an experimental setting ([#101](https://github.com/docker/vscode-extension/issues/101))
   - textDocument/publishDiagnostics
     - support filtering specific vulnerability diagnostics with an experimental setting ([#101](https://github.com/docker/vscode-extension/issues/101))
 - Compose
+  - created `docker.extension.enableComposeLanguageServer` for globally toggling Compose editor features
   - updated Compose schema to the latest version ([docker/docker-language-server#117](https://github.com/docker/docker-language-server/issues/117))
   - textDocument/completion
     - add support for attribute name and value completion
@@ -91,7 +92,8 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 ### Removed
 
-- removed the `docker.extension.experimental.composeCompletions` setting in favour for the new `docker.extension.enableComposeLanguageServer` setting
+- Compose
+  - removed the `docker.extension.experimental.composeCompletions` setting in favour for the new `docker.extension.enableComposeLanguageServer` setting
 
 ## [0.7.0] - 2025-05-21
 

@@ -142,6 +142,67 @@ export function getTelemetryValue(
   return 'all';
 }
 
+/**
+ * Registers a code actions provider for Dockerfiles so that diagnostics
+ * from Scout will have a corresponding code action for opening the
+ * Settings editor to disable the warning.
+ */
+function registerSettingsToggleCodeActions() {
+  vscode.languages.registerCodeActionsProvider('dockerfile', {
+    provideCodeActions(_document, _range, ctx) {
+      const filtered = ctx.diagnostics.filter((diagnostic) => {
+        if (diagnostic.source === 'Docker DX (docker-language-server)') {
+          let code = diagnostic.code;
+          if (typeof code === 'object' && code.value !== undefined) {
+            code = code.value;
+          }
+          switch (code) {
+            case 'critical_high_vulnerabilities':
+            case 'not_pinned_digest':
+            case 'recommended_tag':
+            case 'vulnerabilities':
+              return true;
+          }
+        }
+        return false;
+      });
+      return filtered.map((diagnostic) => {
+        let code = diagnostic.code;
+        if (typeof code === 'object' && code.value !== undefined) {
+          code = code.value;
+        }
+        const command: vscode.Command = {
+          command: 'workbench.action.openSettings',
+          title: `Ignore ${code} errors`,
+        };
+        switch (code) {
+          case 'critical_high_vulnerabilities':
+            command.arguments = [
+              'docker.lsp.experimental.scout.criticalHighVulnerabilities',
+            ];
+            break;
+          case 'not_pinned_digest':
+            command.arguments = [
+              'docker.lsp.experimental.scout.notPinnedDigest',
+            ];
+            break;
+          case 'recommended_tag':
+            command.arguments = [
+              'docker.lsp.experimental.scout.recommendedTag',
+            ];
+            break;
+          case 'vulnerabilities':
+            command.arguments = [
+              'docker.lsp.experimental.scout.vulnerabilities',
+            ];
+            break;
+        }
+        return command;
+      });
+    },
+  });
+}
+
 async function createNative(ctx: vscode.ExtensionContext): Promise<boolean> {
   const clientOptions: LanguageClientOptions = {
     progressOnInitialization: true,
@@ -196,6 +257,7 @@ export async function activateDockerNativeLanguageClient(
   ctx: vscode.ExtensionContext,
 ): Promise<boolean> {
   if (await createNative(ctx)) {
+    registerSettingsToggleCodeActions();
     ctx.subscriptions.push(nativeClient);
     return true;
   }
