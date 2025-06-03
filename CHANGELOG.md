@@ -29,15 +29,25 @@ All notable changes to the Docker DX extension will be documented in this file.
   - textDocument/definition
     - support looking up volume references ([docker/docker-language-server#147](https://github.com/docker/docker-language-server/issues/147))
     - support navigating to a dependency that is defined in another file ([docker/docker-language-server#190](https://github.com/docker/docker-language-server/issues/190))
+    - support navigating to the defined YAML anchor from an alias reference ([#264](https://github.com/docker/docker-language-server/issues/264))
   - textDocument/documentHighlight
     - support highlighting the short form `depends_on` syntax for services ([docker/docker-language-server#70](https://github.com/docker/docker-language-server/issues/70))
     - support highlighting the long form `depends_on` syntax for services ([docker/docker-language-server#71](https://github.com/docker/docker-language-server/issues/71))
     - support highlighting referenced networks, volumes, configs, and secrets ([docker/docker-language-server#145](https://github.com/docker/docker-language-server/issues/145))
+    - support highlighting YAML anchor and alias references ([#264](https://github.com/docker/docker-language-server/issues/264))
+  - textDocument/documentLink
+    - support opening a referenced Dockerfile from the `build` object's `dockerfile` attribute ([#69](https://github.com/docker/docker-language-server/issues/69))
+    - support opening a referenced file from a config's `file` attribute ([#271](https://github.com/docker/docker-language-server/issues/271))
+    - support opening a referenced file from a secret's `file` attribute ([#272](https://github.com/docker/docker-language-server/issues/272))
+    - provide document links when an included file is also a YAML anchor ([#275](https://github.com/docker/docker-language-server/issues/275))
+    - consider quotes when calculating the link's range ([#242](https://github.com/docker/docker-language-server/issues/242))
+    - consider anchors and aliases instead of assuming everything are strings ([#266](https://github.com/docker/docker-language-server/issues/266))
   - textDocument/formatting
     - add support to format YAML files that do not have clear syntactical errors ([docker/docker-language-server#165](https://github.com/docker/docker-language-server/issues/165))
   - textDocument/hover
     - add support for hovering over attribute keys and showing the descriptions in the schema with links to the schema and the online documentation
-    - render a referenced service's YAML content as a hover
+    - render a referenced object's or YAML anchor or alias's textual YAML content as a hover
+    - include the range of the hovered element to clearly identify what is being hovered over for the client ([#256](https://github.com/docker/docker-language-server/issues/256))
   - textDocument/inlayHint
     - show the parent service's value if it is being overridden and they are not object attributes ([docker/docker-language-server#156](https://github.com/docker/docker-language-server/issues/156))
   - textDocument/publishDiagnostics
@@ -45,7 +55,7 @@ All notable changes to the Docker DX extension will be documented in this file.
   - textDocument/prepareRename
     - support rename preparation requests ([docker/docker-language-server#150](https://github.com/docker/docker-language-server/issues/150))
   - textDocument/rename
-    - support renaming named references of services, networks, volumes, configs, and secrets ([docker/docker-language-server#149](https://github.com/docker/docker-language-server/issues/149))
+    - support renaming named object references and YAML anchors and aliases
 - Bake
   - textDocument/publishDiagnostics
     - support filtering specific vulnerability diagnostics with an experimental setting ([#101](https://github.com/docker/vscode-extension/issues/101))
@@ -65,6 +75,8 @@ All notable changes to the Docker DX extension will be documented in this file.
 - Dockerfile
   - textDocument/codeAction
     - preserve instruction flags when fixing a `not_pinned_digest` diagnostic ([docker/docker-language-server#123](https://github.com/docker/docker-language-server/issues/123))
+  - textDocument/definition
+    - fix range calculation when the element is quoted ([#255](https://github.com/docker/docker-language-server/issues/255))
   - textDocument/hover
     - hide vulnerability hovers if the top level setting is disabled ([docker/docker-language-server#226](https://github.com/docker/docker-language-server/issues/226))
   - textDocument/publishDiagnostics
@@ -80,15 +92,12 @@ All notable changes to the Docker DX extension will be documented in this file.
     - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
   - textDocument/hover
     - fixed a case where an object reference's description would not be returned in a hover result ([docker/docker-language-server#233](https://github.com/docker/docker-language-server/issues/233))
-  - textDocument/prepareRename
-    - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
-  - textDocument/rename
-    - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
 - Bake
   - textDocument/publishDiagnostics
     - stop flagging `BUILDKIT_SYNTAX` as an unrecognized `ARG` ([docker/docker-language-server#187](https://github.com/docker/docker-language-server/issues/187))
     - use inheritance to determine if an `ARG` is truly unused ([docker/docker-language-server#198](https://github.com/docker/docker-language-server/issues/198))
     - correct range calculations for malformed variable interpolation errors ([docker/docker-language-server#203](https://github.com/docker/docker-language-server/issues/203))
+    - filter out variables when resolving Dockerfile paths to prevent false positives from being reported ([docker/docker-language-server#263](https://github.com/docker/docker-language-server/issues/263))
 
 ### Removed
 
