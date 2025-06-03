@@ -67,7 +67,7 @@
         "docker.extension.enableComposeLanguageServer": {
           "type": "boolean",
           "description": "Enable Compose editing features from the Docker DX extension. Note that changing this value requires a restart of Visual Studio Code to take effect.",
-          "markdownDescription": "Enable Compose editing features from the Docker DX extension. Note that changing this value requires a **restart** of Visual Studio Code to take effect.\n\nIf you have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml), note that both Docker DX and Red Hat's YAML extension are handling Compose files. This creates duplicate completions, hovers, and syntax errors.\n\nYou can follow the steps [here](https://github.com/docker/vscode-extension/blob/main/README.md#faq) to update your `settings.json` to turn off Compose support in the YAML extension and streamline your experience.",
+          "markdownDescription": "Enable Compose editing features from the Docker DX extension. Note that changing this value requires a **restart** of Visual Studio Code to take effect.\n\nIf you have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml), note that both Docker DX and Red Hat's YAML extension are handling Compose files. This creates duplicate completions, hovers, and syntax errors.\n\nYou can follow the steps [here](https://github.com/docker/vscode-extension/blob/main/FAQ.md) to update your `settings.json` to turn off Compose support in the YAML extension and streamline your experience.",
           "default": true,
           "scope": "application"
         },
