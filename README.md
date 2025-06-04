@@ -5,8 +5,8 @@ The **Docker DX (Developer Experience)** Visual Studio Code extension enhances y
 ## Key features
 
 - [Dockerfile linting](https://docs.docker.com/reference/build-checks/): Get build warnings and best-practice suggestions via BuildKit and BuildX.
-- [Bake](https://docs.docker.com/build/bake/) file support: Includes code completion, variable navigation, and inline suggestions for generating targets based on your Dockerfile stages.
-- [Compose file](https://docs.docker.com/reference/compose-file/) outline: Easily navigate complex Compose files with an outline view in the editor.
+- [Compose editing features](https://docs.docker.com/compose/): Provides contextual code completion, reference navigation, and schema descriptions in hovers.
+- [Bake editing features](https://docs.docker.com/build/bake/): Includes code completion, variable navigation, and inline suggestions for generating targets based on your Dockerfile stages.
 - Image vulnerability scanning (experimental): Flags references to container images with known vulnerabilities directly within Dockerfiles.
 
 ## Requirements
@@ -36,6 +36,16 @@ Errors are visible directly in your editor or you can look at them by opening up
 
 ![Linting a Dockerfile for build warnings and the use of vulnerable images](resources/readme/dockerfile-problems.png)
 
+### Editing Compose files
+
+Code completion support in the Docker DX extension goes beyond just the Compose schema. The Docker DX extension understands the contextual link between your Compose file and your Dockerfile.
+
+![Editing a Compose file with code completion suggestions inferred from another file](resources/readme/docker-compose-code-completion.png)
+
+Compose files can get pretty big and complicated when you start including other files. Docker DX lets you hover over a reference to quickly see how something is defined.
+
+![Hover over object references to see its YAML content](resources/readme/docker-compose-hover.png)
+
 ### Editing Bake files
 
 You can get code completion when editing your `docker-bake.hcl` file. You are also able to hover over variables and navigate around the file by jumping to a variable's definition or jumping to the build stage within a Dockerfile.
@@ -46,15 +56,9 @@ The extension provides inline suggestions to generate a Bake target to correspon
 
 ![Suggesting Bake targets based on the content of the local Dockerfile](resources/readme/docker-bake-inline-completion.png)
 
-### Editing Compose files
-
-You can view an outline of your Compose file which makes it easier to navigate.
-
-![Outline of a Docker Compose file in the Outline panel and from the Command Palette](resources/readme/docker-compose-outline.png)
-
 ## Builds
 
-[GitHub Actions](https://github.com/docker/vscode-extension/actions) builds six `.vsix` files - one for each platform combination(Windows, macOS, Linux x `amd64`/`arm64`).
+[GitHub Actions](https://github.com/docker/vscode-extension/actions) builds eight `.vsix` files - one for each platform combination (Windows, macOS, Linux, Alpine Linux x `amd64`/`arm64`).
 
 Note: The language server binary from these builds are not signed and/or notarized. You may encounter issues when using `.vsix` files from this repository as your operating system may refuse to open an unsigned binary.
 
