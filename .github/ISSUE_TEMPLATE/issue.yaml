@@ -1,7 +1,7 @@
 # https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
 
 name: Issue
-
+description: Report an issue about the Docker DX extension.
 body:
   - type: markdown
     attributes:
