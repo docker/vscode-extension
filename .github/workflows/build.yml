@@ -5,7 +5,9 @@ on:
     branches:
       - "**"
     tags:
-    - v*
+      - v*
+    paths-ignore:
+      - '**/*.md'
 
 jobs:
 
