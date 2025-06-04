@@ -1,0 +1,40 @@
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+
+name: Issue
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to open an issue!
+        Please take a look at our [FAQ](https://github.com/docker/vscode-extension/blob/main/FAQ.md) to see if it addresses the issue you are reporting.
+        If this is a security issue please report it to the [Docker Security team](mailto:security@docker.com).
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Visual Studio Code version
+      description: |
+        Output of `code -v` command.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Installed extensions in Visual Studio Code
+      description: |
+        Output of `code --list-extensions --show-versions` command.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional info
+      description: |
+        Please provide any additional information that could be useful.
