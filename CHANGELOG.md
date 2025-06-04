@@ -31,10 +31,7 @@ All notable changes to the Docker DX extension will be documented in this file.
     - support navigating to a dependency that is defined in another file ([docker/docker-language-server#190](https://github.com/docker/docker-language-server/issues/190))
     - support navigating to the defined YAML anchor from an alias reference ([#264](https://github.com/docker/docker-language-server/issues/264))
   - textDocument/documentHighlight
-    - support highlighting the short form `depends_on` syntax for services ([docker/docker-language-server#70](https://github.com/docker/docker-language-server/issues/70))
-    - support highlighting the long form `depends_on` syntax for services ([docker/docker-language-server#71](https://github.com/docker/docker-language-server/issues/71))
-    - support highlighting referenced networks, volumes, configs, and secrets ([docker/docker-language-server#145](https://github.com/docker/docker-language-server/issues/145))
-    - support highlighting YAML anchor and alias references ([#264](https://github.com/docker/docker-language-server/issues/264))
+    - support highlighting object references and anchors and aliases
   - textDocument/documentLink
     - support opening a referenced Dockerfile from the `build` object's `dockerfile` attribute ([#69](https://github.com/docker/docker-language-server/issues/69))
     - support opening a referenced file from a config's `file` attribute ([#271](https://github.com/docker/docker-language-server/issues/271))
@@ -88,8 +85,7 @@ All notable changes to the Docker DX extension will be documented in this file.
     - suggest completion items for array items that use an object schema directly ([docker/docker-language-server#161](https://github.com/docker/docker-language-server/issues/161))
   - textDocument/definition
     - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
-  - textDocument/documentHighlight
-    - consider `extends` when looking up a service reference ([docker/docker-language-server#170](https://github.com/docker/docker-language-server/issues/170))
+    - recurse into YAML anchors if they are defined on a service object ([#287](https://github.com/docker/docker-language-server/issues/287))
   - textDocument/hover
     - fixed a case where an object reference's description would not be returned in a hover result ([docker/docker-language-server#233](https://github.com/docker/docker-language-server/issues/233))
 - Bake
