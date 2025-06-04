@@ -13,6 +13,8 @@ body:
   - type: textarea
     attributes:
       label: Description
+      description: |
+        Provide a description of the issue you are reporting here.
     validations:
       required: true
 
