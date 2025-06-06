@@ -2,6 +2,21 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [0.8.1] - 2025-06-06
+
+### Fixed
+
+- lock cache manager when deleting to prevent concurrent map writes ([docker/docker-language-server#298](https://github.com/docker/docker-language-server/issues/298))
+- initialize
+  - return JSON-RPC error if an invalid URI was sent with the request ([docker/docker-language-server#292](https://github.com/docker/docker-language-server/issues/292))
+- Compose
+  - textDocument/completion
+    - check for whitespace when performing prefix calculations for build target suggestions ([docker/docker-language-server#294](https://github.com/docker/docker-language-server/issues/294))
+    - return an empty result instead of an internal server error if the request's parameters are outside the document's bounds ([docker/docker-language-server#296](https://github.com/docker/docker-language-server/issues/296))
+    - check the node path's length before recursing deeper for pattern properties matches ([docker/docker-language-server#300](https://github.com/docker/docker-language-server/issues/300))
+  - textDocument/hover
+    - fix error caused by casting a node without checking its type first ([docker/docker-language-server#290](https://github.com/docker/docker-language-server/issues/290))
+
 ## [0.8.0] - 2025-06-05
 
 ### Added
@@ -274,7 +289,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.8.0...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.8.1...main
+[0.8.1]: https://github.com/docker/vscode-extension/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/docker/vscode-extension/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/docker/vscode-extension/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/docker/vscode-extension/compare/v0.5.0...v0.6.0
