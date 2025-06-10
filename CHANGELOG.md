@@ -19,6 +19,7 @@ All notable changes to the Docker DX extension will be documented in this file.
     - recurse into anchors when evaluating the cursor's position ([docker/docker-language-server#305](https://github.com/docker/docker-language-server/issues/305))
 
 ### Fixed
+
 - Compose
   - textDocument/completion
     - stop volume named references from causing volume attributes to not be suggested ([docker/docker-language-server#309](https://github.com/docker/docker-language-server/issues/309))
