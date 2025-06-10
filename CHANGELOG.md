@@ -2,6 +2,33 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [0.9.0] - 2025-06-10
+
+### Added
+
+- Compose
+  - textDocument/definition
+    - recurse into anchors when evaluating the cursor's position ([docker/docker-language-server#305](https://github.com/docker/docker-language-server/issues/305))
+  - textDocument/documentHighlight
+    - recurse into anchors when evaluating the cursor's position ([docker/docker-language-server#305](https://github.com/docker/docker-language-server/issues/305))
+  - textDocument/hover
+    - resolve anchors when constructing the path of the hovered item ([docker/docker-language-server#303](https://github.com/docker/docker-language-server/issues/303))
+  - textDocument/prepareRename
+    - recurse into anchors when evaluating the cursor's position ([docker/docker-language-server#305](https://github.com/docker/docker-language-server/issues/305))
+  - textDocument/rename
+    - recurse into anchors when evaluating the cursor's position ([docker/docker-language-server#305](https://github.com/docker/docker-language-server/issues/305))
+
+### Fixed
+
+- Compose
+  - textDocument/completion
+    - stop volume named references from causing volume attributes to not be suggested ([docker/docker-language-server#309](https://github.com/docker/docker-language-server/issues/309))
+  - textDocument/documentLink
+    - ensure the image attribute is valid before trying to process it for document links ([docker/docker-language-server#306](https://github.com/docker/docker-language-server/issues/306))
+- Bake
+  - textDocument/definition
+    - fix nil pointers when navigating around a top level attribute that is not in any block ([docker/docker-language-server#311](https://github.com/docker/docker-language-server/issues/311))
+
 ## [0.8.1] - 2025-06-06
 
 ### Fixed
@@ -289,7 +316,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.8.1...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.9.0...main
+[0.9.0]: https://github.com/docker/vscode-extension/compare/v0.8.1...v0.9.0
 [0.8.1]: https://github.com/docker/vscode-extension/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/docker/vscode-extension/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/docker/vscode-extension/compare/v0.6.0...v0.7.0
