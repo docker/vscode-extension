@@ -2,6 +2,30 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [0.10.0] - 2025-06-12
+
+### Added
+
+- Dockerfile
+  - textDocument/publishDiagnostics
+    - provide code actions to easily ignore build checks ([docker/docker-language-server#320](https://github.com/docker/docker-language-server/issues/320))
+- Compose
+  - textDocument/completion
+    - add support for suggesting `include` properties ([docker/docker-language-server#316](https://github.com/docker/docker-language-server/issues/316))
+
+### Fixed
+
+- Compose
+  - textDocument/completion
+    - fix error case triggered by using code completion before the first node ([docker/docker-language-server#314](https://github.com/docker/docker-language-server/issues/314))
+  - textDocument/definition
+    - check the type of a dependency node's value before assuming it is a map and recursing into it ([docker/docker-language-server#324](https://github.com/docker/docker-language-server/issues/324))
+  - textDocument/hover
+    - protect the processing of included files if the node is not a proper array ([docker/docker-language-server#322](https://github.com/docker/docker-language-server/issues/322))
+- Bake
+  - textDocument/inlineCompletion
+    - check that the request is within the document's bounds when processing the request ([docker/docker-language-server#318](https://github.com/docker/docker-language-server/issues/318))
+
 ## [0.9.0] - 2025-06-10
 
 ### Added
@@ -316,7 +340,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.9.0...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.10.0...main
+[0.10.0]: https://github.com/docker/vscode-extension/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/docker/vscode-extension/compare/v0.8.1...v0.9.0
 [0.8.1]: https://github.com/docker/vscode-extension/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/docker/vscode-extension/compare/v0.7.0...v0.8.0
