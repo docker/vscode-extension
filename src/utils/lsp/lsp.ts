@@ -253,9 +253,63 @@ async function createNative(ctx: vscode.ExtensionContext): Promise<boolean> {
   return true;
 }
 
+async function startDockerfileLanguageServer(
+  ctx: vscode.ExtensionContext,
+): Promise<void> {
+  const serverModule = ctx.asAbsolutePath(
+    path.join('dist', 'dockerfile-language-server-nodejs', 'lib', 'server.js'),
+  );
+  const serverOptions: ServerOptions = {
+    run: { module: serverModule, transport: TransportKind.ipc },
+    debug: {
+      module: serverModule,
+      transport: TransportKind.ipc,
+      options: { execArgv: ['--nolazy', '--inspect=6009'] },
+    },
+  };
+
+  const dockerfileLanguageClient = new LanguageClient(
+    'dockerfile-language-server',
+    'Dockerfile Language Server',
+    serverOptions,
+    {
+      documentSelector: [{ language: 'dockerfile', scheme: 'file' }],
+      middleware: {
+        handleDiagnostics() {
+          // leave all error reporting to the Docker Language Server
+          return [];
+        },
+        workspace: {
+          configuration: (params) => {
+            return params.items.map((value) => {
+              if (value.section === 'docker.languageserver.formatter') {
+                return { ignoreMultilineInstructions: true };
+              }
+              return {};
+            });
+          },
+        },
+      },
+    },
+  );
+  dockerfileLanguageClient.registerProposedFeatures();
+
+  await dockerfileLanguageClient.start();
+  ctx.subscriptions.push(dockerfileLanguageClient);
+}
+
 export async function activateDockerNativeLanguageClient(
   ctx: vscode.ExtensionContext,
 ): Promise<boolean> {
+  if (
+    vscode.extensions.getExtension('ms-azuretools.vscode-docker') ===
+      undefined &&
+    vscode.extensions.getExtension('ms-azuretools.vscode-containers') ===
+      undefined
+  ) {
+    // start the Dockerfile Language Server if Microsoft's extensions are not installed
+    await startDockerfileLanguageServer(ctx);
+  }
   if (await createNative(ctx)) {
     registerSettingsToggleCodeActions();
     ctx.subscriptions.push(nativeClient);
