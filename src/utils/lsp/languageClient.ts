@@ -18,6 +18,11 @@ import {
 export class DockerLanguageClient extends LanguageClient {
   protected fillInitializeParams(params: InitializeParams): void {
     super.fillInitializeParams(params);
+    const removeOverlappingIssues =
+      vscode.extensions.getExtension('ms-azuretools.vscode-docker') !==
+        undefined ||
+      vscode.extensions.getExtension('ms-azuretools.vscode-containers') !==
+        undefined;
     const dockerConfiguration = vscode.workspace.getConfiguration('docker.lsp');
     const extensionConfiguration =
       vscode.workspace.getConfiguration('docker.extension');
@@ -27,9 +32,7 @@ export class DockerLanguageClient extends LanguageClient {
           'enableComposeLanguageServer',
         ),
       },
-      dockerfileExperimental: {
-        removeOverlappingIssues: true,
-      },
+      dockerfileExperimental: { removeOverlappingIssues },
       telemetry: getTelemetryValue(dockerConfiguration.get('telemetry')),
     };
     params.capabilities.experimental = {

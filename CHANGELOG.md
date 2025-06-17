@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- include the Dockerfile Language Server written in TypeScript into the extension
+
 ## [0.10.0] - 2025-06-12
 
 ### Added
