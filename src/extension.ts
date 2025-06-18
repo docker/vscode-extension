@@ -21,6 +21,7 @@ import {
   inspectExtensionSetting,
 } from './utils/settings';
 import { redact } from './telemetry/filter';
+import { hookDecorators } from './utils/editor';
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
@@ -152,6 +153,7 @@ async function toggleComposeLanguageServerSetting(): Promise<string> {
 }
 
 export async function activate(ctx: vscode.ExtensionContext) {
+  hookDecorators(ctx);
   const composeSetting = await toggleComposeLanguageServerSetting();
   extensionVersion = String(ctx.extension.packageJSON.version);
   Bugsnag.start({
