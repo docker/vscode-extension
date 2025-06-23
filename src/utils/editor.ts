@@ -12,7 +12,13 @@ const decoration = vscode.window.createTextEditorDecorationType({
 });
 
 function getDecorationRanges(document: vscode.TextDocument): vscode.Range[] {
-  if (document.languageId === 'dockerfile' && document.uri.scheme === 'file') {
+  if (
+    vscode.workspace
+      .getConfiguration('docker.extension.editor', document)
+      .get<boolean>('dockerfileBuildStageDecorationLines') &&
+    document.languageId === 'dockerfile' &&
+    document.uri.scheme === 'file'
+  ) {
     const dockerfile = DockerfileParser.parse(document.getText());
     return dockerfile.getFROMs().map((from) => {
       const line = from.getRange().start.line;
@@ -23,6 +29,25 @@ function getDecorationRanges(document: vscode.TextDocument): vscode.Range[] {
 }
 
 export function hookDecorators(ctx: vscode.ExtensionContext): void {
+  vscode.workspace.onDidChangeConfiguration(
+    (event) => {
+      if (
+        event.affectsConfiguration(
+          'docker.extension.editor.dockerfileBuildStageDecorationLines',
+        )
+      ) {
+        vscode.window.visibleTextEditors.forEach((editor) =>
+          editor.setDecorations(
+            decoration,
+            getDecorationRanges(editor.document),
+          ),
+        );
+      }
+    },
+    null,
+    ctx.subscriptions,
+  );
+
   vscode.window.visibleTextEditors.forEach((editor) =>
     editor.setDecorations(decoration, getDecorationRanges(editor.document)),
   );

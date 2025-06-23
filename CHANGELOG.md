@@ -9,6 +9,7 @@ All notable changes to the Docker DX extension will be documented in this file.
 - Dockerfile
   - include the Dockerfile Language Server written in TypeScript into the extension
   - draw horizontal lines between each `FROM` instruction to help users visually distinguish the different parts of a Dockerfile ([#147](https://github.com/docker/vscode-extension/issues/147))
+    - a new `docker.extension.editor.dockerfileBuildStageDecorationLines` setting to toggle the divider lines, defaults to `true`
 
 ## [0.10.0] - 2025-06-12
 

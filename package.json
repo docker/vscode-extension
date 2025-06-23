@@ -77,6 +77,12 @@
           "default": true,
           "scope": "application"
         },
+        "docker.extension.editor.dockerfileBuildStageDecorationLines": {
+          "type": "boolean",
+          "description": "Render a divider line between each build stage of a Dockerfile.",
+          "default": true,
+          "scope": "resource"
+        },
         "docker.lsp.telemetry": {
           "type": "string",
           "description": "Determines what telemetry is collected by Docker. If vscode.env.isTelemetryEnabled is false, then telemetry collection is disabled regardless of what has been set for this configuration value.",
