@@ -9,6 +9,7 @@ bin
 .vscode-test/
 .test-extensions
 syntaxes/
+misc/
 
 .github/workflows/build.yml
 
