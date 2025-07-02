@@ -23,12 +23,11 @@ Do you have any of the following extensions installed?
 If yes, you can refer to the steps below to remove the duplicates. Alternatively, if you would prefer to disable the Compose editing features that _this_ extension is providing, you can set the `docker.extension.enableComposeLanguageServer` setting to `false` and then restart Visual Studio Code.
 
 - [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) (powered by [redhat-developer/yaml-language-server](https://github.com/redhat-developer/yaml-language-server))
-  1. To disable duplicates from this extension, create a JSON file with `{}` as its content and save it somewhere. Let's say it is at `/home/user/empty.json`.
-  2. Open the [Command Palette](https://code.visualstudio.com/api/ux-guidelines/command-palette) in Visual Studio Code and open "Preferences: Open User Settings (JSON)".
-  3. Set `docker.extension.enableComposeLanguageServer` to `true` by following the snippet below.
-  4. Create an object attribute for `yaml.schemas` if it does not already exist.
-  5. Inside the `yaml.schemas` object, map your empty JSON file to Compose YAML files by following the snippet below.
-  6. YAML files named `compose*y*ml` or `docker-compose*y*ml` will now no longer have the Compose schema associated with them in Red Hat's extension so Red Hat's extension will stop providing YAML features for Compose files. This admittedly is a strange way to disable YAML features for a given file but it is the only known workaround for resolving this until [redhat-developer/vscode-yaml#1088](https://github.com/redhat-developer/vscode-yaml/issues/1088) is implemented.
+  1. To disable duplicates from this extension, open the [Command Palette](https://code.visualstudio.com/api/ux-guidelines/command-palette) in Visual Studio Code and open "Preferences: Open User Settings (JSON)".
+  2. Set `docker.extension.enableComposeLanguageServer` to `true` by following the snippet below.
+  3. Create an object attribute for `yaml.schemas` if it does not already exist.
+  4. Inside the `yaml.schemas` object, copy the URL to [this empty JSON file](https://raw.githubusercontent.com/docker/vscode-extension/6a88caada42b57090df7ce91ec2a6561b422afe1/misc/empty.json) to Compose YAML files by following the snippet below.
+  5. YAML files named `compose*y*ml` or `docker-compose*y*ml` will now no longer have the Compose schema associated with them in Red Hat's extension so Red Hat's extension will stop providing YAML features for Compose files. This admittedly is a strange way to disable YAML features for a given file but it is the only known workaround for resolving this until [redhat-developer/vscode-yaml#245](https://github.com/redhat-developer/vscode-yaml/issues/245) is implemented.
 
 ```JSONC
 {
@@ -40,7 +39,7 @@ If yes, you can refer to the steps below to remove the duplicates. Alternatively
     // this tells Red Hat's YAML extension to consider Compose YAML
     // files as not having a schema so it will stop suggesting code
     // completion items, hover tooltips, and so on
-    "/home/user/empty.json": ["compose*y*ml", "docker-compose*y*ml"]
+    "https://raw.githubusercontent.com/docker/vscode-extension/6a88caada42b57090df7ce91ec2a6561b422afe1/misc/empty.json": ["compose*y*ml", "docker-compose*y*ml"]
   }
 }
 ```
