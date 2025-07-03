@@ -2,7 +2,8 @@ import * as vscode from 'vscode';
 
 type DockerExtensionSettings =
   | 'dockerEngineAvailabilityPrompt'
-  | 'enableComposeLanguageServer';
+  | 'enableComposeLanguageServer'
+  | 'enableBuildDebugging';
 
 /**
  * Retrieves the value of a specified setting from the Docker extension's configuration.
@@ -10,9 +11,8 @@ type DockerExtensionSettings =
  * @param setting - The name of the setting to retrieve.
  * @returns The value of the specified setting, or `undefined` if the setting is not found.
  */
-
-export function getExtensionSetting(setting: DockerExtensionSettings) {
-  return vscode.workspace.getConfiguration('docker.extension').get(setting);
+export function getExtensionSetting<T>(setting: DockerExtensionSettings) {
+  return vscode.workspace.getConfiguration('docker.extension').get<T>(setting);
 }
 
 export function inspectExtensionSetting(setting: DockerExtensionSettings) {

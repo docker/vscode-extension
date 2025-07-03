@@ -61,9 +61,42 @@
         }
       ]
     },
+    "debuggers": [
+      {
+        "type": "dockerfile",
+        "languages": [
+          "dockerfile"
+        ],
+        "label": "Dockerfile Debug",
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "dockerfile"
+            ],
+            "properties": {
+              "dockerfile": {
+                "type": "string",
+                "description": "Path to a Dockerfile",
+                "default": "${workspaceFolder}/Dockerfile"
+              }
+            }
+          }
+        }
+      }
+    ],
     "configuration": {
       "title": "Docker DX",
       "properties": {
+        "docker.extension.enableBuildDebugging": {
+          "type": "boolean",
+          "description": "Enables build debugging. Note that changing this value requires a restart of Visual Studio Code to take effect.",
+          "markdownDescription": "Enable Compose editing features from the Docker DX extension. Note that changing this value requires a **restart** of Visual Studio Code to take effect.",
+          "default": false,
+          "scope": "application",
+          "tags": [
+            "experimental"
+          ]
+        },
         "docker.extension.enableComposeLanguageServer": {
           "type": "boolean",
           "description": "Enable Compose editing features from the Docker DX extension. Note that changing this value requires a restart of Visual Studio Code to take effect.",
