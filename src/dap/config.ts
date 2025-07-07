@@ -1,6 +1,7 @@
-import * as path from 'path';
 import * as vscode from 'vscode';
 import { getExtensionSetting } from '../utils/settings';
+
+export const DebugEditorContentsCommandId = 'docker.debug.editorContents';
 
 class DebugAdapterExecutableFactory
   implements vscode.DebugAdapterDescriptorFactory
@@ -8,22 +9,16 @@ class DebugAdapterExecutableFactory
   createDebugAdapterDescriptor(
     session: vscode.DebugSession,
   ): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
-    const parent = path.dirname(session.configuration.dockerfile);
-    return new vscode.DebugAdapterExecutable(
-      'docker',
-      [
-        'buildx',
-        'dap',
-        'build',
-        '-f',
-        session.configuration.dockerfile,
-        parent,
-      ],
-      {
-        cwd: parent,
-        env: { BUILDX_EXPERIMENTAL: '1' },
-      },
-    );
+    var args = ['buildx', 'dap', 'build'];
+    if (session.configuration?.args) {
+      args = args.concat(session.configuration?.args);
+    }
+
+    const options = {
+      cwd: session.workspaceFolder?.uri.path,
+    };
+
+    return new vscode.DebugAdapterExecutable('docker', args, options);
   }
 }
 
@@ -39,9 +34,10 @@ class DockerfileConfigurationProvider
       const editor = vscode.window.activeTextEditor;
       if (editor !== undefined && editor.document.languageId === 'dockerfile') {
         config.type = 'dockerfile';
-        config.name = 'Debug Dockerfile';
+        config.name = 'Docker: Build';
         config.request = 'launch';
         config.dockerfile = editor.document.uri.fsPath;
+        config.contextPath = '${workspaceFolder}';
       }
     }
     return config;
@@ -108,6 +104,27 @@ export function setupDebugging(ctx: vscode.ExtensionContext) {
   }
 
   let channel = vscode.window.createOutputChannel('Dockerfile Debug', 'log');
+
+  ctx.subscriptions.push(
+    vscode.commands.registerCommand(
+      DebugEditorContentsCommandId,
+      async (resource: vscode.Uri) => {
+        let targetResource = resource;
+        if (!targetResource && vscode.window.activeTextEditor) {
+          targetResource = vscode.window.activeTextEditor.document.uri;
+        }
+        if (targetResource) {
+          vscode.debug.startDebugging(undefined, {
+            type: 'dockerfile',
+            name: 'Docker: Build',
+            request: 'launch',
+            dockerfile: targetResource.fsPath,
+            contextPath: '${workspaceFolder}',
+          });
+        }
+      },
+    ),
+  );
 
   ctx.subscriptions.push(
     vscode.debug.registerDebugConfigurationProvider(
