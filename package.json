@@ -11,7 +11,8 @@
   "publisher": "docker",
   "categories": [
     "Programming Languages",
-    "Linters"
+    "Linters",
+    "Debuggers"
   ],
   "repository": {
     "type": "git",
@@ -34,6 +35,10 @@
         "title": "Scan for CVEs with Docker Scout",
         "command": "docker.scout.imageScan",
         "enablement": "(view == dockerImages || view == vscode-containers.views.images) && viewItem == image"
+      },
+      {
+        "title": "Build with Debugger",
+        "command": "docker.debug.editorContents"
       }
     ],
     "languages": [
@@ -67,21 +72,54 @@
         "languages": [
           "dockerfile"
         ],
-        "label": "Dockerfile Debug",
+        "label": "Docker: Build",
         "configurationAttributes": {
           "launch": {
-            "required": [
-              "dockerfile"
-            ],
+            "required": [],
             "properties": {
               "dockerfile": {
                 "type": "string",
-                "description": "Path to a Dockerfile",
-                "default": "${workspaceFolder}/Dockerfile"
+                "description": "Relative path from the context to the dockerfile.",
+                "default": "Dockerfile"
+              },
+              "contextPath": {
+                "type": "string",
+                "description": "Path to the context.",
+                "default": "${workspaceFolder}"
+              },
+              "target": {
+                "type": "string",
+                "description": "Target build stage to build."
+              },
+              "args": {
+                "type": "array",
+                "description": "Arguments to pass to the build."
               }
             }
           }
-        }
+        },
+        "initialConfigurations": [
+          {
+            "type": "dockerfile",
+            "request": "launch",
+            "name": "Docker: Build",
+            "dockerfile": "Dockerfile",
+            "contextPath": "${workspaceFolder}"
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "Docker: Build",
+            "description": "A new configuration for debugging a user selected Dockerfile.",
+            "body": {
+              "type": "dockerfile",
+              "request": "launch",
+              "name": "Docker: Build",
+              "dockerfile": "${2:Dockerfile}",
+              "contextPath": "^\"\\${workspaceFolder}\""
+            }
+          }
+        ]
       }
     ],
     "configuration": {
@@ -90,9 +128,8 @@
         "docker.extension.enableBuildDebugging": {
           "type": "boolean",
           "description": "Enables build debugging. Note that changing this value requires a restart of Visual Studio Code to take effect.",
-          "markdownDescription": "Enable Compose editing features from the Docker DX extension. Note that changing this value requires a **restart** of Visual Studio Code to take effect.",
+          "markdownDescription": "Enable build debugging features from the Docker DX extension. Note that changing this value requires a **restart** of Visual Studio Code to take effect.",
           "default": false,
-          "scope": "application",
           "tags": [
             "experimental"
           ]
