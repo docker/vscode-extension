@@ -68,6 +68,11 @@ Note: The language server binary from these builds are not signed and/or notariz
 
 ## Development
 
+To develop this extension, you should first make sure you have the following extensions installed:
+
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [TypeScript + Webpack Problem Matchers](https://marketplace.visualstudio.com/items?itemName=amodio.tsl-problem-matcher)
+
 To debug the VS Code extension, clone this repository and then run `npm install`. This will download a binary of the [Docker Language Server](https://github.com/docker/docker-language-server/releases) to the `bin` folder. If you would like to test your own custom build of the language server, simply replace the file in the `bin` folder with your own binary.
 
 ### Debugging both the extension and language server
