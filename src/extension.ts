@@ -91,7 +91,7 @@ function registerCommands(ctx: vscode.ExtensionContext) {
   });
 }
 
-function registerCommand(
+export function registerCommand(
   ctx: vscode.ExtensionContext,
   id: string,
   commandCallback: (...args: any[]) => Promise<boolean>,
