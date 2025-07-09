@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { registerCommand } from '../extension';
 import { getExtensionSetting } from '../utils/settings';
 
 export const DebugEditorContentsCommandId = 'docker.debug.editorContents';
@@ -100,30 +101,39 @@ class DockerfileDebugAdapterTracker implements vscode.DebugAdapterTracker {
 
 export function setupDebugging(ctx: vscode.ExtensionContext) {
   if (!getExtensionSetting<boolean>('enableBuildDebugging')) {
+    // the command is still contributed to the Command Palette because of package.json
+    registerCommand(ctx, DebugEditorContentsCommandId, async () => {
+      vscode.window.showErrorMessage(
+        'Build Debugging for Docker is an experimental feature that is under active development. ' +
+          'Enable the feature by toggling the docker.extension.enableBuildDebugging setting to true and restarting your client.',
+      );
+      return Promise.resolve(false);
+    });
     return;
   }
 
   let channel = vscode.window.createOutputChannel('Dockerfile Debug', 'log');
 
-  ctx.subscriptions.push(
-    vscode.commands.registerCommand(
-      DebugEditorContentsCommandId,
-      async (resource: vscode.Uri) => {
-        let targetResource = resource;
-        if (!targetResource && vscode.window.activeTextEditor) {
-          targetResource = vscode.window.activeTextEditor.document.uri;
-        }
-        if (targetResource) {
-          vscode.debug.startDebugging(undefined, {
-            type: 'dockerfile',
-            name: 'Docker: Build',
-            request: 'launch',
-            dockerfile: targetResource.fsPath,
-            contextPath: '${workspaceFolder}',
-          });
-        }
-      },
-    ),
+  registerCommand(
+    ctx,
+    DebugEditorContentsCommandId,
+    async (resource: vscode.Uri) => {
+      let targetResource = resource;
+      if (!targetResource && vscode.window.activeTextEditor) {
+        targetResource = vscode.window.activeTextEditor.document.uri;
+      }
+      if (targetResource) {
+        vscode.debug.startDebugging(undefined, {
+          type: 'dockerfile',
+          name: 'Docker: Build',
+          request: 'launch',
+          dockerfile: targetResource.fsPath,
+          contextPath: '${workspaceFolder}',
+        });
+        return Promise.resolve(true);
+      }
+      return Promise.resolve(false);
+    },
   );
 
   ctx.subscriptions.push(

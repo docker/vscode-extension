@@ -56,6 +56,10 @@ The extension provides inline suggestions to generate a Bake target to correspon
 
 ![Suggesting Bake targets based on the content of the local Dockerfile](resources/readme/docker-bake-inline-completion.png)
 
+### Build Debugging (under development)
+
+This feature is under active development. Although some commands and configurations may be exposed through the user interface due to the nature of how Visual Studio Code handles extension contributions, it is not intended to be used by the general public.
+
 ## Builds
 
 [GitHub Actions](https://github.com/docker/vscode-extension/actions) builds eight `.vsix` files - one for each platform combination (Windows, macOS, Linux, Alpine Linux x `amd64`/`arm64`).

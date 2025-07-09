@@ -2,14 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
-## [0.11.0] - 2025-06-23
+## [Unreleased]
 
 ### Added
 
-- Dockerfile
-  - include the Dockerfile Language Server written in TypeScript into the extension
-  - draw horizontal lines between each `FROM` instruction to help users visually distinguish the different parts of a Dockerfile ([#147](https://github.com/docker/vscode-extension/issues/147))
-    - a new `docker.extension.editor.dockerfileBuildStageDecorationLines` setting to toggle the divider lines, defaults to `true`
+- a new experimental `docker.extension.enableBuildDebugging` setting for developing and testing the upcoming build debugging feature
+  - this feature is under active development and is not ready for general use
 - Compose
   - update schema to the latest version
   - textDocument/completion
@@ -34,6 +32,15 @@ All notable changes to the Docker DX extension will be documented in this file.
   - textDocument/completion
     - prevent errors if an empty JSON object is the content of the YAML file ([docker/docker-language-server#330](https://github.com/docker/docker-language-server/issues/330))
     - check character offset before processing to prevent errors ([docker/docker-language-server#333](https://github.com/docker/docker-language-server/issues/333))
+
+## [0.11.0] - 2025-06-23
+
+### Added
+
+- Dockerfile
+  - include the Dockerfile Language Server written in TypeScript into the extension
+  - draw horizontal lines between each `FROM` instruction to help users visually distinguish the different parts of a Dockerfile ([#147](https://github.com/docker/vscode-extension/issues/147))
+    - a new `docker.extension.editor.dockerfileBuildStageDecorationLines` setting to toggle the divider lines, defaults to `true`
 
 ## [0.10.0] - 2025-06-12
 

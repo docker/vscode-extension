@@ -127,8 +127,8 @@
       "properties": {
         "docker.extension.enableBuildDebugging": {
           "type": "boolean",
-          "description": "Enables build debugging. Note that changing this value requires a restart of Visual Studio Code to take effect.",
-          "markdownDescription": "Enable build debugging features from the Docker DX extension. Note that changing this value requires a **restart** of Visual Studio Code to take effect.",
+          "description": "Enables build debugging features from the Docker DX extension. This feature is under active development. Note that changing this value requires a restart of Visual Studio Code to take effect.",
+          "markdownDescription": "Enable build debugging features from the Docker DX extension. This feature is under active development. Note that changing this value requires a **restart** of Visual Studio Code to take effect.",
           "default": false,
           "tags": [
             "experimental"
