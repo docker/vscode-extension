@@ -10,6 +10,30 @@ All notable changes to the Docker DX extension will be documented in this file.
   - include the Dockerfile Language Server written in TypeScript into the extension
   - draw horizontal lines between each `FROM` instruction to help users visually distinguish the different parts of a Dockerfile ([#147](https://github.com/docker/vscode-extension/issues/147))
     - a new `docker.extension.editor.dockerfileBuildStageDecorationLines` setting to toggle the divider lines, defaults to `true`
+- Compose
+  - update schema to the latest version
+  - textDocument/completion
+    - support completing model object names ([docker/docker-language-server#343](https://github.com/docker/docker-language-server/issues/343))
+  - textDocument/definition
+    - support jumping to referenced model objects ([docker/docker-language-server#343](https://github.com/docker/docker-language-server/issues/343))
+  - textDocument/documentHighlight
+    - support highlighting referenced models objects ([docker/docker-language-server#343](https://github.com/docker/docker-language-server/issues/343))
+  - textDocument/documentLink
+    - support recursing into anchors when searching for document links ([docker/docker-language-server#329](https://github.com/docker/docker-language-server/issues/329))
+    - return document links for the `file` attribute of a service object's `credential_spec` ([docker/docker-language-server#338](https://github.com/docker/docker-language-server/issues/338))
+  - textDocument/documentSymbol
+    - show model objects in the document symbol tree ([docker/docker-language-server#343](https://github.com/docker/docker-language-server/issues/343))
+  - textDocument/prepareRename
+    - allow preparing rename on model objects ([docker/docker-language-server#343](https://github.com/docker/docker-language-server/issues/343))
+  - textDocument/rename
+    - support renaming model objects ([docker/docker-language-server#343](https://github.com/docker/docker-language-server/issues/343))
+
+### Fixed
+
+- Compose
+  - textDocument/completion
+    - prevent errors if an empty JSON object is the content of the YAML file ([docker/docker-language-server#330](https://github.com/docker/docker-language-server/issues/330))
+    - check character offset before processing to prevent errors ([docker/docker-language-server#333](https://github.com/docker/docker-language-server/issues/333))
 
 ## [0.10.0] - 2025-06-12
 
