@@ -56,9 +56,9 @@ The extension provides inline suggestions to generate a Bake target to correspon
 
 ![Suggesting Bake targets based on the content of the local Dockerfile](resources/readme/docker-bake-inline-completion.png)
 
-### Build Debugging (under development)
+### Build Debugging (EXPERIMENTAL)
 
-This feature is under active development. Although some commands and configurations may be exposed through the user interface due to the nature of how Visual Studio Code handles extension contributions, it is not intended to be used by the general public.
+This feature is under active development and requires version `v0.26.0` of `docker buildx` or newer. This is disabled by default. This can be enabled and configurations can be created in `launch.json`. Please refer to the [official documentation](https://github.com/docker/buildx/blob/master/docs/dap.md) for more information. Please report any bugs, feature requests, or feedback [here](https://github.com/docker/buildx/issues/new/choose).
 
 ## Builds
 
