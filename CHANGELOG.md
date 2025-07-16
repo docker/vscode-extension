@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- errors with the Docker Language Server will no longer be hidden
+
 ## [0.12.0] - 2025-07-09
 
 ### Added

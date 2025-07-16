@@ -207,7 +207,6 @@ async function createNative(ctx: vscode.ExtensionContext): Promise<boolean> {
   const clientOptions: LanguageClientOptions = {
     progressOnInitialization: true,
     outputChannel: vscode.window.createOutputChannel('Docker Language Server'),
-    revealOutputChannelOn: RevealOutputChannelOn.Never,
     markdown: {
       isTrusted: false,
       supportHtml: true,
