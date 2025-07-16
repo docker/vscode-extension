@@ -83,8 +83,7 @@
         "configurationAttributes": {
           "launch": {
             "required": [
-              "contextPath",
-              "dockerfile"
+              "contextPath"
             ],
             "properties": {
               "dockerfile": {
