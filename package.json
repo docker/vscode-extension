@@ -82,7 +82,9 @@
         "label": "Docker: Build",
         "configurationAttributes": {
           "launch": {
-            "required": [],
+            "required": [
+              "contextPath"
+            ],
             "properties": {
               "dockerfile": {
                 "type": "string",
