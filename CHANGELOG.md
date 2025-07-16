@@ -4,9 +4,29 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Compose
+  - textDocument/documentLink
+    - add anchor resolution for all supported document links ([docker/docker-language-server#348](https://github.com/docker/docker-language-server/issues/348))
+    - return document links for the `file` attribute of a service object's `extends` attribute object ([docker/docker-language-server#172](https://github.com/docker/docker-language-server/issues/172))
+    - provide document links for models on Docker Hub and Hugging Face ([docker/docker-language-server#356](https://github.com/docker/docker-language-server/issues/356))
+    - return document links for the `label_file` attribute of a service object ([docker/docker-language-server#360](https://github.com/docker/docker-language-server/issues/360))
+  - textDocument/hover
+    - support hovering over referenced models ([docker/docker-language-server#343](https://github.com/docker/docker-language-server/issues/343))
+
 ### Changed
 
 - errors with the Docker Language Server will no longer be hidden
+
+### Fixed
+
+- stop the language server from crashing when opened inside a WSL folder with a dollar sign ([#165](https://github.com/docker/vscode-extension/issues/165))
+- Compose
+  - textDocument/completion
+    - prevent wildcard object attribute suggestions if the text cursor is not at the right indentation for attributes to be inserted ([docker/docker-language-server#342](https://github.com/docker/docker-language-server/issues/342))
+  - textDocument/documentLink
+    - fix bounds index error if a quoted string just has a registry and the colon character at the end ([docker/docker-language-server#351](https://github.com/docker/docker-language-server/issues/351))
 
 ## [0.12.0] - 2025-07-09
 
