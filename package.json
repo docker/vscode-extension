@@ -251,8 +251,8 @@
   },
   "dependencies": {
     "@bugsnag/js": "~8.2.0",
-    "dockerfile-ast": "0.7.0",
-    "dockerfile-language-server-nodejs": "0.14.0",
+    "dockerfile-ast": "0.7.1",
+    "dockerfile-language-server-nodejs": "0.14.1",
     "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
