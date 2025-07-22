@@ -30,7 +30,7 @@ If you are on an unsupported system, let us know of your interest in this extens
 
 You can get linting checks from [BuildKit](https://github.com/moby/buildkit) and [BuildX](https://github.com/docker/buildx) when editing your Dockerfiles.
 
-Any references to images with vulnerabilities are also flagged. Note: This is an experimental feature.
+Any references to images with vulnerabilities are also flagged. This is an **experimental** feature and may change in the future. Refer to our [FAQ.md](./FAQ.md) to see how you can opt in or out of these warnings.
 
 Errors are visible directly in your editor or you can look at them by opening up the Problems panel (<kbd>Ctrl+Shift+M</kbd> on Windows/Linux, <kbd>Shift+Command+M</kbd> on Mac).
 
