@@ -23,7 +23,6 @@ If you would like to disable specific warnings about vulnerabilities, you can op
 - `docker.lsp.experimental.scout.recommendedTag`
 - `docker.lsp.experimental.scout.vulnerabilities`
 
-
 ### I am seeing duplicated editor features (such as code completion suggestions, hover tooltips, etc.) in Compose files.
 
 Do you have any of the following extensions installed?
