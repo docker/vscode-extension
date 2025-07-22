@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- fix Dockerfile Language Server crash with tabbed heredoc delimiters ([#171](https://github.com/docker/vscode-extension/issues/171))
+
 ## [0.13.0] - 2025-07-17
 
 ### Added
