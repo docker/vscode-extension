@@ -12,6 +12,17 @@ Please refer to [this blog post](https://www.docker.com/blog/docker-dx-extension
 
 For information regarding telemetry, please refer to [TELEMETRY.md](./TELEMETRY.md).
 
+### How can I disable warnings related to vulnerabilities in images?
+
+To disable everything, you can set the `docker.lsp.experimental.vulnerabilityScanning` setting to `false`.
+
+If you would like to disable specific warnings about vulnerabilities, you can opt in or out of them individually as well.
+
+- `docker.lsp.experimental.scout.criticalHighVulnerabilities`
+- `docker.lsp.experimental.scout.notPinnedDigest`
+- `docker.lsp.experimental.scout.recommendedTag`
+- `docker.lsp.experimental.scout.vulnerabilities`
+
 ### I am seeing duplicated editor features (such as code completion suggestions, hover tooltips, etc.) in Compose files.
 
 Do you have any of the following extensions installed?
