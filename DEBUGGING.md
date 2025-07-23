@@ -8,7 +8,7 @@ Buildx provides an implementation of the [Debug Adapter Protocol](https://micros
 
 ## Requirements
 
-To use the build debugging feature, you will need to have [Buildx](https://github.com/docker/buildx) installed. The minimum supported version is v0.26.1. You can install Buildx manually by following the instructions [here](https://github.com/docker/buildx?tab=readme-ov-file#manual-download). 
+To use the build debugging feature, you will need to have [Buildx](https://github.com/docker/buildx) installed. The minimum supported version is v0.26.1. You can install Buildx manually by following the instructions [here](https://github.com/docker/buildx?tab=readme-ov-file#manual-download).
 
 1. Run `docker buildx version` to check your Buildx version.
 2. Run `BUILDX_EXPERIMENTAL=1 docker buildx dap` to check that the `dap` subcommand is available in your Buildx installation.
@@ -37,7 +37,8 @@ For more complicated build configurations, you can use the `launch.json` to defi
   "dockerfile": "Dockerfile", // required, configurable
   "contextPath": "${workspaceFolder}",
   "target": "test", // optional, should be a build stage in the Dockerfile
-  "args": [ // additional arguments for the build command
+  "args": [
+    // additional arguments for the build command
     "--build-arg",
     "NODE_ENV=development"
   ],

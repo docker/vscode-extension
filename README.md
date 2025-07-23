@@ -62,7 +62,6 @@ This feature is under active development and requires version `v0.26.1` of `dock
 
 For information about Buildx and the Debug Adapter Protocol, go [here](https://github.com/docker/buildx/blob/master/docs/dap.md). If you have any bugs, feature requests, or feedback about Buildx's support for Debug Adapter Protocol, please report them [here](https://github.com/docker/buildx/issues/new/choose).
 
-
 ## Builds
 
 [GitHub Actions](https://github.com/docker/vscode-extension/actions) builds eight `.vsix` files - one for each platform combination (Windows, macOS, Linux, Alpine Linux x `amd64`/`arm64`).
