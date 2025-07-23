@@ -12,6 +12,19 @@ Please refer to [this blog post](https://www.docker.com/blog/docker-dx-extension
 
 For information regarding telemetry, please refer to [TELEMETRY.md](./TELEMETRY.md).
 
+### Where can I find the language server logs?
+
+The language server logs can be enabled by modifying your settings.
+
+```JSONC
+{
+    // Docker Language Server (https://github.com/docker/docker-language-server)
+    "dockerLanguageClient.trace.server": "verbose",
+    // Dockerfile Language Server (https://github.com/rcjsuen/dockerfile-language-server)
+    "dockerfile-language-server.trace.server": "verbose"
+}
+```
+
 ### How can I disable warnings related to vulnerabilities in images?
 
 To disable everything, you can set the `docker.lsp.experimental.vulnerabilityScanning` setting to `false`.
