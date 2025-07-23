@@ -29,7 +29,7 @@ The Docker DX extension will fill in a debug configuration on a best effort basi
 
 For more complicated build configurations, you can use the `launch.json` to define launch configurations for the buildx debugger.
 
-```json
+```jsonc
 {
   "type": "dockerfile", // required, must not be modified
   "request": "launch", // required, must not be modified
