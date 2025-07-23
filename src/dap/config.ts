@@ -126,7 +126,7 @@ export function setupDebugging(ctx: vscode.ExtensionContext) {
     return;
   }
 
-  let channel = vscode.window.createOutputChannel('Dockerfile Debug', 'log');
+  let channel = vscode.window.createOutputChannel('Docker Buildx DAP', 'log');
 
   registerCommand(
     ctx,
