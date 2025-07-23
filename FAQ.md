@@ -14,7 +14,7 @@ For information regarding telemetry, please refer to [TELEMETRY.md](./TELEMETRY.
 
 ### Where can I find the language server logs?
 
-The language server logs can be enabled by modifying your settings.
+The language server logs can be enabled by modifying your settings. After turning them on, you can look for "Docker Language Server" and/or "Docker Language Server" in the Output view.
 
 ```JSONC
 {
