@@ -58,7 +58,10 @@ The extension provides inline suggestions to generate a Bake target to correspon
 
 ### Build Debugging (EXPERIMENTAL)
 
-This feature is under active development and requires version `v0.26.0` of `docker buildx` or newer. This is disabled by default. This can be enabled and configurations can be created in `launch.json`. Please refer to the [official documentation](https://github.com/docker/buildx/blob/master/docs/dap.md) for more information. Please report any bugs, feature requests, or feedback [here](https://github.com/docker/buildx/issues/new/choose).
+This feature is under active development and requires version `v0.26.1` of `docker buildx` or newer. This is disabled by default. Open [DEBUGGING.md](./DEBUGGING.md) to learn more about this feature in Visual Studio Code and how to enable it.
+
+For information about Buildx and the Debug Adapter Protocol, go [here](https://github.com/docker/buildx/blob/master/docs/dap.md). If you have any bugs, feature requests, or feedback about Buildx's support for Debug Adapter Protocol, please report them [here](https://github.com/docker/buildx/issues/new/choose).
+
 
 ## Builds
 
