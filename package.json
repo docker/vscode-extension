@@ -3,7 +3,7 @@
   "displayName": "Docker DX",
   "description": "Edit smarter, ship faster with an enhanced Docker-development experience",
   "version": "0.13.0",
-  "icon": "resources/docker-logo-vertical-blue.png",
+  "icon": "resources/logo-256x256.png",
   "license": "Apache-2.0",
   "engines": {
     "vscode": "^1.92.0"
