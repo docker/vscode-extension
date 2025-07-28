@@ -97,3 +97,7 @@ See [TELEMETRY.md](./TELEMETRY.md) for details about what kind of telemetry we c
 ## FAQ
 
 Please refer to [FAQ.md](./FAQ.md) for our list of frequently asked questions.
+
+## License
+
+[Apache License Version 2.0](./LICENSE)
