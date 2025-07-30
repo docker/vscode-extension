@@ -7,6 +7,7 @@ All notable changes to the Docker DX extension will be documented in this file.
 ### Fixed
 
 - fix Dockerfile Language Server crash with tabbed heredoc delimiters ([#171](https://github.com/docker/vscode-extension/issues/171))
+- fix Buildx debugger integration so that it works on Windows ([#181](https://github.com/docker/vscode-extension/issues/181))
 
 ## [0.13.0] - 2025-07-17
 

@@ -16,7 +16,7 @@ class DebugAdapterExecutableFactory
     }
 
     const options = {
-      cwd: session.workspaceFolder?.uri.path,
+      cwd: session.workspaceFolder?.uri.fsPath,
       env: { BUILDX_EXPERIMENTAL: '1' },
     };
 
