@@ -10,7 +10,11 @@ class DebugAdapterExecutableFactory
   createDebugAdapterDescriptor(
     session: vscode.DebugSession,
   ): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
-    var args = ['buildx', 'dap', 'build'];
+    var args = ['buildx'];
+    if (session.configuration?.builder) {
+      args = args.concat(['--builder', session.configuration?.builder]);
+    }
+    args = args.concat(['dap', 'build']);
     if (session.configuration?.args) {
       args = args.concat(session.configuration?.args);
     }
