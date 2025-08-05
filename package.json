@@ -105,6 +105,10 @@
                 "description": "Stop the docker build on the first instruction.",
                 "default": false
               },
+              "builder": {
+                "type": "string",
+                "description": "Builder to use."
+              },
               "args": {
                 "type": "array",
                 "description": "Arguments to pass to the build."
