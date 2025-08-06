@@ -4,10 +4,51 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Compose
+  - textDocument/completion
+    - provide local file and folder name suggestions when modifying simple strings
+      - service volumes ([docker/docker-language-server#376](https://github.com/docker/docker-language-server/issues/376))
+      - `context` attribute of a `build` object of a service ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `dockerfile` attribute of a `build` object of a service ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `file` attribute of a `credential_spec` object of a service ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `env_file` of a service ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `path` attribute of an `env_file` array item of a service ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `file` attribute of an `extends` object of a service ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `label_file` of a service ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `file` attribute of a config ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `file` attribute of a secret ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - string items of include objects ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `env_file` attribute of include objects ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+      - `path` attribute of include objects ([docker/docker-language-server#403](https://github.com/docker/docker-language-server/issues/403))
+
 ### Fixed
 
 - fix Dockerfile Language Server crash with tabbed heredoc delimiters ([#171](https://github.com/docker/vscode-extension/issues/171))
 - fix Buildx debugger integration so that it works on Windows ([#181](https://github.com/docker/vscode-extension/issues/181))
+- Compose
+  - textDocument/completion
+    - fix build stage lookups for files in a folder under the `\\wsl$` host ([docker/docker-language-server#382](https://github.com/docker/docker-language-server/issues/382))
+  - textDocument/documentLink
+    - improve handling of malformed image attribute values with registry prefixes ([docker/docker-language-server#369](https://github.com/docker/docker-language-server/issues/369))
+    - convert links properly if a WSL URI with a dollar sign is used ([docker/docker-language-server#366](https://github.com/docker/docker-language-server/issues/366))
+- Bake
+  - textDocument/codeLens
+    - refactor the URI handling code so it will accept a WSL URI with a dollar sign ([docker/docker-language-server#388](https://github.com/docker/docker-language-server/issues/388))
+  - textDocument/completion
+    - fix build stage and ARG name inference completion items for files in a folder under the `\\wsl$` host ([docker/docker-language-server#396](https://github.com/docker/docker-language-server/issues/396))
+  - textDocument/definition
+    - handle WSL URIs with a dollar sign properly to fix build stage lookups on those hosts ([docker/docker-language-server#390](https://github.com/docker/docker-language-server/issues/390))
+    - handle WSL URIs with a dollar sign properly to fix build ARG reference lookups on those hosts ([docker/docker-language-server#393](https://github.com/docker/docker-language-server/issues/393))
+  - textDocument/documentLink
+    - convert links properly if a WSL URI with a dollar sign is used ([docker/docker-language-server#378](https://github.com/docker/docker-language-server/issues/378))
+  - textDocument/inlayHint
+    - refactor the URI handling code so it will process a WSL URI with a dollar sign correctly ([docker/docker-language-server#395](https://github.com/docker/docker-language-server/issues/395))
+  - textDocument/inlineCompletion
+    - convert links properly if a WSL URI with a dollar sign is used ([docker/docker-language-server#384](https://github.com/docker/docker-language-server/issues/384))
+  - textDocument/publishDiagnostics
+    - update the URI handling so that a WSL URI with a dollar sign can be scanned for errors ([docker/docker-language-server#386](https://github.com/docker/docker-language-server/issues/386))
 
 ## [0.13.0] - 2025-07-17
 
