@@ -2,7 +2,7 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
-## [Unreleased]
+## [0.14.0] - 2025-08-06
 
 ### Added
 
@@ -27,6 +27,7 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 - fix Dockerfile Language Server crash with tabbed heredoc delimiters ([#171](https://github.com/docker/vscode-extension/issues/171))
 - fix Buildx debugger integration so that it works on Windows ([#181](https://github.com/docker/vscode-extension/issues/181))
+- allow switching the builder used for debug sessions ([#183](https://github.com/docker/vscode-extension/pull/183))
 - Compose
   - textDocument/completion
     - fix build stage lookups for files in a folder under the `\\wsl$` host ([docker/docker-language-server#382](https://github.com/docker/docker-language-server/issues/382))
@@ -454,7 +455,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.13.0...main
+[Unreleased]: https://github.com/docker/vscode-extension/compare/v0.14.0...main
+[0.14.0]: https://github.com/docker/vscode-extension/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/docker/vscode-extension/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/docker/vscode-extension/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/docker/vscode-extension/compare/v0.10.0...v0.11.0
