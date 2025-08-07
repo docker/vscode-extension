@@ -21,7 +21,6 @@
   "activationEvents": [
     "onDebugResolve:dockerfile",
     "onDebugDynamicConfigurations:dockerfile",
-    "onLanguage:dockerbake",
     "onLanguage:dockercompose",
     "onLanguage:dockerfile"
   ],
@@ -49,7 +48,8 @@
         "filenames": [
           "docker-bake.hcl",
           "docker-bake.override.hcl"
-        ]
+        ],
+        "configuration": "./configs/dockerbake-language-configuration.json"
       }
     ],
     "grammars": [
