@@ -2,6 +2,12 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- added a language configuration for the `dockerbake` language to improve the editing experience ([#184](https://github.com/docker/vscode-extension/issues/184))
+
 ## [0.14.0] - 2025-08-06
 
 ### Added
