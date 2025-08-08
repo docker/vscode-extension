@@ -276,7 +276,7 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
     "umd-compat-loader": "^2.1.2",
-    "vscode-extension-tester": "^8.13.0",
+    "vscode-extension-tester": "^8.17.0",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
   }
