@@ -1,6 +1,9 @@
 // Place your settings in this file to overwrite default and user settings.
 {
 	"editor.formatOnSave": true,
+	"[json]": {
+	  "editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
 	"[typescriptreact]": {
 	  "editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
