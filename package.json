@@ -2,7 +2,7 @@
   "name": "docker",
   "displayName": "Docker DX",
   "description": "Edit smarter, ship faster with an enhanced Docker-development experience",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "icon": "resources/logo-256x256.png",
   "license": "Apache-2.0",
   "engines": {
