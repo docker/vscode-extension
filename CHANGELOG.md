@@ -7,6 +7,14 @@ All notable changes to the Docker DX extension will be documented in this file.
 ### Added
 
 - added a language configuration for the `dockerbake` language to improve the editing experience ([#184](https://github.com/docker/vscode-extension/issues/184))
+- Compose
+  - updated Compose schema to the latest version
+
+### Fixed
+
+- Bake
+  - textDocument/hover
+    - fix error when hovering inside a comment ([docker/docker-language-server#410](https://github.com/docker/docker-language-server/issues/410))
 
 ## [0.14.0] - 2025-08-06
 
