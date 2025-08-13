@@ -10,8 +10,4 @@ bin
 .test-extensions
 syntaxes/
 misc/
-
-.github/workflows/build.yml
-
-
 */coverage
