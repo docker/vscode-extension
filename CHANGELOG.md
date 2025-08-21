@@ -2,6 +2,40 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- Dockerfile
+  - textDocument/inlayHint
+    - show when an image was last pushed ([docker/docker-language-server#431](https://github.com/docker/docker-language-server/issues/431))
+- Compose
+  - textDocument/completion
+    - suggest image tags for images from Docker Hub ([docker/docker-language-server#375](https://github.com/docker/docker-language-server/issues/375))
+  - textDocument/documentLink
+    - support providing links for the `env_file` attribute of a service object ([docker/docker-language-server#436](https://github.com/docker/docker-language-server/issues/436))
+    - support providing links for the `env_file` for included paths ([docker/docker-language-server#438](https://github.com/docker/docker-language-server/issues/438))
+- Bake
+  - textDocument/completion
+    - provide local file and folder name suggestions ([docker/docker-language-server#414](https://github.com/docker/docker-language-server/issues/414))
+      - `context` attribute in a `target` block
+      - `contexts` attribute in a `target` block
+      - `dockerfile` attribute in a `target` block
+
+### Fixed
+
+- Dockerfile
+  - textDocument/hover
+    - ignore 4XX errors when hovering over images with a non-standard tag ([docker/docker-language-server#371](https://github.com/docker/docker-language-server/issues/371))
+- Compose
+  - textDocument/completion
+    - correct file system suggestions if an absolute path is used ([docker/docker-language-server#443](https://github.com/docker/docker-language-server/issues/443))
+  - textDocument/documentLink
+    - stop returning links for alias nodes in included paths ([docker/docker-language-server#439](https://github.com/docker/docker-language-server/issues/439))
+- Bake
+  - textDocument/completion
+    - check the type of the block before suggesting items ([docker/docker-language-server#422](https://github.com/docker/docker-language-server/issues/422))
+
 ## [0.15.0] - 2025-08-13
 
 ### Added

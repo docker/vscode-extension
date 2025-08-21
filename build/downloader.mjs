@@ -77,8 +77,8 @@ async function downloadLanguageServerBinary() {
   const platform = getPlatform();
   const arch = getArch();
   const suffix = platform === 'windows' ? '.exe' : '';
-  const version = '0.16.0';
-  const binaryFile = `docker-language-server-${platform}-${arch}-${version}${suffix}`;
+  const version = '0.17.0';
+  const binaryFile = `docker-language-server-${platform}-${arch}-v${version}${suffix}`;
   const targetFile = `docker-language-server-${platform}-${arch}${suffix}`;
   const url = `https://github.com/docker/docker-language-server/releases/download/v${version}/${binaryFile}`;
   await run('bin', url, targetFile);
