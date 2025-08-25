@@ -12,9 +12,17 @@ All notable changes to the Docker DX extension will be documented in this file.
 - Compose
   - textDocument/completion
     - suggest image tags for images from Docker Hub ([docker/docker-language-server#375](https://github.com/docker/docker-language-server/issues/375))
+  - textDocument/definition
+    - support jumping to service references in the `volumes_from` attribute of a service object ([#452](https://github.com/docker/docker-language-server/issues/452))
+  - textDocument/documentHighlight
+    - support highlighting service references in the `volumes_from` attribute of a service object ([#452](https://github.com/docker/docker-language-server/issues/452))
   - textDocument/documentLink
     - support providing links for the `env_file` attribute of a service object ([docker/docker-language-server#436](https://github.com/docker/docker-language-server/issues/436))
     - support providing links for the `env_file` for included paths ([docker/docker-language-server#438](https://github.com/docker/docker-language-server/issues/438))
+  - textDocument/prepareRename
+    - support preparing renames for services in the `volumes_from` attribute of a service object ([#452](https://github.com/docker/docker-language-server/issues/452))
+  - textDocument/rename
+    - support renaming service referencesin the `volumes_from` attribute of a service object ([#452](https://github.com/docker/docker-language-server/issues/452))
 - Bake
   - textDocument/completion
     - provide local file and folder name suggestions ([docker/docker-language-server#414](https://github.com/docker/docker-language-server/issues/414))
@@ -30,8 +38,14 @@ All notable changes to the Docker DX extension will be documented in this file.
 - Compose
   - textDocument/completion
     - correct file system suggestions if an absolute path is used ([docker/docker-language-server#443](https://github.com/docker/docker-language-server/issues/443))
+  - textDocument/documentHighlight
+    - prevent file and folder bind mounts from returning results as they are not valid volume object references ([#450](https://github.com/docker/docker-language-server/issues/450))
   - textDocument/documentLink
     - stop returning links for alias nodes in included paths ([docker/docker-language-server#439](https://github.com/docker/docker-language-server/issues/439))
+  - textDocument/prepareRename
+    - prevent file and folder bind mounts from returning results as they are not valid volume object references ([#450](https://github.com/docker/docker-language-server/issues/450))
+  - textDocument/rename
+    - prevent file and folder bind mounts from returning results as they are not valid volume object references ([#450](https://github.com/docker/docker-language-server/issues/450))
 - Bake
   - textDocument/completion
     - check the type of the block before suggesting items ([docker/docker-language-server#422](https://github.com/docker/docker-language-server/issues/422))
