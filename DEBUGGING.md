@@ -8,7 +8,7 @@ Buildx provides an implementation of the [Debug Adapter Protocol](https://micros
 
 ## Requirements
 
-To use the build debugging feature, you will need to have [Buildx](https://github.com/docker/buildx) installed. The minimum supported version is v0.26.1. You can install Buildx manually by following the instructions [here](https://github.com/docker/buildx?tab=readme-ov-file#manual-download).
+To use the build debugging feature, you will need to have [Buildx](https://github.com/docker/buildx) installed. The minimum supported version is v0.27.0. You can install Buildx manually by following the instructions [here](https://github.com/docker/buildx?tab=readme-ov-file#manual-download).
 
 1. Run `docker buildx version` to check your Buildx version.
 2. Run `BUILDX_EXPERIMENTAL=1 docker buildx dap` to check that the `dap` subcommand is available in your Buildx installation.
@@ -67,6 +67,16 @@ When crafting a Dockerfile in the beginning, it is common to make changes and re
 ![Run exec in the Debug Console to open a terminal](resources/debugging/debug-exec-invoke.png)
 
 ![The opened terminal can be interfaced with for debugging in real-time](resources/debugging/debug-exec-shell.png)
+
+Note that message in the terminal that states:
+
+```
+Changes to the container will be reset after the next step is executed.
+```
+
+The following screenshot will illustrate this. We open a shell on line 2 and then use `touch hello.txt` to create a file. However, after advancing the debugger to line 3, the shell is reset and now `hello.txt` can no longer be found.
+
+![Advancing the debugger will reset the container as each step is executed](resources/debugging/debug-exec-stepping.png)
 
 ### Inspecting Variables
 
