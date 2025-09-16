@@ -2,6 +2,27 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- Dockerfile
+  - textDocument/codeAction
+    - `InvalidBaseImagePlatform` warnings can now be ignored with a code action ([docker/docker-language-server#464](https://github.com/docker/docker-language-server/issues/464))
+- Bake
+  - textDocument/publishDiagnostics
+    - flag `annotations` in a `target` block without an equals sign as an error ([docker/docker-language-server#99](https://github.com/docker/docker-language-server/issues/99))
+
+### Fixed
+
+- Dockerfile
+  - textDocument/inlayHint
+    - handle inlay hints asynchronously so that it does not block other LSP messages when trying to fetch image data ([docker/docker-language-server#467](https://github.com/docker/docker-language-server/issues/467))
+- Compose
+  - textDocument/documentLink
+    - return document links for files referenced in the short-form `volumes` attribute of a service object ([docker/docker-language-server#460](https://github.com/docker/docker-language-server/issues/460))
+    - return document links for files referenced in the long-form `volumes` attribute of a service object that has a bind mount ([docker/docker-language-server#462](https://github.com/docker/docker-language-server/issues/462))
+
 ## [0.16.0] - 2025-08-26
 
 ### Added
