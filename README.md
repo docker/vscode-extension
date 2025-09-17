@@ -56,9 +56,9 @@ The extension provides inline suggestions to generate a Bake target to correspon
 
 ![Suggesting Bake targets based on the content of the local Dockerfile](resources/readme/docker-bake-inline-completion.png)
 
-### Build Debugging (EXPERIMENTAL)
+### Build Debugging
 
-This feature is under active development and requires version `v0.26.1` of `docker buildx` or newer. This is disabled by default. Open [DEBUGGING.md](./DEBUGGING.md) to learn more about this feature in Visual Studio Code and how to enable it.
+Dockerfile builds can be stepped through in debug mode with the Debug Adapter Protocol implementation in Buildx. Open [DEBUGGING.md](./DEBUGGING.md) to learn about this feature and what its requirements are.
 
 For information about Buildx and the Debug Adapter Protocol, go [here](https://github.com/docker/buildx/blob/master/docs/dap.md). If you have any bugs, feature requests, or feedback about Buildx's support for Debug Adapter Protocol, please report them [here](https://github.com/docker/buildx/issues/new/choose).
 

@@ -1,10 +1,8 @@
 # Build Debugging
 
-> ⚠️ This feature is under **active** development and there may be breaking changes as we continue experimenting and fine tuning it. If you have feedback about this feature, please [open an issue](https://github.com/docker/vscode-extension/issues) or [start a discussion thread](https://github.com/docker/vscode-extension/discussions) and let us know what you think.
-
 ## Overview
 
-Buildx provides an implementation of the [Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol/). This means development tools that support and implement the protocol can interface with Buildx directly and step through the build process in real-time.
+[Buildx](https://github.com/docker/buildx) provides an implementation of the [Debug Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol/). This means development tools that support and implement the Debug Adapter Protocol can interface with Buildx directly and step through its build process in real-time.
 
 ## Requirements
 
@@ -12,10 +10,6 @@ To use the build debugging feature, you will need to have [Buildx](https://gith
 
 1. Run `docker buildx version` to check your Buildx version.
 2. Run `BUILDX_EXPERIMENTAL=1 docker buildx dap` to check that the `dap` subcommand is available in your Buildx installation.
-3. Search for "docker enable build debugging" in the VS Code settings (<kbd>Ctrl+,</kbd> or <kbd>Command+,</kbd>) and enable the experimental "Enable Build Debugging" setting.
-4. Restart VS Code for the setting to take effect.
-
-![Use the settings page to enable the build debugging feature](resources/debugging/settings.png)
 
 ## Features
 
@@ -88,4 +82,6 @@ The Variables pane in Visual Studio Code lets you view the value of `ARG` and `E
 
 If you encounter errors or issues with this feature, the DAP logs may help. Open the Output panel and select "Docker Buildx DAP" from the drop down.
 
-![The opened terminal can be interfaced with for debugging in real-time](resources/debugging/dap-logs.png)
+![DAP log messages can be viewed in the Output panel](resources/debugging/dap-logs.png)
+
+If it is unclear what is wrong, please do not hesitate to [open an issue](https://github.com/docker/vscode-extension/issues) or [start a discussion thread](https://github.com/docker/vscode-extension/discussions).
