@@ -2,7 +2,7 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
-## [Unreleased]
+## [0.17.0] - 2025-09-17
 
 ### Added
 
@@ -542,7 +542,8 @@ All notable changes to the Docker DX extension will be documented in this file.
   - error reporting
 - Compose outline support
 
-[Unreleased]: https://github.com/docker/docker-language-server/compare/v0.16.0...main
+[Unreleased]: https://github.com/docker/docker-language-server/compare/v0.17.0...main
+[0.17.0]: https://github.com/docker/docker-language-server/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/docker/docker-language-server/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/docker/docker-language-server/compare/v0.14.0...v0.15.0
 [0.14.0]: https://github.com/docker/vscode-extension/compare/v0.13.0...v0.14.0
