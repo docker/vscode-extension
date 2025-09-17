@@ -2,8 +2,7 @@ import * as vscode from 'vscode';
 
 type DockerExtensionSettings =
   | 'dockerEngineAvailabilityPrompt'
-  | 'enableComposeLanguageServer'
-  | 'enableBuildDebugging';
+  | 'enableComposeLanguageServer';
 
 /**
  * Retrieves the value of a specified setting from the Docker extension's configuration.

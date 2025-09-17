@@ -23,6 +23,10 @@ All notable changes to the Docker DX extension will be documented in this file.
     - return document links for files referenced in the short-form `volumes` attribute of a service object ([docker/docker-language-server#460](https://github.com/docker/docker-language-server/issues/460))
     - return document links for files referenced in the long-form `volumes` attribute of a service object that has a bind mount ([docker/docker-language-server#462](https://github.com/docker/docker-language-server/issues/462))
 
+### Removed
+
+- the experimental `docker.extension.enableBuildDebugging` setting has been removed and the build debugging features are now enabled by default
+
 ## [0.16.0] - 2025-08-26
 
 ### Added

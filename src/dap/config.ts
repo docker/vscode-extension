@@ -105,31 +105,6 @@ class DockerfileDebugAdapterTracker implements vscode.DebugAdapterTracker {
 }
 
 export function setupDebugging(ctx: vscode.ExtensionContext) {
-  if (!getExtensionSetting<boolean>('enableBuildDebugging')) {
-    // the command is still contributed to the Command Palette because of package.json
-    registerCommand(ctx, DebugEditorContentsCommandId, async () => {
-      vscode.window.showErrorMessage(
-        'Build Debugging for Docker is an experimental feature that is under active development. ' +
-          'Enable the feature by toggling the docker.extension.enableBuildDebugging setting to true and restarting your client.',
-      );
-      return Promise.resolve(false);
-    });
-
-    // the debugger is still contributed and technically registered because of package.json
-    ctx.subscriptions.push(
-      vscode.debug.registerDebugConfigurationProvider('dockerfile', {
-        resolveDebugConfiguration(): vscode.ProviderResult<vscode.DebugConfiguration> {
-          vscode.window.showErrorMessage(
-            'Build Debugging for Docker is an experimental feature that is under active development. ' +
-              'Enable the feature by toggling the docker.extension.enableBuildDebugging setting to true and restarting your client.',
-          );
-          return undefined;
-        },
-      }),
-    );
-    return;
-  }
-
   let channel = vscode.window.createOutputChannel('Docker Buildx DAP', 'log');
 
   registerCommand(
