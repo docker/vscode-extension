@@ -4,7 +4,8 @@ The **Docker DX (Developer Experience)** Visual Studio Code extension enhances y
 
 ## Key features
 
-- [Dockerfile linting](https://docs.docker.com/reference/build-checks/): Get build warnings and best-practice suggestions via BuildKit and BuildX.
+- Dockerfile editing features: Code completion and syntax highlighting as well as [build warnings and best-practice suggestions](https://docs.docker.com/reference/build-checks/) via BuildKit and Buildx.
+- Dockerfile debugging features: Debug and step through a Dockerfile build with [Buildx](https://github.com/docker/buildx)
 - [Compose editing features](https://docs.docker.com/compose/): Provides contextual code completion, reference navigation, and schema descriptions in hovers.
 - [Bake editing features](https://docs.docker.com/build/bake/): Includes code completion, variable navigation, and inline suggestions for generating targets based on your Dockerfile stages.
 - Image vulnerability scanning (experimental): Flags references to container images with known vulnerabilities directly within Dockerfiles.
