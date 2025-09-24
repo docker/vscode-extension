@@ -88,12 +88,18 @@
             "properties": {
               "dockerfile": {
                 "type": "string",
-                "description": "Relative path from the context to the dockerfile.",
+                "description": "Relative path to the Dockerfile from the working directory or an absolute path to the Dockerfile. Defaults to Dockerfile.",
+                "markdownDescription": "Relative path to the Dockerfile from the working directory or an absolute path to the Dockerfile. Defaults to `Dockerfile`.",
                 "default": "Dockerfile"
               },
               "contextPath": {
                 "type": "string",
-                "description": "Path to the context.",
+                "description": "Path to the context. Defaults to the workspace folder.",
+                "default": "${workspaceFolder}"
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Absolute path to the working directory to start the debugger from. Defaults to the workspace folder.",
                 "default": "${workspaceFolder}"
               },
               "target": {

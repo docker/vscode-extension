@@ -2,6 +2,16 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- introduced a new `cwd` debug configuration attribute so that the working directory used to launch the debug adapter can be set ([#210](https://github.com/docker/vscode-extension/issues/210))
+
+### Fixed
+
+- correct the description to state that the `dockerfile` debug attribute has to be relative to the working directory ([#210](https://github.com/docker/vscode-extension/issues/210))
+
 ## [0.17.0] - 2025-09-17
 
 ### Added
