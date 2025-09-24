@@ -32,7 +32,8 @@ For more complicated build configurations, you can use the `launch.json` to defi
   "request": "launch", // required, must not be modified
   "name": "Docker: Build", // required, configurable
   "dockerfile": "Dockerfile", // required, configurable
-  "contextPath": "${workspaceFolder}",
+  "contextPath": "${workspaceFolder}", // optional, defaults to ${workspaceFolder}
+  "cwd": "${workspaceFolder}", // optional, defaults to ${workspaceFolder}
   "target": "test", // optional, should be a build stage in the Dockerfile
   "args": [
     // additional arguments for the build command

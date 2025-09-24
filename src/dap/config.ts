@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import { registerCommand } from '../extension';
-import { getExtensionSetting } from '../utils/settings';
 
 export const DebugEditorContentsCommandId = 'docker.debug.editorContents';
 
@@ -20,7 +19,7 @@ class DebugAdapterExecutableFactory
     }
 
     const options = {
-      cwd: session.workspaceFolder?.uri.fsPath,
+      cwd: session.configuration.cwd ?? session.workspaceFolder?.uri.fsPath,
       env: { BUILDX_EXPERIMENTAL: '1' },
     };
 
@@ -44,6 +43,7 @@ class DockerfileConfigurationProvider
         config.request = 'launch';
         config.dockerfile = editor.document.uri.fsPath;
         config.contextPath = '${workspaceFolder}';
+        config.cwd = '${workspaceFolder}';
       }
     }
     return config;
