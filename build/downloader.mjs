@@ -63,7 +63,7 @@ function getArch() {
     process.env['NODE_ARCH'] === undefined
       ? process.arch
       : process.env['NODE_ARCH'];
-  return arch === 'x64' ? 'amd64' : 'arm64';
+  return arch === 'x64' || arch === 'amd64' ? 'amd64' : 'arm64';
 }
 
 async function downloadLanguageServerBinary() {
