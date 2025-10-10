@@ -131,24 +131,8 @@ jobs:
           echo "SHA=$SHA" >> "$GITHUB_OUTPUT"
 
       - name: Generate ./src/secrets.ts
-        shell: bash
-        env:
-          TELEMETRY_HOST: ${{ vars.TELEMETRY_HOST }}
-          TELEMETRY_PATH: ${{ vars.TELEMETRY_PATH }}
-          TELEMETRY_KEY: ${{ secrets.TELEMETRY_KEY }}
-          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         run: |
-          node -e "
-          const fs = require('fs');
-          const content = \`export const SECRETS = {
-            TELEMETRY_HOST: '\${process.env.TELEMETRY_HOST}',
-            TELEMETRY_PATH: '\${process.env.TELEMETRY_PATH}',
-            TELEMETRY_KEY: '\${process.env.TELEMETRY_KEY}',
-            BUGSNAG_API_KEY: '\${process.env.BUGSNAG_API_KEY}',
-          } as const;
-          \`;
-          fs.writeFileSync('src/secrets.ts', content);
-          "
+          TELEMETRY_HOST=${{ vars.TELEMETRY_HOST}} TELEMETRY_PATH=${{ vars.TELEMETRY_PATH}} TELEMETRY_KEY=${{ secrets.TELEMETRY_KEY}} BUGSNAG_API_KEY=${{ secrets.BUGSNAG_API_KEY}} node build/secrets.mjs
 
       - name: Build the extension
         env:
@@ -241,24 +225,8 @@ jobs:
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Generate ./src/secrets.ts
-        shell: bash
-        env:
-          TELEMETRY_HOST: ${{ vars.TELEMETRY_HOST }}
-          TELEMETRY_PATH: ${{ vars.TELEMETRY_PATH }}
-          TELEMETRY_KEY: ${{ secrets.TELEMETRY_KEY }}
-          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         run: |
-          node -e "
-          const fs = require('fs');
-          const content = \`export const SECRETS = {
-            TELEMETRY_HOST: '\${process.env.TELEMETRY_HOST}',
-            TELEMETRY_PATH: '\${process.env.TELEMETRY_PATH}',
-            TELEMETRY_KEY: '\${process.env.TELEMETRY_KEY}',
-            BUGSNAG_API_KEY: '\${process.env.BUGSNAG_API_KEY}',
-          } as const;
-          \`;
-          fs.writeFileSync('src/secrets.ts', content);
-          "
+          TELEMETRY_HOST=${{ vars.TELEMETRY_HOST}} TELEMETRY_PATH=${{ vars.TELEMETRY_PATH}} TELEMETRY_KEY=${{ secrets.TELEMETRY_KEY}} BUGSNAG_API_KEY=${{ secrets.BUGSNAG_API_KEY}} node build/secrets.mjs
 
       - name: Build the extension
         env:
