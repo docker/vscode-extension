@@ -191,7 +191,7 @@ export async function activate(ctx: vscode.ExtensionContext) {
     sendCode: false,
   });
 
-  recordVersionTelemetry(composeSetting);
+  await recordVersionTelemetry(composeSetting);
   registerCommands(ctx);
   listenForOpenedDocuments();
   activateDockerLSP(ctx);
@@ -290,7 +290,31 @@ function listenForConfigurationChanges(ctx: vscode.ExtensionContext) {
   );
 }
 
-function recordVersionTelemetry(composeSetting: string) {
+function getVersionString(...args: string[]): Promise<string> {
+  return new Promise((resolve) => {
+    let versionString: string | null = null;
+    const process = spawn('docker', args);
+    process.stdout.on('data', (data) => {
+      if (versionString === null) {
+        versionString = '';
+      }
+      versionString += String(data).trim();
+    });
+    process.on('error', () => {
+      // this happens if docker cannot be found on the PATH
+      resolve('spawn docker -v failed');
+    });
+    process.on('exit', (code) => {
+      if (code === 0) {
+        resolve(String(versionString));
+      } else {
+        resolve(String(code));
+      }
+    });
+  });
+}
+
+async function recordVersionTelemetry(composeSetting: string) {
   const installedExtensions = vscode.extensions.all
     .filter((extension) => {
       return (
@@ -300,45 +324,18 @@ function recordVersionTelemetry(composeSetting: string) {
       );
     })
     .map((extension) => extension.id);
-  let versionString: string | null = null;
-  const process = spawn('docker', ['-v']);
-  process.stdout.on('data', (data) => {
-    if (versionString === null) {
-      versionString = '';
-    }
-    versionString += String(data).trim();
+
+  const dockerVersion = await getVersionString('-v');
+  const buildxVersion = await getVersionString('buildx', 'version');
+  queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
+    docker_version: dockerVersion,
+    buildx_version: buildxVersion,
+    installedExtensions,
+    settings: {
+      'docker.extension.enableComposeLanguageServer': composeSetting,
+    },
   });
-  process.on('error', () => {
-    // this happens if docker cannot be found on the PATH
-    queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
-      docker_version: 'spawn docker -v failed',
-      installedExtensions,
-      settings: {
-        'docker.extension.enableComposeLanguageServer': composeSetting,
-      },
-    });
-    publishTelemetry();
-  });
-  process.on('exit', (code) => {
-    if (code === 0) {
-      queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
-        docker_version: String(versionString),
-        installedExtensions,
-        settings: {
-          'docker.extension.enableComposeLanguageServer': composeSetting,
-        },
-      });
-    } else {
-      queueTelemetryEvent(EVENT_CLIENT_HEARTBEAT, false, {
-        docker_version: String(code),
-        installedExtensions,
-        settings: {
-          'docker.extension.enableComposeLanguageServer': composeSetting,
-        },
-      });
-    }
-    publishTelemetry();
-  });
+  publishTelemetry();
 }
 
 export async function deactivate() {
