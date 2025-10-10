@@ -106,29 +106,6 @@ class DockerfileDebugAdapterTracker implements vscode.DebugAdapterTracker {
 
 export function setupDebugging(ctx: vscode.ExtensionContext) {
   let channel = vscode.window.createOutputChannel('Docker Buildx DAP', 'log');
-
-  registerCommand(
-    ctx,
-    DebugEditorContentsCommandId,
-    async (resource: vscode.Uri) => {
-      let targetResource = resource;
-      if (!targetResource && vscode.window.activeTextEditor) {
-        targetResource = vscode.window.activeTextEditor.document.uri;
-      }
-      if (targetResource) {
-        vscode.debug.startDebugging(undefined, {
-          type: 'dockerfile',
-          name: 'Docker: Build',
-          request: 'launch',
-          dockerfile: targetResource.fsPath,
-          contextPath: '${workspaceFolder}',
-        });
-        return Promise.resolve(true);
-      }
-      return Promise.resolve(false);
-    },
-  );
-
   ctx.subscriptions.push(
     vscode.debug.registerDebugConfigurationProvider(
       'dockerfile',
