@@ -23,11 +23,14 @@ import {
 import { redact } from './telemetry/filter';
 import { hookDecorators } from './utils/editor';
 import { setupDebugging } from './dap/config';
+import { SECRETS } from './secrets';
 
 export const BakeBuildCommandId = 'dockerLspClient.bake.build';
 export const ScoutImageScanCommandId = 'docker.scout.imageScan';
 
 export let extensionVersion: string;
+
+const BUGSNAG_API_KEY = SECRETS.BUGSNAG_API_KEY;
 
 const errorRegExp = new RegExp('(E[A-Z]+)');
 
@@ -153,13 +156,9 @@ async function toggleComposeLanguageServerSetting(): Promise<string> {
   return setting === undefined ? 'undefined' : String(setting.globalValue);
 }
 
-export async function activate(ctx: vscode.ExtensionContext) {
-  setupDebugging(ctx);
-  hookDecorators(ctx);
-  const composeSetting = await toggleComposeLanguageServerSetting();
-  extensionVersion = String(ctx.extension.packageJSON.version);
+function initializeBugsnag(): void {
   Bugsnag.start({
-    apiKey: 'c5b75b41a335069129747c7196ec207a',
+    apiKey: BUGSNAG_API_KEY,
     appType: 'vscode',
     appVersion: extensionVersion,
     autoDetectErrors: false,
@@ -190,6 +189,17 @@ export async function activate(ctx: vscode.ExtensionContext) {
     },
     sendCode: false,
   });
+}
+
+export async function activate(ctx: vscode.ExtensionContext) {
+  setupDebugging(ctx);
+  hookDecorators(ctx);
+  const composeSetting = await toggleComposeLanguageServerSetting();
+  extensionVersion = String(ctx.extension.packageJSON.version);
+
+  if (BUGSNAG_API_KEY !== '') {
+    initializeBugsnag();
+  }
 
   await recordVersionTelemetry(composeSetting);
   registerCommands(ctx);

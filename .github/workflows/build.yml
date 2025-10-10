@@ -130,6 +130,10 @@ jobs:
           SHA=$(git rev-parse --short HEAD)
           echo "SHA=$SHA" >> "$GITHUB_OUTPUT"
 
+      - name: Generate ./src/secrets.ts
+        run: |
+          TELEMETRY_HOST=${{ vars.TELEMETRY_HOST}} TELEMETRY_PATH=${{ vars.TELEMETRY_PATH}} TELEMETRY_KEY=${{ secrets.TELEMETRY_KEY}} BUGSNAG_API_KEY=${{ secrets.BUGSNAG_API_KEY}} node build/secrets.mjs
+
       - name: Build the extension
         env:
           VERSION: ${{ steps.set-variables.outputs.VERSION }}
@@ -219,6 +223,10 @@ jobs:
         run: |
           VERSION=$(npm pkg get version | tr -d \")
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Generate ./src/secrets.ts
+        run: |
+          TELEMETRY_HOST=${{ vars.TELEMETRY_HOST}} TELEMETRY_PATH=${{ vars.TELEMETRY_PATH}} TELEMETRY_KEY=${{ secrets.TELEMETRY_KEY}} BUGSNAG_API_KEY=${{ secrets.BUGSNAG_API_KEY}} node build/secrets.mjs
 
       - name: Build the extension
         env:
