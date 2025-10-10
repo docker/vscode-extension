@@ -36,10 +36,6 @@
         "title": "Scan for CVEs with Docker Scout",
         "command": "docker.scout.imageScan",
         "enablement": "(view == dockerImages || view == vscode-containers.views.images) && viewItem == image"
-      },
-      {
-        "title": "Build with Debugger",
-        "command": "docker.debug.editorContents"
       }
     ],
     "languages": [

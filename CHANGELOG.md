@@ -12,6 +12,10 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 - correct the description to state that the `dockerfile` debug attribute has to be relative to the working directory ([#210](https://github.com/docker/vscode-extension/issues/210))
 
+### Removed
+
+- removed the "Build with Debugger" command (`docker.debug.editorContents`) as it is no longer necessary now that launch configurations have been implemented
+
 ## [0.17.0] - 2025-09-17
 
 ### Added
