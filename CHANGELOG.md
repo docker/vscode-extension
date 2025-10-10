@@ -9,6 +9,11 @@ All notable changes to the Docker DX extension will be documented in this file.
 - introduced a new `cwd` debug configuration attribute so that the working directory used to launch the debug adapter can be set ([#210](https://github.com/docker/vscode-extension/issues/210))
 - record the system's version of Buildx in the telemetry ([#218](https://github.com/docker/vscode-extension/issues/218))
 
+### Changed
+
+- the extension's telemetry is now controlled by environment variables and by default will not be collected during local development and locally built VSIX files as those environment variables would be undefined locally ([#220](https://github.com/docker/vscode-extension/issues/220))
+  - note that the language server is a binary that is downloaded and included in the VSIX file at build-time so its behaviour is unaffected by this change
+
 ### Fixed
 
 - correct the description to state that the `dockerfile` debug attribute has to be relative to the working directory ([#210](https://github.com/docker/vscode-extension/issues/210))

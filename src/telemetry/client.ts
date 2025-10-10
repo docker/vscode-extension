@@ -1,10 +1,14 @@
 import https from 'https';
-import * as process from 'process';
 import * as vscode from 'vscode';
 import { extensionVersion } from '../extension';
 import Bugsnag from '@bugsnag/js';
+import { SECRETS } from '../secrets';
 
 export const EVENT_CLIENT_HEARTBEAT = 'client_heartbeat';
+
+const TELEMETRY_API_KEY = SECRETS.TELEMETRY_KEY;
+const TELEMETRY_HOST = SECRETS.TELEMETRY_HOST;
+const TELEMETRY_PATH = SECRETS.TELEMETRY_PATH;
 
 interface TelemetryRecord {
   event: string;
@@ -37,7 +41,12 @@ export function queueTelemetryEvent(
   error: boolean,
   properties: { [key: string]: boolean | number | string | object | undefined },
 ) {
-  if (!vscode.env.isTelemetryEnabled) {
+  if (
+    !vscode.env.isTelemetryEnabled ||
+    TELEMETRY_API_KEY === '' ||
+    TELEMETRY_HOST === '' ||
+    TELEMETRY_PATH === ''
+  ) {
     return;
   }
 
@@ -78,13 +87,13 @@ export function publishTelemetry(): void {
 
   const request = https.request(
     {
-      host: 'api.docker.com',
-      path: '/events/v1/track',
+      host: TELEMETRY_HOST,
+      path: TELEMETRY_PATH,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'User-Agent': 'docker-vscode-extension',
-        'x-api-key': 'eIxc3dSmud2vuJRKiq9hJ6wORVWfoLxp1nqb4qXz',
+        'x-api-key': TELEMETRY_API_KEY,
       },
     },
     (response) => {
