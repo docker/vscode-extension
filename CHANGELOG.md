@@ -8,6 +8,8 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 - introduced a new `cwd` debug configuration attribute so that the working directory used to launch the debug adapter can be set ([#210](https://github.com/docker/vscode-extension/issues/210))
 - record the system's version of Buildx in the telemetry ([#218](https://github.com/docker/vscode-extension/issues/218))
+- Compose
+  - update schema to the latest version
 
 ### Changed
 
@@ -17,6 +19,9 @@ All notable changes to the Docker DX extension will be documented in this file.
 ### Fixed
 
 - correct the description to state that the `dockerfile` debug attribute has to be relative to the working directory ([#210](https://github.com/docker/vscode-extension/issues/210))
+
+- Bake
+  - correct the schema for the `output` attribute of the `target` block so that the list can also contain objects instead of only strings ([docker/docker-language-server#77](https://github.com/docker/docker-language-server/issues/77))
 
 ### Removed
 
