@@ -22,6 +22,7 @@ If you have already opted out of sending telemetry in Visual Studio Code then no
 - version of the installed extension
 - Docker version
 - Buildx version
+- number of Buildx debug sessions that are started
 - function names and parameters for diagnosing errors and crashes
 - error messages when the language server is unable to start or is crashing
 - if certain extensions are also installed
