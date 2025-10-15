@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { registerCommand } from '../extension';
+import { queueTelemetryEvent } from '../telemetry/client';
 
 export const DebugEditorContentsCommandId = 'docker.debug.editorContents';
 
@@ -9,6 +9,11 @@ class DebugAdapterExecutableFactory
   createDebugAdapterDescriptor(
     session: vscode.DebugSession,
   ): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
+    queueTelemetryEvent('client_user_action', false, {
+      action_id: 'docker.buildx.debug.createDebugAdapterDescriptor',
+      result: true,
+    });
+
     var args = ['buildx'];
     if (session.configuration?.builder) {
       args = args.concat(['--builder', session.configuration?.builder]);
@@ -34,6 +39,13 @@ class DockerfileConfigurationProvider
     _folder: vscode.WorkspaceFolder | undefined,
     config: vscode.DebugConfiguration,
   ): vscode.ProviderResult<vscode.DebugConfiguration> {
+    // Check if the user is launching as-is without any attributes specified
+    const result = Object.keys(config).length === 0 ? 'undefined' : 'defined';
+    queueTelemetryEvent('client_user_action', false, {
+      action_id: 'docker.buildx.debug.resolveDebugConfiguration',
+      result: result,
+    });
+
     // this can happen when debugging without anything in launch.json
     if (!config.type && !config.request && !config.name) {
       const editor = vscode.window.activeTextEditor;
