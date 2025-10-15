@@ -74,3 +74,7 @@ If yes, you can refer to the steps below to remove the duplicates. Alternatively
 - [Microsoft's Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) (powered by [microsoft/compose-language-service](https://github.com/microsoft/compose-language-service))
   - If you have version 1.x installed, you can set the `docker.enableDockerComposeLanguageService` setting to `false` and restart Visual Studio Code.
   - If you have version 2.x installed, then you can refer to the steps above for Microsoft's Container Tools extension instead.
+
+### I do not get a shell even though I used `exec` in my suspended Docker build while debugging.
+
+This is a known issue if the debugger is currently suspended on an `ADD`, `COPY`, or `FROM` instruction. It can also happen at the beginning of a build if you have `stopOnEntry` set to `true`. See [docker/buildx#3469](https://github.com/docker/buildx/issues/3469) for more details. If you're encountering a similar issue but for different reasons, please open an [issue](https://github.com/docker/vscode-extension/issues) and we'll be happy to take a look.
