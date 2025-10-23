@@ -23,24 +23,32 @@ The Docker DX extension will fill in a debug configuration on a best effort basi
 
 ### Debugging with a Launch Configuration
 
-For more complicated build configurations, you can use the `launch.json` to define launch configurations for the buildx debugger.
+For more complicated build configurations, you can use the `launch.json` file to define launch configurations for the buildx debugger.
 
 <!-- prettier-ignore -->
 ```jsonc
 {
-  "type": "dockerfile", // required, must not be modified
-  "request": "launch", // required, must not be modified
-  "name": "Docker: Build", // required, configurable
-  "dockerfile": "Dockerfile", // required, configurable
-  "contextPath": "${workspaceFolder}", // optional, defaults to ${workspaceFolder}
-  "cwd": "${workspaceFolder}", // optional, defaults to ${workspaceFolder}
-  "target": "test", // optional, should be a build stage in the Dockerfile
-  "args": [
-    // additional arguments for the build command
-    "--build-arg",
-    "NODE_ENV=development"
-  ],
-  "stopOnEntry": true, // if the debugger should suspend on the first line, defaults to false
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "dockerfile", // required, must not be modified
+      "request": "launch", // required, must not be modified
+      "name": "Docker: Build", // required, configurable
+      "dockerfile": "Dockerfile", // required, configurable
+      "contextPath": "${workspaceFolder}", // optional, defaults to ${workspaceFolder}
+      "cwd": "${workspaceFolder}", // optional, defaults to ${workspaceFolder}
+      "target": "test", // optional, should be a build stage in the Dockerfile
+      "args": [
+        // additional arguments for the build command
+        "--build-arg",
+        "NODE_ENV=development"
+      ],
+      "stopOnEntry": true, // if the debugger should suspend on the first line, defaults to false
+    }
+  ]
 }
 ```
 
