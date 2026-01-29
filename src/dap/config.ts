@@ -25,7 +25,10 @@ class DebugAdapterExecutableFactory
 
     const options = {
       cwd: session.configuration.cwd ?? session.workspaceFolder?.uri.fsPath,
-      env: { BUILDX_EXPERIMENTAL: '1' },
+      env: {
+        BUILDX_EXPERIMENTAL: '1',
+        BUILDX_DAP_USER_AGENT: 'vscode/docker-dx',
+      },
     };
 
     return new vscode.DebugAdapterExecutable('docker', args, options);
