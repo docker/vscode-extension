@@ -21,23 +21,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: actions/checkout@v4 (docker/docker-language-server)
-        uses: actions/checkout@v4
+      - name: actions/checkout@v6.0.2 (docker/docker-language-server)
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: docker/docker-language-server
           path: docker-language-server
 
-      - name: actions/checkout@v4 (docker/vscode-extension)
-        uses: actions/checkout@v4
+      - name: actions/checkout@v6.0.2 (docker/vscode-extension)
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: docker/vscode-extension
           path: vscode-extension
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: '22.x'
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
         with:
           go-version: '1.23.8'
 
@@ -58,7 +58,7 @@ jobs:
       - run: xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' npm test
         working-directory: vscode-extension
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: failure()
         with:
           name: screenshots
@@ -68,9 +68,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: '22.x'
 
@@ -80,7 +80,7 @@ jobs:
 
       - run: xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' npm test
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: failure()
         with:
           name: screenshots
@@ -112,9 +112,9 @@ jobs:
             ext: ''
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: '22.x'
 
@@ -142,7 +142,7 @@ jobs:
           npm install -g @vscode/vsce
           vsce package --target ${{ matrix.os }}-${{ matrix.nodearch }} -o docker-vscode-extension-${{ matrix.os }}-${{ matrix.nodearch }}-$VERSION-$SHA.vsix
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: docker-vscode-extension-${{ matrix.os }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}-${{ steps.set-variables.outputs.SHA }}.vsix
           path: docker-vscode-extension-${{ matrix.os }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}-${{ steps.set-variables.outputs.SHA }}.vsix
@@ -156,9 +156,9 @@ jobs:
       - test-release
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: '22.x'
 
@@ -209,9 +209,9 @@ jobs:
             ext: ''
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: '22.x'
 
@@ -235,7 +235,7 @@ jobs:
           npm install -g @vscode/vsce
           vsce package --target ${{ matrix.os }}-${{ matrix.nodearch }} -o docker-vscode-extension-${{ matrix.os }}-${{ matrix.nodearch }}-$VERSION.vsix
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: docker-vscode-extension-${{ matrix.os }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}.vsix
           path: docker-vscode-extension-${{ matrix.os }}-${{ matrix.nodearch }}-${{ steps.set-variables.outputs.VERSION }}.vsix
