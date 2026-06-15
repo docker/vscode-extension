@@ -41,7 +41,7 @@ jobs:
         with:
           go-version: '1.23.8'
 
-      - run: npm install
+      - run: npm ci
         working-directory: vscode-extension
 
       - run: rm -rf vscode-extension/bin
@@ -74,7 +74,7 @@ jobs:
         with:
           node-version: '22.x'
 
-      - run: npm install
+      - run: npm ci
 
       - run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
@@ -119,7 +119,7 @@ jobs:
           node-version: '22.x'
 
       - run: |
-          NODE_OS=${{ matrix.nodeos }} NODE_ARCH=${{ matrix.nodearch }} npm install
+          NODE_OS=${{ matrix.nodeos }} NODE_ARCH=${{ matrix.nodearch }} npm ci
 
       - name: Set variables
         id: set-variables
@@ -216,7 +216,7 @@ jobs:
           node-version: '22.x'
 
       - run: |
-          NODE_OS=${{ matrix.nodeos }} NODE_ARCH=${{ matrix.nodearch }} npm install
+          NODE_OS=${{ matrix.nodeos }} NODE_ARCH=${{ matrix.nodearch }} npm ci
 
       - name: Set variables
         id: set-variables
