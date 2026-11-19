@@ -2,6 +2,20 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- Compose
+  - textDocument/completion
+    - check the prefix string before trying to use it for looking up image tags ([docker/docker-language-server#486](https://github.com/docker/docker-language-server/issues/486))
+  - textDocument/documentLink
+    - correct the link range if the string is wrapped in single quotes ([docker/docker-language-server#487](https://github.com/docker/docker-language-server/issues/487))
+  - textDocument/hover
+    - ignore unrecognized nodes instead of proceeding and trying to render a hover for them ([docker/docker-language-server#509](https://github.com/docker/docker-language-server/issues/509))
+- Bake
+  - fix parsing error caused by referencing a variable with no value ([docker/docker-language-server#490](https://github.com/docker/docker-language-server/issues/490))
+
 ## [0.18.0] - 2025-10-15
 
 ### Added
