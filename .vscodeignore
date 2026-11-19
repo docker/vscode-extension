@@ -9,6 +9,7 @@ src/**
 test/**
 misc/**
 .gitignore
+.mocharc.json
 .yarnrc
 webpack.config.js
 vsc-extension-quickstart.md
