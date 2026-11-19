@@ -15,10 +15,7 @@ import {
 } from './telemetry/client';
 import { checkForDockerEngine } from './utils/monitor';
 import { spawnDockerCommand } from './utils/spawnDockerCommand';
-import {
-  getExtensionSetting,
-  inspectExtensionSetting,
-} from './utils/settings';
+import { getExtensionSetting, inspectExtensionSetting } from './utils/settings';
 import { redact } from './telemetry/filter';
 import { hookDecorators } from './utils/editor';
 import { setupDebugging } from './dap/config';
