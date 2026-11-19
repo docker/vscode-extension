@@ -4,6 +4,13 @@ All notable changes to the Docker DX extension will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- the extension will no longer automatically set `docker.extension.enableComposeLanguageServer` to `false` when Red Hat's YAML extension is installed ([#253](https://github.com/docker/vscode-extension/issues/253))
+  - Red Hat's YAML extension now disables its own features for Compose files so the duplicate completions, hovers, and diagnostics that this logic was working around should no longer occur ([redhat-developer/vscode-yaml#1256](https://github.com/redhat-developer/vscode-yaml/pull/1256))
+  - if an earlier version of this extension had already set `docker.extension.enableComposeLanguageServer` to `false` in your user settings, it will not be reset automatically so you will need to set it to `true` (or remove it) and restart Visual Studio Code to get Compose editing features back, see the [FAQ](https://github.com/docker/vscode-extension/blob/main/FAQ.md#why-am-i-not-seeing-any-code-completion-and-editor-features-for-compose-files) for more details
+  - the setting's description no longer tells users to modify the YAML extension's settings
+
 ### Fixed
 
 - Compose

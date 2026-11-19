@@ -38,7 +38,3 @@ async function setExtensionSetting(
 export async function disableDockerEngineAvailabilityPrompt(): Promise<void> {
   return setExtensionSetting('dockerEngineAvailabilityPrompt', false);
 }
-
-export async function disableEnableComposeLanguageServer(): Promise<void> {
-  return setExtensionSetting('enableComposeLanguageServer', false);
-}

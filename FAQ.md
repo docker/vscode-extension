@@ -40,6 +40,8 @@ If you would like to disable specific warnings about vulnerabilities, you can op
 
 Check your settings and make sure that the `docker.extension.enableComposeLanguageServer` setting is set to `true`. It may be set to `false`. Note that you will need to restart Visual Studio Code after changing this value for it to take effect.
 
+If you have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) installed, older versions of this extension automatically set this setting to `false` in your user settings to avoid duplicate editor features. This is no longer necessary as Red Hat's extension now disables its own features for Compose files, and newer versions of this extension no longer change the setting. However, a `false` value that was already written to your `settings.json` file is not reset when you update, so you will need to change it yourself with the steps below (or delete the setting altogether as the default is `true`).
+
 1. Open the [Command Palette](https://code.visualstudio.com/api/ux-guidelines/command-palette) in Visual Studio Code and open "Preferences: Open User Settings (JSON)".
 2. Set `docker.extension.enableComposeLanguageServer` to `true` by following the snippet below.
 
@@ -48,6 +50,8 @@ Check your settings and make sure that the `docker.extension.enableComposeLangua
   "docker.extension.enableComposeLanguageServer": true
 }
 ```
+
+If you are still seeing duplicated features (such as code completion suggestions and hover tooltips) in Compose files, make sure that Red Hat's YAML extension is up to date.
 
 ### I do not get a shell even though I used `exec` in my suspended Docker build while debugging.
 

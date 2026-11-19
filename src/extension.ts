@@ -15,11 +15,7 @@ import {
 } from './telemetry/client';
 import { checkForDockerEngine } from './utils/monitor';
 import { spawnDockerCommand } from './utils/spawnDockerCommand';
-import {
-  disableEnableComposeLanguageServer,
-  getExtensionSetting,
-  inspectExtensionSetting,
-} from './utils/settings';
+import { getExtensionSetting, inspectExtensionSetting } from './utils/settings';
 import { redact } from './telemetry/filter';
 import { hookDecorators } from './utils/editor';
 import { setupDebugging } from './dap/config';
@@ -143,16 +139,8 @@ const activateDockerLSP = async (ctx: vscode.ExtensionContext) => {
   }
 };
 
-async function toggleComposeLanguageServerSetting(): Promise<string> {
+async function getComposeLanguageServerSetting(): Promise<string> {
   const setting = inspectExtensionSetting('enableComposeLanguageServer');
-  if (vscode.extensions.getExtension('redhat.vscode-yaml') !== undefined) {
-    // if Red Hat's YAML extension is installed, we will auto-disable
-    // the Compose language server features to prevent duplicates
-    if (setting !== undefined && setting.globalValue === undefined) {
-      await disableEnableComposeLanguageServer();
-      return 'false';
-    }
-  }
   return setting === undefined ? 'undefined' : String(setting.globalValue);
 }
 
@@ -194,7 +182,7 @@ function initializeBugsnag(): void {
 export async function activate(ctx: vscode.ExtensionContext) {
   setupDebugging(ctx);
   hookDecorators(ctx);
-  const composeSetting = await toggleComposeLanguageServerSetting();
+  const composeSetting = await getComposeLanguageServerSetting();
   extensionVersion = String(ctx.extension.packageJSON.version);
 
   if (BUGSNAG_API_KEY !== '') {
