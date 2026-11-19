@@ -2,6 +2,14 @@
 
 All notable changes to the Docker DX extension will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- the VSIX files for the v0.19.0 release were missing the Docker Language Server binary and the HCL syntax file because they were no longer being downloaded at build-time, v0.19.0 should not be used as language server features such as Dockerfile, Compose, and Bake diagnostics, completion, and hovers are unavailable
+  - the build now downloads these files explicitly and fails if they are not included in a VSIX file before it is released
+  - the extension's UI tests had also stopped running in the CI builds and now fail if no tests are found
+
 ## [0.19.0] - 2026-11-19
 
 ### Changed

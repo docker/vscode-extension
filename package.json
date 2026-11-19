@@ -231,7 +231,6 @@
     }
   },
   "scripts": {
-    "prepare": "npm run download:artifacts",
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
     "watch": "webpack --watch",
@@ -239,9 +238,9 @@
     "download:artifacts": "node build/downloader.mjs",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "build-tests": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "extest setup-and-run './out/ui-test/*.test.js' --code_version max --code_settings test/settings.json --extensions_dir .test-extensions",
+    "test": "npm run build-tests && extest setup-and-run './out/ui-test/*.test.js' --code_version max --code_settings test/settings.json --extensions_dir .test-extensions",
     "make-vsix": "vsce package",
     "prettier:check": "prettier --check --config .prettierrc.yml --ignore-path .prettierignore .",
     "prettier:fix": "prettier --write --config .prettierrc.yml --ignore-path .prettierignore ."
